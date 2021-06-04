@@ -6,6 +6,11 @@
       "course_id": "scen-1",
       "title": "Kubernetes Basics",
       "description": "Learn the Basics of Kubernetes"
+    },
+    {
+      "course_id": "scen-2",
+      "title": "Intro to Minikube",
+      "description": "Intro to Minikube"
     }
   ]
 }

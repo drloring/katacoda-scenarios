@@ -2,11 +2,13 @@ Kubectl is the command line interface to interact with your Kubernetes cluster.
 
 Type `kubectl get nodes` at the terminal prompt for click `kubectl get nodes`{{execute}} to send it to your terminal.
 
-Initially, you'll see
+Initially, you'll see the following message:
 
-`The connection to the server 172.17.0.15:8443 was refused - did you specify the right host or port?` messages.  That means Kubernetes is starting up.
+`The connection to the server 172.17.0.15:8443 was refused - did you specify the right host or port?` 
 
-Eventually, you should see something like:
+That means Kubernetes is starting up.
+
+Eventually, if you continue running that command, you should see something like:
 
 `NAME       STATUS   ROLES    AGE   VERSION
 minikube   NotReady    master   12m   v1.17.3`
@@ -21,4 +23,8 @@ Type `kubectl get po` or `kubectl get pods` at the terminal prompt for click `ku
 
 Notice there are no pods in the default namespace.  
 
-Namespaces are the way clusters are organized in kubernetes, the default namespace if primarily for the kubernetes control plane.
+Namespaces are the way clusters are organized in kubernetes.  As it's name implies, the  default namespace is the namespace used when no other namespace is specified.
+
+Try typing `kubectl get po --all-namespaces` in the terminal to see all pods running.
+
+The cube-system namespace is reserved for the kubernetes control plane.

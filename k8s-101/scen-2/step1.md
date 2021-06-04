@@ -8,9 +8,8 @@ Initially, you'll see
 
 Eventually, you should see something like:
 
-'NAME       STATUS   ROLES    AGE   VERSION
-
-minikube   NotReady    master   12m   v1.17.3'
+`NAME       STATUS   ROLES    AGE   VERSION
+minikube   NotReady    master   12m   v1.17.3`
 
 If the status is NotReady, keep retrying the command until it becomes ready.
 

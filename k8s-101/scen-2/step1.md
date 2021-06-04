@@ -27,4 +27,4 @@ Namespaces are the way clusters are organized in kubernetes.  As it's name impli
 
 Try typing `kubectl get po --all-namespaces` in the terminal to see all pods running.
 
-The cube-system namespace is reserved for the kubernetes control plane.
+The kube-system namespace is reserved for the kubernetes control plane and the kubernetes-dashboard was installed on this cluster in it's own namespace.

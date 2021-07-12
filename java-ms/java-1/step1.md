@@ -1,6 +1,6 @@
 Welcome to the Java Web Services example
 
-To get started, clone the Spring Boot Web Service project at `git clone https://github.com/spring-guides/gs-rest-service.git`{{execute}}
+To get started, clone the Spring Boot Web Service project at <pre>`git clone https://github.com/spring-guides/gs-rest-service.git`{{execute}}</pre>
 
 CD to the complete directory `cd gs-rest-service/complete`{{execute}}
 

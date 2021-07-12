@@ -1,0 +1,11 @@
+{
+  "title": "Java Microservices",
+  "description": "Writing microservice in Java Programming Language",
+  "courses": [
+    {
+      "course_id": "java-1",
+      "title": "Java Web Service",
+      "description": "Learn Spring Book Java Web Service"
+    }
+  ]
+}

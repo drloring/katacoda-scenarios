@@ -6,8 +6,8 @@ CD to the complete directory `cd gs-rest-service/complete`{{execute}}
 
 Run the gradle command to get all tasks available `gradle tasks`{{execute}}
 
-Identify the task to run the boot application `gradle bootRun &`{{copy}}
+Identify the task to run the boot application `gradle bootRun &`{{execute}}
 
-After a while, run the following command to verify that the spring boot application is running `curl http://localhost:8080/greeting`{{copy}} to display the Hello World message.
+After a while, run the following command to verify that the spring boot application is running `curl http://localhost:8080/greeting`{{execute}} to display the Hello World message.
 
-Now run `curl http://localhost:8080/greeting?name=User`{{copy}} to demonstrate request parameters
+Now run `curl http://localhost:8080/greeting?name=User`{{execute}} to demonstrate request parameters

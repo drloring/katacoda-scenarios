@@ -1,8 +1,8 @@
 {
   "title": "Java Web Service",
-  "description": "Learn the Java Web Service",
+  "description": "Learn to make a Java Web Service with Spring Boot",
   "difficulty": "Beginner",
-  "time": "30 minutes",
+  "time": "5 minutes",
   "details": {
     "steps": [
       {

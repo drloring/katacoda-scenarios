@@ -1,6 +1,6 @@
 {
   "title": "Java Microservices",
-  "description": "Writing microservice in Java Programming Language",
+  "description": "Writing modern microservices in Java Programming Language with Spring Boot",
   "courses": [
     {
       "course_id": "java-1",

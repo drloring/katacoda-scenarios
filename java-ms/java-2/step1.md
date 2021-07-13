@@ -4,4 +4,6 @@ First, we're going to collect the executable jar we made in the last lesson `cur
 
 Now, we'll create an empty Dockerfile `touch Dockerfile`{{execute}}
 
-Open the Dockerfile in the editor
+Open the `Dockerfile`{{open}} in the editor 
+
+<pre class="file" data-filename="Dockerfile" data-target="prepend">FROM ubuntu</pre>

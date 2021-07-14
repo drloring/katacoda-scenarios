@@ -8,7 +8,7 @@ Now, let's add the executable jar to the Dockerfile <pre class="file" data-filen
 
 Now, let's build this version of the docker image with `docker build -t java-ws .`{{execute}}.  You'll see a couple more layers were added to the docker image this time, and when you view the image with `docker images | grep java-ws`{{execute}}, you'll see that the image has grown in size due to the added jar file.
 
-Run `docker run --name jws --rm -it java-ws bash`{{execute}} and navigate to `/root` to see the svc.jar file in the docker image.  Attempt to run the `java` command in the container.  Notice that there is no java runtime installed.  
+Run `docker run --name jws --rm -it java-ws bash`{{execute}} and navigate to `/root` to see the svc.jar file in the docker image.  Attempt to run the `java` command in the container.  Notice that there is no java runtime installed.  Type `exit`{{execute}} from the container.
 
 We'll have to change the base image to run our java service in the container with <pre class="file" data-filename="Dockerfile" data-target="insert" data-marker="FROM ubuntu">FROM openjdk:15</pre>.
 

@@ -13,3 +13,7 @@ Run `docker run --name jws --rm -it java-ws bash`{{execute}} and navigate to `/r
 We'll have to change the base image to run our java service in the container with <pre class="file" data-filename="Dockerfile" data-target="insert" data-marker="FROM ubuntu">FROM openjdk:15</pre>.
 
 Now we can build and run the java web service in the container.  Add  <pre class="file" data-filename="Dockerfile" data-target="append">CMD java -jar svc.jar</pre> to the Dockerfile and build it again.
+
+One final thing we'll have to do is to expose the port from our container <pre class="file" data-filename="Dockerfile" data-target="append">EXPOSE 8080</pre> so that we can access the port from outside of the container.
+
+Build the final image with `docker build -t java-ws .`{{execute}}, then run with the following command `docker run --name jws --rm -d java-ws`{{execute}}.  Notice that we're running is in a detatched `-d` state so that we can interact with it from the command line 

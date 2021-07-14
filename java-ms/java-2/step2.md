@@ -17,3 +17,5 @@ Now we can build and run the java web service in the container.  Add  <pre class
 One final thing we'll have to do is to expose the port from our container <pre class="file" data-filename="Dockerfile" data-target="append">EXPOSE 8080</pre> so that we can access the port from outside of the container.
 
 Build the final image with `docker build -t java-ws .`{{execute}}, then run with the following command `docker run --name jws --rm -d -p80:8080 java-ws`{{execute}}.  Notice that we're running is in a detatched `-d` state so that we can interact with it from the command line.  Also notice that we've exposed the container port 8080 to port 80 at runtime.  This helps with deconflicting ports on the target system.
+
+Finally, run `curl http://localhost:80/greeting?name=User`{{execute}} to verify that the container is running and accessible.

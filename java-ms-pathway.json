@@ -11,6 +11,11 @@
       "course_id": "java-2",
       "title": "Java Web Service in Docker",
       "description": "Dockerize the Spring Boot Java Web Service"
+    },
+    {
+      "course_id": "java-3",
+      "title": "Java Web Service in Kubernetes",
+      "description": "Get Your Docker Image Running in Kubernetes"
     }
   ]
 }

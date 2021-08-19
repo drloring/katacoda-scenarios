@@ -27,9 +27,11 @@ To deconflict the locally installed helm from the new Helm 3, make an alias call
 
 `h3 create`{{execute}} will create a simple helm chart
 
-`h3 install ws ws --dry-run`{{execute}}
-
+Edit Values.yml, change repository to java-ws
+and name to latest
 remove liveness and readiness from deployment.yml
+
+`h3 install ws ws --dry-run`{{execute}}
 
 `h3 install ws ws`{{execute}}
 

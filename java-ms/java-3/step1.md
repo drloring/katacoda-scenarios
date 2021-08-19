@@ -4,7 +4,7 @@ First, we're going to collect the executable jar we made in the first lesson `cu
 
 Run `ls -lha`{{execute}} to confirm the jar file transferred.  
 
-NExt, we're going to collect the Dockerfile we made in the last lesson `curl -o rest-service.jar https://raw.githubusercontent.com/drloring/katacoda-resources/main/Dockerfile`{{execute}}.
+NExt, we're going to collect the Dockerfile we made in the last lesson `curl -o Dockerfile https://raw.githubusercontent.com/drloring/katacoda-resources/main/Dockerfile`{{execute}}.
 
 Open the `Dockerfile`{{open}} in the editor 
 

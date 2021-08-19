@@ -12,5 +12,28 @@ We're going to build our Docker image now and tag it with the `java-ws` tag usin
 
 Verify the docker image was build by running `docker images | grep java-ws`{{execute}}. 
 
+Install helm3:
+
+`curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3`{{execute}}
+
+`chmod +x get_helm.sh`{{execute}}
+
+`./get_helm.sh`{{execute}
+
+To deconflict the locally installed helm from the new Helm 3, make an alias called h3 to replace the helm commands.
+`alias h3=/usr/local/bin/helm`{{execute}}
+
+`h3 version`{{execute}} should confirm version 3.6.3 is installed.
+
+`h3 create`{{execute}} will create a simple helm chart
+
+`h3 install ws ws --dry-run`{{execute}}
+
+remove liveness and readiness from deployment.yml
+
+`h3 install ws ws`{{execute}}
+
+
+
 
 

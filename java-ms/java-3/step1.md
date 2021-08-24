@@ -31,9 +31,9 @@ To deconflict the locally installed helm from the new Helm 3, make an alias call
 
 Now we have all the charts to install an application.  The default installation simply installs redis, so we're going to change that for our service.
 
-Edit `ws/values.yml`{{open}}, change the repository to java-ws <pre class="file" data-filename="ws/values.yml" data-target="insert" data-marker="  repository: nginx">  repository: java-ws</pre>
+Edit `ws/values.yaml`{{open}}, change the repository to java-ws <pre class="file" data-filename="ws/values.yaml" data-target="insert" data-marker="  repository: nginx">  repository: java-ws</pre>
 
-Now, change the name to latest <pre class="file" data-filename="ws/values.yml" data-target="insert" data-marker="   tag: \"\"">   tag: "latest"</pre>
+Now, change the name to latest <pre class="file" data-filename="ws/values.yaml" data-target="insert" data-marker="   tag: \"\"">   tag: "latest"</pre>
 
 remove liveness and readiness from deployment.yml for now, we'll add those back in on a later session.
 

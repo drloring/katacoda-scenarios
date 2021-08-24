@@ -20,14 +20,14 @@ Follow these steps to install helm3:
 
 `chmod +x get_helm.sh`{{execute}}
 
-`./get_helm.sh`{{execute}
+`./get_helm.sh`{{execute}}
 
 To deconflict the locally installed helm from the new Helm 3, make an alias called h3 to replace the helm commands.
 `alias h3=/usr/local/bin/helm`{{execute}}
 
 `h3 version`{{execute}} should confirm version 3.6.3 or later is installed.
 
-`h3 create`{{execute}} will create a simple helm chart
+`h3 create ws`{{execute}} will create a simple helm chart called ws (for web service).
 
 Now we have all the charts to install an application.  The default installation simply installs redis, so we're going to change that for our service.
 

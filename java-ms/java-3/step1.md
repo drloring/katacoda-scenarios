@@ -53,7 +53,7 @@ This shows you what the final kubernetes yml files will look like prior to insta
 
 When ready, run the installer again, this time with non --dry-run `h3 install ws ws`{{execute}}
 
-Run `kubectl pet pods`{{execute}} and ensure that your pod is installed. 
+Run `kubectl get pods`{{execute}} and ensure that your pod is installed. 
 
 
 

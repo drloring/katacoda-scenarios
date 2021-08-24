@@ -8,9 +8,11 @@ Perform an `ls`{{execute}} to see the directory listing.  Notice there are two d
 
 CD to the complete directory `cd complete/`{{execute}}
 
-Run the gradle command to get all tasks available `gradle tasks`{{execute}}
+We need to update the gradle version `./gradlew wrapper --gradle-version 7.0`{{execute}}
 
-Identify the task to run the boot application `gradle bootRun &`{{execute}}.  Note: the ampersand after the command runs the command in the background and allows you to continue to enter commands from the command line.
+Now, run the gradle command to get all tasks available `./gradlew tasks`{{execute}}
+
+Identify the task to run the boot application `./gradlew bootRun &`{{execute}}.  Note: the ampersand after the command runs the command in the background and allows you to continue to enter commands from the command line.
 
 Run the following command to verify that the spring boot application is running `curl http://localhost:8080/greeting`{{execute}} to display the Hello World message in a json formatted string.
 

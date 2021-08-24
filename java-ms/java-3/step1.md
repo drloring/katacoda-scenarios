@@ -35,7 +35,17 @@ Edit `ws/values.yaml`{{open}}, change the repository to java-ws <pre class="file
 
 Now, change the name to latest <pre class="file" data-filename="ws/values.yaml" data-target="insert" data-marker="   tag: \"\"">   tag: "latest"</pre>
 
-remove liveness and readiness from deployment.yml for now, we'll add those back in on a later session.
+Remove liveness and readiness from deployment.yml for now, we'll add those back in on a later session.
+
+<pre class="file" data-filename="ws/templates/deployment.yaml" data-target="insert" data-marker="          livenessProbe:">#          livenessProbe:</pre>
+
+<pre class="file" data-filename="ws/templates/deployment.yaml" data-target="insert" data-marker="          readinessProbe:">#          readinessProbe:</pre>
+
+<pre class="file" data-filename="ws/templates/deployment.yaml" data-target="insert" data-marker="            httpGet:">#            httpGet:</pre>
+
+<pre class="file" data-filename="ws/templates/deployment.yaml" data-target="insert" data-marker="              path: /">#              path: /</pre>
+
+<pre class="file" data-filename="ws/templates/deployment.yaml" data-target="insert" data-marker="              port: http">#              port: http</pre>
 
 Dry run the install with the following command `h3 install ws ws --dry-run`{{execute}}.
 

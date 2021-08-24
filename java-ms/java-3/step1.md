@@ -1,4 +1,4 @@
-In this scenario, we're going to take the web service that we dockerized in the previous lesson and deploy it to a Kubernetes cluster.
+In this scenario, we're going to take the web service that we dockerized in the previous lesson and deploy it to a Kubernetes cluster.  This scenario starts a minimal kubernetes cluster on one node called minikube.  The initialization of the cluster takes some time initially, so it's generally better to wait until you see the command prompt before issuing any commands.
 
 First, we're going to collect the executable jar we made in the first lesson `curl -o rest-service.jar https://raw.githubusercontent.com/drloring/katacoda-resources/main/rest-service-0.0.1-SNAPSHOT.jar`{{execute}}.
 

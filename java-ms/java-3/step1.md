@@ -35,7 +35,7 @@ Edit `ws/values.yaml`{{open}}, change the repository to java-ws <pre class="file
 
 Now, change the name to latest <pre class="file" data-filename="ws/values.yaml" data-target="insert" data-marker="  tag: \"\"">  tag: "latest"</pre>
 
-Remove or comment out the liveness and readiness probes from `ws/templates/deployment.yml`{{open}} for now, we'll add those back in on a later session.
+Remove or comment out the liveness and readiness probes from `ws/templates/deployment.yaml`{{open}} for now, we'll add those back in on a later session.
 
 Comments in YAML start with the # sign, so the block of yaml would look like the following
 

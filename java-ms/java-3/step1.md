@@ -35,25 +35,21 @@ Edit `ws/values.yaml`{{open}}, change the repository to java-ws <pre class="file
 
 Now, change the name to latest <pre class="file" data-filename="ws/values.yaml" data-target="insert" data-marker="   tag: \"\"">   tag: "latest"</pre>
 
-Remove liveness and readiness from deployment.yml for now, we'll add those back in on a later session.
+Remove or comment out the liveness and readiness probes from deployment.yml for now, we'll add those back in on a later session.
 
-<pre class="file" data-filename="ws/templates/deployment.yaml" data-target="insert" data-marker="          livenessProbe:">#          livenessProbe:</pre>
+Comments in YAML start with the # sign, so the block of yaml would look like the following
 
-<pre class="file" data-filename="ws/templates/deployment.yaml" data-target="insert" data-marker="          readinessProbe:">#          readinessProbe:</pre>
+<pre>
+#          livenessProbe:
+#            httpGet:
+#              path: /
+#              port: http
+#          readinessProbe:
+#            httpGet:
+#              path: /
+#              port: http
+</pre>
 
-<pre class="file" data-filename="ws/templates/deployment.yaml" data-target="insert" data-marker="            httpGet:">#            httpGet:</pre>
-
-<pre class="file" data-filename="ws/templates/deployment.yaml" data-target="insert" data-marker="              path: /">#              path: /</pre>
-
-<pre class="file" data-filename="ws/templates/deployment.yaml" data-target="insert" data-marker="              port: http">#              port: http</pre>
-
-Dry run the install with the following command `h3 install ws ws --dry-run`{{execute}}.
-
-This shows you what the final kubernetes yml files will look like prior to installing in the cluster.
-
-When ready, run the installer again, this time with non --dry-run `h3 install ws ws`{{execute}}
-
-Run `kubectl get pods`{{execute}} and ensure that your pod is installed. 
 
 
 

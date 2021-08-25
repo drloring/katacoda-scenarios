@@ -9,11 +9,11 @@ The other moving part in this method is in the parameters of the method.  See<pr
 
 We're going to make the Spanish version of the API.  Open `gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java`{{open}} in the editor and make the following changes:
 
-Change <pre>Hello</pre> to <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="insert" data-marker="Hello">Hola</pre> and <pre>World</pre> to <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="insert" data-marker="World">Mundo</pre> and <pre>greeting</pre> to  <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="insert" data-marker="greeting">saludo</pre> and finally <pre>name</pre> to  <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="insert" data-marker="name">nombre</pre>
+Change `Hello` to <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="insert" data-marker="Hello">Hola</pre> and `World` to <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="insert" data-marker="World">Mundo</pre> and `greeting` to  <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="insert" data-marker="greeting">saludo</pre> and finally `name` to  <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="insert" data-marker="name">nombre</pre>
 
 Now, let's rebuild and re-run the web application to check our changes.
 
-`gradle bootRun &`{{execute}}
+`./gradlew bootRun &`{{execute}}
 
 And test is with our new Spanish API with `curl http://localhost:8080/saludo`{{execute}} and `curl http://localhost:8080/saludo?nombre=David`{{execute}}
 

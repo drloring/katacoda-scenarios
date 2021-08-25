@@ -39,7 +39,7 @@ Remove or comment out the liveness and readiness probes from `ws/templates/deplo
 
 Comments in YAML start with the # sign, so the block of yaml would look like the following
 
-`
+<pre>
 #          livenessProbe:
 #            httpGet:
 #              path: /
@@ -48,7 +48,7 @@ Comments in YAML start with the # sign, so the block of yaml would look like the
 #            httpGet:
 #              path: /
 #              port: http
-`
+</pre>
 
 
 

@@ -10,6 +10,8 @@ CD to the complete directory `cd complete/`{{execute}}
 
 We need to update the gradle version `./gradlew wrapper --gradle-version 7.0`{{execute}}
 
+Once you see `Build Successful`, you can continue with the following commands
+
 Now, run the gradle command to get all tasks available `./gradlew tasks`{{execute}}
 
 Identify the task to run the boot application `./gradlew bootRun &`{{execute}}.  Note: the ampersand after the command runs the command in the background and allows you to continue to enter commands from the command line.

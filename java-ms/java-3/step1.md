@@ -33,13 +33,13 @@ Now we have all the charts to install an application.  The default installation 
 
 Edit `ws/values.yaml`{{open}}, change the repository to java-ws <pre class="file" data-filename="ws/values.yaml" data-target="insert" data-marker="  repository: nginx">  repository: java-ws</pre>
 
-Now, change the name to latest <pre class="file" data-filename="ws/values.yaml" data-target="insert" data-marker="   tag: \"\"">   tag: "latest"</pre>
+Now, change the name to latest <pre class="file" data-filename="ws/values.yaml" data-target="insert" data-marker="  tag: \"\"">  tag: "latest"</pre>
 
-Remove or comment out the liveness and readiness probes from deployment.yml for now, we'll add those back in on a later session.
+Remove or comment out the liveness and readiness probes from `ws/templates/deployment.yml`{{open}} for now, we'll add those back in on a later session.
 
 Comments in YAML start with the # sign, so the block of yaml would look like the following
 
-<pre>
+`
 #          livenessProbe:
 #            httpGet:
 #              path: /
@@ -48,7 +48,7 @@ Comments in YAML start with the # sign, so the block of yaml would look like the
 #            httpGet:
 #              path: /
 #              port: http
-</pre>
+`
 
 
 

@@ -17,7 +17,8 @@ Now we need to change the Controller to look for these values.  First, we add th
 import org.springframework.beans.factory.annotation.Value;
 </pre>
 
-Now we can add the annotation for the template string <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="insert" data-marker="	private static final String template = "Hello, %s!";">	private static final String template = "Hello, %s!";
+Now we can add the annotation for the template string <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="insert" data-marker="	private static final String template = "Hello, %s!";">	@Value("${template}")
+	private static final String template = "Hello, %s!";
 </pre>
 
 So, reviewing the changes, we've replaced the inline template string with a `@Value` annotation which is provided in the application.properties file.  What about the server.port value?  That is set behind the scenes by Spring.

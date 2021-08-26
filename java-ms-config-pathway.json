@@ -1,0 +1,11 @@
+{
+  "title": "Managing Java Microservice External Configuration",
+  "description": "Creating externally configured microservices in Java Programming Language with Spring Boot",
+  "courses": [
+    {
+      "course_id": "java-1",
+      "title": "Java Spring Boot Web Service External Configuration",
+      "description": "Create a Spring Boot Java Web Service"
+    }
+  ]
+}

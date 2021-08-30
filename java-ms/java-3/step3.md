@@ -1,4 +1,4 @@
-Let's explore some more features of kubernetes.  There are a lot of training courses available on Katacoda [here|https://www.katacoda.com/courses/kubernetes].
+Let's explore some more features of kubernetes.  There are a lot of training courses available on Katacoda [here](https://www.katacoda.com/courses/kubernetes).
 
 But we're going to walk through some kubernetes essentials to get you familiar with debugging and troubleshooting your microservice application.
 

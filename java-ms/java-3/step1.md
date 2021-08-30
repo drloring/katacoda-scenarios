@@ -33,7 +33,7 @@ Now we have all the charts to install an application.  The default installation 
 
 Edit `ws/values.yaml`{{open}}, change the repository to java-ws <pre class="file" data-filename="ws/values.yaml" data-target="insert" data-marker="  repository: nginx">  repository: java-ws</pre>
 
-Now, change the name to latest <pre class="file" data-filename="ws/values.yaml" data-target="insert" data-marker="  tag: \"\"">  tag: "latest"</pre>
+Now, change the name to latest <pre class="file" data-filename="ws/values.yaml" data-target="insert" data-marker="  tag: """>  tag: "latest"</pre>
 
 Next, we're going to edit the `ws/templates/deployment.yaml`{{open}} file.
 

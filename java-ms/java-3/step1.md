@@ -6,7 +6,7 @@ Run `ls -lha`{{execute}} to confirm the jar file transferred.
 
 Next, we're going to collect the Dockerfile we made in the last lesson `curl -o Dockerfile https://raw.githubusercontent.com/drloring/katacoda-resources/main/Dockerfile`{{execute}}.
 
-Open the `Dockerfile`{{open}} in the editor 
+Recall the `Dockerfile`{{open}} we created in the prior scenario.
 
 We're going to build our Docker image now and tag it with the `java-ws` tag using `docker build -t java-ws .`{{execute}}.  
 
@@ -33,7 +33,7 @@ Now we have all the charts to install an application.  The default installation 
 
 Edit `ws/values.yaml`{{open}}, change the repository to java-ws <pre class="file" data-filename="ws/values.yaml" data-target="insert" data-marker="  repository: nginx">  repository: java-ws</pre>
 
-Now, change the name to latest <pre class="file" data-filename="ws/values.yaml" data-target="insert" data-marker="  tag: """>  tag: latest</pre>
+Now, change the name to latest <pre class="file" data-filename="ws/values.yaml" data-target="insert" data-marker="  tag: &#x22;&#x22;">  tag: latest</pre>
 
 Next, we're going to edit the `ws/templates/deployment.yaml`{{open}} file.
 

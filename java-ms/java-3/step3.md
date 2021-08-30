@@ -36,6 +36,6 @@ And finally, when you really need to see what's going on within your running pod
 
 Once you're inside the pod, you can run `curl localhost:8080/greeting`{{execute}} to check if your service is running.  Then, `exit`{{execute}} to get our of the pod's terminal.
 
-That's about it for this scenario, hopefully, this has given you enough information to explore 
+That's about it for this scenario, hopefully, this course has given you enough information to help you create cloud native web services deployed to kubernetes on your own. 
 
 

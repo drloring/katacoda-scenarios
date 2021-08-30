@@ -33,7 +33,7 @@ Now we have all the charts to install an application.  The default installation 
 
 Edit `ws/values.yaml`{{open}}, change the repository to java-ws <pre class="file" data-filename="ws/values.yaml" data-target="insert" data-marker="  repository: nginx">  repository: java-ws</pre>
 
-Now, change the name to latest <pre class="file" data-filename="ws/values.yaml" data-target="insert" data-marker="  tag: """>  tag: "latest"</pre>
+Now, change the name to latest <pre class="file" data-filename="ws/values.yaml" data-target="insert" data-marker="  tag: \"\"">  tag: "latest"</pre>
 
 Recall that our container port is 8080, the default in Helm is 80, so change <pre class="file" data-filename="ws/values.yaml" data-target="insert" data-marker="              containerPort: 80">              containerPort: 8080</pre>
 

@@ -39,7 +39,7 @@ Next, we're going to edit the `ws/templates/deployment.yaml`{{open}} file.
 
 Recall that our container port is 8080, the default in Helm is 80, so change <pre class="file" data-filename="ws/templates/deployment.yaml" data-target="insert" data-marker="              containerPort: 80">              containerPort: 8080</pre>
 
-Remove or comment out the liveness and readiness probes (lines 40 - 47) from `ws/templates/deployment.yaml`{{open}} for now, we'll add those back in on a later session.
+Remove or comment out the liveness and readiness probes (lines 40 - 47) from `deployment.yaml` for now, we'll add those back in on a later session.
 
 Comments in YAML start with the # sign, so the block of yaml would look like the following
 

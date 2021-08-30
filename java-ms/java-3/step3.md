@@ -2,25 +2,27 @@ Let's explore some more features of kubernetes.  There are a lot of training cou
 
 But we're going to walk through some kubernetes essentials to get you familiar with debugging and troubleshooting your microservice application.
 
+First off, the way we port forwarded the port to the pod is not something you would do in a production environment, as pod's come and go throughout the life-cycle of the application.  Rather, we're going to leverage the Kubernetes Service type, which acts as a proxy to one or more of your running pods.
 
+Start, by opening the `ws/templates/service.yaml`{{open}} file.  Then change the targetPort to <pre class="file" data-filename="ws/templates/service.yaml" data-target="insert" data-marker="      targetPort: http">      targetPort: 8080</pre> to reflect our pod's exposed port.
 
+Next, we have to change the type of port the service is creating from ClusterIP to NodePort, so that it's available external to the cluster.  ClusterIP is used for service-to-service communications, when you need to access the service externally, NodePort is an option for that.  Open `ws/values.yaml`{{open}} again, and change <pre class="file" data-filename="ws/values.yaml" data-target="insert" data-marker="  type: ClusterIP">  type: NodePort</pre>
 
-Next we're going to run our installer to check out our deployment in kubernetes.
+Apply the change to the cluster with `h3 upgrade ws ws`{{execute}}.
 
-First, dry run the install with the following command `h3 install ws ws --dry-run`{{execute}}.
+Following the instructions afterwards, `export NODE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" services ws)`{{execute}}
 
-This shows you what the final kubernetes yml files will look like prior to installing in the cluster.
+and `export NODE_IP=$(kubectl get nodes --namespace default -o jsonpath="{.items[0].status.addresses[0].address}")`{{execute}}
 
-When ready, run the installer again, this time with non --dry-run `h3 install ws ws`{{execute}}
+Now, run `curl $NODE_IP:$NODE_PORT/greeting`{{execute}} to see your web application accessed through the service proxy.
 
-Run `kubectl get pods`{{execute}} and ensure that your pod is installed. Notice that your pod has a system generated name.
+By accessing your service this way, when the pod name or IP changes, those changes are insulated by the service proxy.  Let's kill our pod to demonstrate that.  You can effectively restart your pod by scaling it down to 0 deployments then scaling it back up. Run `kubectl get deployment -owide`{{execute}} to see your deployment.
 
-Now, follow the instructions on the screen to export some environment variables so that you can access your pod from the command line.
+Next run `kubectl scale deployment ws --replicas=0`{{execute}}
 
-`export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=ws,app.kubernetes.io/instance=ws" -o jsonpath="{.items[0].metadata.name}")`{{execute}}
+Depending on how fast you can run `kubectl get pods`{{execute}}, you'll either see the pod in the 'Terminating' state or not running at all.
 
-and `export CONTAINER_PORT=$(kubectl get pod --namespace default $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")`{{execute}}
+Next, scale it back up to a two pod service `kubectl scale deployment ws --replicas=2`{{execute}}
 
-then run `kubectl --namespace default port-forward $POD_NAME 8080:$CONTAINER_PORT &`{{execute}} to forward the port outside of the cluster.
+Now when you run `kubectl get pods`{{execute}}, you'll see two pods starting, and when you run `curl $NODE_IP:$NODE_PORT/greeting`{{execute}} again, the requests are actually being directed to each of the pods in a round-robin pattern.
 
-And finally, you can run `curl http://localhost:8080/greeting`{{execute}} to ensure your service is running in Kubernetes!

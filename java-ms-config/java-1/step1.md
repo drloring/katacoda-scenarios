@@ -13,17 +13,15 @@ server.port=9080</pre>
 
 Then add the template string to application.properties <pre class="file" data-filename="gs-rest-service/complete/src/main/resources/application.properties" data-target="append">template=Hello, %s!</pre>
 
-Now we need to change the Controller to look for these values.  First, we add the Value to the imports <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="insert" data-marker="import java.util.concurrent.atomic.AtomicLong;">import java.util.concurrent.atomic.AtomicLong;
-import org.springframework.beans.factory.annotation.Value;
+Now we need to change the Controller to look for these values.  First, we add the Value to the imports <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="prepend" data-marker="import java.util.concurrent.atomic.AtomicLong;">import import org.springframework.beans.factory.annotation.Value;
 </pre>
 
-Now we can add the annotation for the template string <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="insert" data-marker="	private static final String template = "Hello, %s!";">	@Value("${template}")
-	private static final String template = "Hello, %s!";
+Now we can add the annotation for the template string <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="insert" data-marker="	private static final String template = "Hello, %s!";">	@Value("${template:Hello, %s!}")
+	private String template;
 </pre>
 
 So, reviewing the changes, we've replaced the inline template string with a `@Value` annotation which is provided in the application.properties file.  What about the server.port value?  That is set behind the scenes by Spring.
  
-
 Before we can compile, we need to update the gradle version `./gradlew wrapper --gradle-version 7.0`{{execute}}
 
 Once you see `Build Successful`, you can continue with the following commands

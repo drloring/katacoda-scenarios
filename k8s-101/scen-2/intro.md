@@ -1,1 +1,0 @@
-Welcome to the Introduction to Minikube scenario.

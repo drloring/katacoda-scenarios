@@ -1,6 +1,6 @@
 {
-  "title": "Java Microservices",
-  "description": "Writing modern microservices in Java Programming Language with Spring Boot",
+  "title": "Cloud Native Java Microservices",
+  "description": "Writing cloud native microservices in Java Programming Language with Spring Boot and deploying to a Kubernetes cluster",
   "courses": [
     {
       "course_id": "java-1",

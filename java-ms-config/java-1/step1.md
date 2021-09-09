@@ -22,7 +22,9 @@ Now we can add the annotation for the template string <pre class="file" data-fil
 </pre>
 
 So, reviewing the changes, we've replaced the inline template string with a `@Value` annotation which is provided in the application.properties file.  What about the server.port value?  That is set behind the scenes by Spring.
- 
+
+Since we're using a different VM than previously, we need to export our JAVA_HOME environment variable `export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64`{{execute}}.
+
 Before we can compile, we need to update the gradle version `./gradlew wrapper --gradle-version 7.0`{{execute}}
 
 Once you see `Build Successful`, you can continue with the following commands

@@ -17,13 +17,13 @@ To deconflict the locally installed helm from the new Helm 3, make an alias call
 
 Now we have all the charts to install an application.  The default installation simply installs redis, so we're going to change that for our service.
 
-Edit `ws/values.yaml`{{open}}, change the repository to java-ws <pre class="file" data-filename="ws/values.yaml" data-target="insert" data-marker="  repository: nginx">  repository: java-ws</pre>
+Edit `gs-rest-service/complete/ws/values.yaml`{{open}}, change the repository to java-ws <pre class="file" data-filename="ws/values.yaml" data-target="insert" data-marker="  repository: nginx">  repository: java-ws</pre>
 
-Now, change the name to latest <pre class="file" data-filename="ws/values.yaml" data-target="insert" data-marker="  tag: """>  tag: "latest"</pre>
+Now, change the name to latest <pre class="file" data-filename="gs-rest-service/complete/ws/values.yaml" data-target="insert" data-marker="  tag: """>  tag: "latest"</pre>
 
-Recall that our container port is 8080, the default in Helm is 80, so change <pre class="file" data-filename="ws/values.yaml" data-target="insert" data-marker="              containerPort: 80">              containerPort: 8080</pre>
+Recall that our default container port is now 9090, the default in Helm is 80, so change <pre class="file" data-filename="ws/values.yaml" data-target="insert" data-marker="              containerPort: 80">              containerPort: 9090</pre>
 
-And change in deployment.yaml as well <pre class="file" data-filename="ws/templates/deployment.yaml" data-target="insert" data-marker="              containerPort: 80">              containerPort: 8080</pre>
+And change in deployment.yaml as well <pre class="file" data-filename="ws/templates/deployment.yaml" data-target="insert" data-marker="              containerPort: 80">              containerPort: 9090</pre>
 
 Remove or comment out the liveness and readiness probes (lines 40 - 47) from `ws/templates/deployment.yaml`{{open}} for now, we'll add those back in on a later session.
 
@@ -40,4 +40,4 @@ Comments in YAML start with the # sign, so the block of yaml would look like the
 #              port: http
 </pre>
 
-
+And now we're going to add some application specific environment variables to pass into the application a couple different ways.  First, we're going to add them to the helm install command line  `helm install --set template='HELLO, %s!!!' ws ws`{{execute}}  

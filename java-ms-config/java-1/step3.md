@@ -14,12 +14,12 @@ Another way we can change configuration options at runtime is to set environment
 
 First we have to stop our currently running container `docker container stop $(docker container ls -q --filter name=jws)`{{execute}}
 
-Next, we'll update the Dockerfile to remove the command line parameters from the CMD <pre class="file" data-filename="gs-rest-service/complete/Dockerfile" data-target="insert" data-marker="CMD java -jar svc.jar --server.port=9999">CMD java -jar svc.jar</pre>
+Next, we'll update the Dockerfile to remove the command line parameters from the CMD <pre class="file" data-filename="gs-rest-service/complete/Dockerfile" data-target="insert" data-marker="CMD java -jar svc.jar --server.port=9999">CMD java -jar svc.jar</pre>.  Now that we've removed that parameter, the default behavior would be to publish to port 9090, so let's update the port we're exposing accordingly <pre class="file" data-filename="gs-rest-service/complete/Dockerfile" data-target="insert" data-marker="EXPOSE 9999>EXPOSE 9090</pre>
 
-Now, we'll add the --env or -e parameters to the command line `docker run --name jws --rm -d -p80:9999 -e template='Hej, %s!' java-ws`{{execute}} and  `curl http://localhost:80/greeting?name=User`{{execute}} to see the effects.  Notice we didn't pass the `server.port` in this example, that's because we're exposing the port 9999 in the Dockerfile.
+Every time we change our Dockerfile, we need to rebuild our image `docker build -t java-ws .`{{execute}}.
 
+Now, we'll add the --env or -e parameters to the command line `docker run --name jws --rm -d -p80:9999 -e server.port=9999 java-ws`{{execute}} and  `curl http://localhost:80/greeting?name=User`{{execute}} to see the effects.  Notice the difference between exposing ports and port mapping.  Even though our Dockerfile exposes port 9090, we can override that with the -p option from the command line.
 
-The main point of this exercize is to demonstrate how we can use the same binary images and configuration defaults throughout the devops pipeline and supply overrides only when necessary in the environments that require modification from the default configuration.
-
+In the next scenario, we going to see how we can use the container environment overrides to map to kubernetes configmaps.
 
 

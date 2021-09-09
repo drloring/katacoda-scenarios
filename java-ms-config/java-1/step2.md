@@ -16,6 +16,8 @@ Then we'll add the override to the command line `./gradlew bootRun --args='--ser
 
 And test it out with `curl localhost:9999/greeting`{{execute}} 
 
+Finally, kill the process with `pkill -9 java`{{execute}}.
+
 
 
 

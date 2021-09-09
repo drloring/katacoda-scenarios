@@ -36,6 +36,6 @@
     "uieditorpath": "/root/example"
   },
   "backend": {
-    "imageid": "minikube"
+    "imageid": "minikube-running"
   }
 }

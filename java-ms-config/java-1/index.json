@@ -1,6 +1,6 @@
 {
-  "title": "Java Web Services",
-  "description": "Learn to make a Java Web Service with Spring Boot",
+  "title": "Externalized Service Configurations",
+  "description": "Externalize your service configurations to simplify runtime modifications",
   "difficulty": "Beginner",
   "time": "30 minutes",
   "details": {

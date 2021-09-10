@@ -9,12 +9,12 @@
     },
     {
       "course_id": "java-2",
-      "title": "Stateless services with Redis cache",
+      "title": "Stateless services with Redis cache (Upcoming)",
       "description": "Use a Redis cache to externalize internal memory to maintain a stateless service"
     },
     {
       "course_id": "java-3",
-      "title": "Logs as Streams",
+      "title": "Logs as Streams (Upcoming)",
       "description": "Learn how to configure your microservice manage logs as streams and discover the benefits"
     }
   ]

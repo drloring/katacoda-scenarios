@@ -2,7 +2,7 @@
   "title": "Java Web Service in Kubernetes",
   "description": "Learn to Deploy a Java Web Service in Kubernetes",
   "difficulty": "Beginner",
-  "time": "10 minutes",
+  "time": "20 minutes",
   "details": {
     "steps": [
       {

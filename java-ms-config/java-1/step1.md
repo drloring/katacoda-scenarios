@@ -17,7 +17,7 @@ Now we need to change `gs-rest-service/complete/src/main/java/com/example/restse
 import org.springframework.beans.factory.annotation.Value;
 </pre>
 
-Now we can add the annotation for the template string <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="insert" data-marker="	private static final String template = "Hello, %s!";">	@Value("${template}")
+Now we can add the annotation for the template string <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="insert" data-marker="	private static final String template = &#x22;Hello, %s!&#x22;;">	@Value("${template}")
 	private String template;
 </pre>
 

@@ -21,11 +21,27 @@ Edit `gs-rest-service/complete/ws/values.yaml`{{open}}, change the repository to
 
 Now, change the name to latest <pre class="file" data-filename="gs-rest-service/complete/ws/values.yaml" data-target="insert" data-marker="  tag: &#x22&#x22">  tag: "latest"</pre>
 
-Recall that our default container port is now 9090, the default in Helm is 80, so change <pre class="file" data-filename="gs-rest-service/complete/ws/values.yaml" data-target="insert" data-marker="              containerPort: 80">              containerPort: 9090</pre>
-
 And change `gs-rest-service/complete/ws/templates/deployment.yaml`{{open}} as well <pre class="file" data-filename="gs-rest-service/complete/ws/templates/deployment.yaml" data-target="insert" data-marker="              containerPort: 80">              containerPort: 9090</pre>
 
 Remove or comment out the liveness and readiness probes (lines 40 - 47) from deployment.yaml for now, we'll add those back in on a later session.
+<pre class="file" data-filename="gs-rest-service/complete/ws/templates/deployment.yaml" data-target="insert" data-marker="          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+">
+#          livenessProbe:
+#            httpGet:
+#              path: /
+#              port: http
+#          readinessProbe:
+#            httpGet:
+#              path: /
+#              port: http
+</pre>
 
 Comments in YAML start with the # sign, so the block of yaml would look like the following
 
@@ -43,11 +59,12 @@ Comments in YAML start with the # sign, so the block of yaml would look like the
 And now we're going to add some application specific environment variables to pass into the application.  First, we're going to add them to `gs-rest-service/complete/ws/values.yaml`{{open}} <pre class="file" data-filename="gs-rest-service/complete/ws/values.yaml" data-target="append">message: "HELLO, %s!!!"
 serverport: 9999</pre>
 
-Then, we update `gs-rest-service/complete/ws/templates/deployment.yaml`{{open}} to add the environment variables to the container <pre class="file" data-filename="gs-rest-service/complete/ws/templates/deployment.yaml" data-target="insert" data-marker="          resources:">          env:          
-          - name: "template"
-            value: "{{ .Values.message }}"
-          - name: "server.port"
-            value: "{{ .Values.serverport }}"
+Then, we update `gs-rest-service/complete/ws/templates/deployment.yaml`{{open}} to add the environment variables to the container <pre class="file" data-filename="gs-rest-service/complete/ws/templates/deployment.yaml" data-target="insert" data-marker="          resources:">
+          env:
+            - name: "template"
+              value: "&#x7b&#x7b .Values.message &#x7d&#x7d"
+            - name: "server.port"
+              value: "&#x7b&#x7b .Values.serverport &#x7d&#x7d"
           resources:
 </pre>
 

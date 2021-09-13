@@ -44,7 +44,7 @@ Remove or comment out the liveness and readiness probes (lines 40 - 47) from dep
 </pre>
 
 And now we're going to add some application specific environment variables to pass into the application.  First, we're going to add them to `gs-rest-service/complete/ws/values.yaml`{{open}} <pre class="file" data-filename="gs-rest-service/complete/ws/values.yaml" data-target="append">message: "HELLO, %s!!!"
-serverport: 9999</pre>
+serverport: 9090</pre>
 
 Then, paste the following code immediately after `protocol: TCP` line in `gs-rest-service/complete/ws/templates/deployment.yaml`{{open}}
 <pre>          env:
@@ -53,7 +53,7 @@ Then, paste the following code immediately after `protocol: TCP` line in `gs-res
             - name: "server.port"
               value: "{{ .Values.serverport }}"</pre>
 
-Now, we can dry-run the helm install `helm install --set serverport=9090 --dry-run ws ws`{{execute}}  and you will notice that the container is getting the server.port from the command line and the template from the values.yaml.
+Now, we can dry-run the helm install `helm install --set serverport=9999 --dry-run ws ws`{{execute}}  and you will notice that the container is getting the server.port from the command line environment variable and the template from the values.yaml.
 
 Before we install it, let's open up the NodePort again so we don't have to port-forward to get access.  Start, by opening the `gs-rest-service/complete/ws/templates/service.yaml`{{open}} file.  Then change the targetPort to <pre class="file" data-filename="gs-rest-service/complete/ws/templates/service.yaml" data-target="insert" data-marker="      targetPort: http">      targetPort: 9090</pre> to reflect our pod's exposed port. 
 

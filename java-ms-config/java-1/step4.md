@@ -43,30 +43,15 @@ Remove or comment out the liveness and readiness probes (lines 40 - 47) from dep
 #              port: http
 </pre>
 
-Comments in YAML start with the # sign, so the block of yaml would look like the following
-
-<pre>
-#          livenessProbe:
-#            httpGet:
-#              path: /
-#              port: http
-#          readinessProbe:
-#            httpGet:
-#              path: /
-#              port: http
-</pre>
-
 And now we're going to add some application specific environment variables to pass into the application.  First, we're going to add them to `gs-rest-service/complete/ws/values.yaml`{{open}} <pre class="file" data-filename="gs-rest-service/complete/ws/values.yaml" data-target="append">message: "HELLO, %s!!!"
 serverport: 9999</pre>
 
-Then, we update `gs-rest-service/complete/ws/templates/deployment.yaml`{{open}} to add the environment variables to the container <pre class="file" data-filename="gs-rest-service/complete/ws/templates/deployment.yaml" data-target="insert" data-marker="          resources:">
-          env:
+Then, paste the following code immediately after `protocol: TCP` line in `gs-rest-service/complete/ws/templates/deployment.yaml`{{open}}
+<pre>          env:
             - name: "template"
-              value: "&#x7b&#x7b .Values.message &#x7d&#x7d"
+              value: "{{ .Values.message }}"
             - name: "server.port"
-              value: "&#x7b&#x7b .Values.serverport &#x7d&#x7d"
-          resources:
-</pre>
+              value: "{{ .Values.serverport }}"</pre>
 
 Now, we can dry-run the helm install `helm install --set serverport=9090 --dry-run ws ws`{{execute}}  and you will notice that the container is getting the server.port from the command line and the template from the values.yaml.
 

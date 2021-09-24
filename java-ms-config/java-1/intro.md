@@ -1,1 +1,1 @@
-
+In this course, we're going to learn how to externalize your configurations using a Spring Boot Java application and apply dynamically configurable port bindings to the service.  Externalizing your service's configuration supports one factor of the 12-factor app https://12factor.net/config, while port mapping supports another https://12factor.net/port-binding

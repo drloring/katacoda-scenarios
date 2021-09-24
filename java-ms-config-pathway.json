@@ -4,8 +4,8 @@
   "courses": [
     {
       "course_id": "java-1",
-      "title": "Externalized Microservice Configuration",
-      "description": "Learn how to externalize the configuration of a Spring Boot microservice"
+      "title": "Externalized Microservice Configuration and Port Binding",
+      "description": "Learn how to externalize the configuration of a Spring Boot microservice and manage ports externally"
     },
     {
       "course_id": "java-2",

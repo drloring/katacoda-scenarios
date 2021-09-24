@@ -60,3 +60,5 @@ Before we install it, let's open up the NodePort again so we don't have to port-
 Then change the NodePort in values.yaml <pre class="file" data-filename="gs-rest-service/complete/ws/values.yaml" data-target="insert" data-marker="  type: ClusterIP">  type: NodePort</pre>
 
 Now, we can the helm install `helm install --set serverport=9090 ws ws`{{execute}}  and you will notice that the container is getting the server.port from the command line and the template from the values.yaml.
+
+Follow the instructions from helm and export the NODE_PORT and NODE_IP, then `curl $NODE_PORT:$NODE_IP/greetings`{{execute}}

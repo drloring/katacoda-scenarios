@@ -9,7 +9,7 @@
     },
     {
       "course_id": "java-2",
-      "title": "(Upcoming) Stateless services with Redis cache",
+      "title": "(In Progress) Stateless services with Redis cache",
       "description": "Use a Redis cache to externalize internal memory to maintain a stateless service"
     },
     {

@@ -8,15 +8,10 @@ We can view this project is an example of a stateful service.  If we open `gs-re
 
 To correct this, we're going to introduce a Redis NoSQL database to store the counter for all of the services and not rely on the in-memory state of the service.
 
-To get started, we'll add a couple dependencies for Spring Data and Redis to the Maven POM `gs-rest-service/complete/pom.xml`{{open}}.  <pre class="file" data-filename="gs-rest-service/complete/pom.xml" data-target="insert" data-marker="	<dependencies>">	<dependencies>
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-redis</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.lettuce</groupId>
-			<artifactId>lettuce-core</artifactId>
-		</dependency>
+To get started, we'll add a couple dependencies for Spring Data and Redis to the Gradle Build file `gs-rest-service/complete/build.gradle`{{open}}.  <pre class="file" data-filename="gs-rest-service/complete/build.gradle" data-target="insert"	implementation 'org.springframework.boot:spring-boot-starter-web'">	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.data:spring-data-redis'
+	implementation 'io.lettuce:lettuce-core'
+
 </pre>
 
 Then we'll make some changes to `gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java`{{open}} by adding the imports <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="insert" data-marker="import java.util.concurrent.atomic.AtomicLong;">import java.util.concurrent.atomic.AtomicLong;
@@ -49,14 +44,20 @@ And finally, we'll create a method to perform the lookup and save to the redis d
 		return new Greeting(counter.incrementAndGet(), String.format(template, name, count));    
 </pre>
 
+Since we changed the output of the Hello World string, we'll need to modify the tests to account for the change.  Open `gs-rest-service/complete/src/main/test/com/example/restservice/GreetingControllerTests.java`{{open}}.  We'll relax the test to allow any string to pass <pre class="file" data-filename="gs-rest-service/complete/src/main/test/com/example/restservice/GreetingControllerTests.java" data-target="insert" data-marker="				.andExpect(jsonPath("$.content").value("Hello, World!"));">				.andExpect(jsonPath("$.content").isString());</pre> and here <pre class="file" data-filename="gs-rest-service/complete/src/main/test/com/example/restservice/GreetingControllerTests.java" data-target="insert" data-marker="				.andExpect(jsonPath("$.content").value("Hello, Spring Community!"));">				.andExpect(jsonPath("$.content").isString());</pre>
+
 Since we're using a different VM than previously, we need to export our JAVA_HOME environment variable `export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64`{{execute}}.
 
 Before we can compile, we need to update the gradle version `./gradlew wrapper --gradle-version 7.0`{{execute}}
 
 Once you see `Build Successful`, you can continue with the following commands
 
+Start a redis server in the background with the docker command `docker run --name myredis -d --rm -p 6379:6379 redis`{{execute}}
+	
 Run`./gradlew bootRun &`{{execute}} in the background.
 
-Run the following command to verify that the spring boot application is running `curl http://localhost:8080/greeting`{{execute}} to display the Hello World message in a json formatted string.
+Run the following command to verify that the spring boot application is running `curl http://localhost:8080/greeting`{{execute}} to display the Hello World message with an increasing counter.  You can stop and start the web application and the count will be saved in redis until redis is restarted.
+	
+So, we cheated by running gradle bootRun before running gradle build, if we run `./gradlew build`{{execute}} before we have the redis server running, we'll have test failures.  We don't want our unit tests to depend on externally running services, so in the next course, we'll learn how to use Spring application.properies to swap out redis backing services based on where we are running the web service.
 
 

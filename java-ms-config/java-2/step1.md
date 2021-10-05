@@ -8,10 +8,9 @@ We can view this project is an example of a stateful service.  If we open `gs-re
 
 To correct this, we're going to introduce a Redis NoSQL database to store the counter for all of the services and not rely on the in-memory state of the service.
 
-To get started, we'll add a couple dependencies for Spring Data and Redis to the Gradle Build file `gs-rest-service/complete/build.gradle`{{open}}.  <pre class="file" data-filename="gs-rest-service/complete/build.gradle" data-target="insert"	implementation 'org.springframework.boot:spring-boot-starter-web'">	implementation 'org.springframework.boot:spring-boot-starter-web'
+To get started, we'll add a couple dependencies for Spring Data and Redis to the Gradle Build file `gs-rest-service/complete/build.gradle`{{open}}.  <pre class="file" data-filename="gs-rest-service/complete/build.gradle" data-target="	implementation 'org.springframework.boot:spring-boot-starter-web'">	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.data:spring-data-redis'
 	implementation 'io.lettuce:lettuce-core'
-
 </pre>
 
 Then we'll make some changes to `gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java`{{open}} by adding the imports <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="insert" data-marker="import java.util.concurrent.atomic.AtomicLong;">import java.util.concurrent.atomic.AtomicLong;
@@ -44,7 +43,7 @@ And finally, we'll create a method to perform the lookup and save to the redis d
 		return new Greeting(counter.incrementAndGet(), String.format(template, name, count));    
 </pre>
 
-Since we changed the output of the Hello World string, we'll need to modify the tests to account for the change.  Open `gs-rest-service/complete/src/main/test/com/example/restservice/GreetingControllerTests.java`{{open}}.  We'll relax the test to allow any string to pass <pre class="file" data-filename="gs-rest-service/complete/src/main/test/com/example/restservice/GreetingControllerTests.java" data-target="insert" data-marker="				.andExpect(jsonPath("$.content").value("Hello, World!"));">				.andExpect(jsonPath("$.content").isString());</pre> and here <pre class="file" data-filename="gs-rest-service/complete/src/main/test/com/example/restservice/GreetingControllerTests.java" data-target="insert" data-marker="				.andExpect(jsonPath("$.content").value("Hello, Spring Community!"));">				.andExpect(jsonPath("$.content").isString());</pre>
+Since we changed the output of the Hello World string, we'll need to modify the tests to account for the change.  Open `gs-rest-service/complete/src/test/java/com/example/restservice/GreetingControllerTests.java`{{open}}.  We'll relax the test to allow any string to pass <pre class="file" data-filename="gs-rest-service/complete/src/test/java/com/example/restservice/GreetingControllerTests.java" data-target="insert" data-marker="				.andExpect(jsonPath("$.content").value("Hello, World!"));">				.andExpect(jsonPath("$.content").isString());</pre> and here <pre class="file" data-filename="gs-rest-service/complete/src/test/java/com/example/restservice/GreetingControllerTests.java" data-target="insert" data-marker="				.andExpect(jsonPath("$.content").value("Hello, Spring Community!"));">				.andExpect(jsonPath("$.content").isString());</pre>
 
 Since we're using a different VM than previously, we need to export our JAVA_HOME environment variable `export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64`{{execute}}.
 

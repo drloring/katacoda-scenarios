@@ -20,8 +20,7 @@
     }
   },
   "environment": {
-    "hidefinish": true,
-    "uilayout": "vscode-terminal-split",
+    "uilayout": "editor-terminal",
     "uieditorpath": "/root/example"
   },
   "backend": {

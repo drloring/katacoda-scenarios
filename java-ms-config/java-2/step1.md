@@ -8,7 +8,7 @@ We can view this project is an example of a stateful service.  If we open `gs-re
 
 To correct this, we're going to introduce a Redis NoSQL database to store the counter for all of the services and not rely on the in-memory state of the service.
 
-To get started, we'll add a couple dependencies for Spring Data and Redis to the Gradle Build file `gs-rest-service/complete/build.gradle`{{open}}.  <pre class="file" data-filename="gs-rest-service/complete/build.gradle" data-target="	implementation 'org.springframework.boot:spring-boot-starter-web'">	implementation 'org.springframework.boot:spring-boot-starter-web'
+To get started, we'll add a couple dependencies for Spring Data and Redis to the Gradle Build file `gs-rest-service/complete/build.gradle`{{open}}.  <pre class="file" data-filename="gs-rest-service/complete/build.gradle" data-target="insert" data-marker="	implementation 'org.springframework.boot:spring-boot-starter-web'">	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.data:spring-data-redis'
 	implementation 'io.lettuce:lettuce-core'
 </pre>

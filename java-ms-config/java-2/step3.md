@@ -35,6 +35,9 @@ Now we have all the charts to install an application.  The default installation 
 
 Edit `gs-rest-service/complete/ws/values.yaml`{{open}}, change the repository to java-ws <pre class="file" data-filename="gs-rest-service/complete/ws/values.yaml" data-target="insert" data-marker="  repository: nginx">  repository: java-ws</pre>
 
+Edit `gs-rest-service/complete/ws/values.yaml`{{open}}, change the repository to java-ws <pre class="file" data-filename="gs-rest-service/complete/ws/values.yaml" data-target="insert" data-marker="  repository: nginxreplicaCount: 2">replicaCount: 3</pre>
+And this time, we're going to create multiple replicas so that we can confirm that we're not using local storage. 
+
 Now, change the name to latest <pre class="file" data-filename="gs-rest-service/complete/ws/values.yaml" data-target="insert" data-marker="  tag: &#x22&#x22">  tag: "latest"</pre>
 
 And change `gs-rest-service/complete/ws/templates/deployment.yaml`{{open}} as well <pre class="file" data-filename="gs-rest-service/complete/ws/templates/deployment.yaml" data-target="insert" data-marker="              containerPort: 80">              containerPort: 8080</pre>

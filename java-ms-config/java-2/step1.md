@@ -8,39 +8,66 @@ We can view this project is an example of a stateful service.  If we open `gs-re
 
 To correct this, we're going to introduce a Redis NoSQL database to store the counter for all of the services and not rely on the in-memory state of the service.
 
-To get started, we'll add a couple dependencies for Spring Data and Redis to the Gradle Build file `gs-rest-service/complete/build.gradle`{{open}}.  <pre class="file" data-filename="gs-rest-service/complete/build.gradle" data-target="insert" data-marker="	implementation 'org.springframework.boot:spring-boot-starter-web'">  implementation 'org.springframework.boot:spring-boot-starter-web'
+To get started, we'll add a couple dependencies for Spring Data and Redis to the Gradle Build file `gs-rest-service/complete/build.gradle`{{open}}.  <pre class="file" data-filename="gs-rest-service/complete/build.gradle" data-target="insert" data-marker="  implementation 'org.springframework.boot:spring-boot-starter-web'">  implementation 'org.springframework.boot:spring-boot-starter-web'
   implementation 'org.springframework.data:spring-data-redis'
   implementation 'io.lettuce:lettuce-core'
 </pre>
 
-Then we'll make some changes to `gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java`{{open}} by adding the imports <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="insert" data-marker="import java.util.concurrent.atomic.AtomicLong;">import java.util.concurrent.atomic.AtomicLong;
+Then we'll make some changes to `gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java`{{open}} to add the externalized cache. <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="prepend">package com.example.restservice;
+
+import java.util.concurrent.atomic.AtomicLong;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class GreetingController {
+
+	private static final String template = "Hello, %s! Current Count is %d";
+	private final AtomicLong counter = new AtomicLong();
+	private static String USER_KEY = "User";
+
+	@Autowired
+	private RedisTemplate<String, String> redisTemplate;
+
+	public int updateCount(String userId) {
+		String currentCount = (String) redisTemplate.opsForHash().get(USER_KEY, userId);
+		int cc = 1;
+		if (currentCount != null) {
+			cc = Integer.parseInt(currentCount) + 1;
+		}
+		redisTemplate.opsForHash().put(USER_KEY, userId, Integer.toString(cc));
+		return cc;
+	}
+
+	@GetMapping("/greeting")
+	public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
+		int count = updateCount(name);
+		return new Greeting(counter.incrementAndGet(), String.format(template, name, counter.get()));
+	}
+}
 </pre>
 
-Then, we'll change the message so that we see our counter when we `curl` it.  <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="insert" data-marker="	private static final String template = "Hello, %s!";">	private static final String template = "Hello, %s! Current Count is %d";</pre>
+We'll need to add an application configuration class for the redis server.  `touch src/main/java/com/example/restservice/ApplicationConfig.java`{{execute}}, then add the following content <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/ApplicationConfig.java" data-target="prepend">package com.example.restservice;
 
-Then, we'll create a method to perform the lookup and save to the redis database <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="insert" data-marker="		private final AtomicLong counter = new AtomicLong();">	private final AtomicLong counter = new AtomicLong();
-    private static String USER_KEY = "User";
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 
-    @Autowired
-    private RedisTemplate<String, String> redisTemplate;
+@Configuration
+class ApplicationConfig {
 
-    
-    public int updateCount(String userId) {
-    	String currentCount = (String) redisTemplate.opsForHash().get(USER_KEY, userId);
-    	int cc = 1;
-    	if (currentCount != null) {
-    		cc = Integer.parseInt(currentCount) + 1;
-    	}
-    	redisTemplate.opsForHash().put(USER_KEY, userId, Integer.toString(cc));
-    	return cc;
-    }
-    
-</pre>
+	@Bean
+	public LettuceConnectionFactory redisConnectionFactory(RedisProperties redisProperties) {
 
-And finally, we'll create a method to perform the lookup and save to the redis database <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="insert" data-marker="				return new Greeting(counter.incrementAndGet(), String.format(template, name));">		int count = updateCount(name);
-		return new Greeting(counter.incrementAndGet(), String.format(template, name, count));    
+		return new LettuceConnectionFactory(
+				new RedisStandaloneConfiguration(redisProperties.getRedisHost(), redisProperties.getRedisPort()));
+	}
+}
 </pre>
 
 Since we changed the output of the Hello World string, we'll need to modify the tests to account for the change.  Open `gs-rest-service/complete/src/test/java/com/example/restservice/GreetingControllerTests.java`{{open}}.  We'll relax the test to allow any string to pass <pre class="file" data-filename="gs-rest-service/complete/src/test/java/com/example/restservice/GreetingControllerTests.java" data-target="insert" data-marker="				.andExpect(jsonPath("$.content").value("Hello, World!"));">				.andExpect(jsonPath("$.content").isString());</pre> and here <pre class="file" data-filename="gs-rest-service/complete/src/test/java/com/example/restservice/GreetingControllerTests.java" data-target="insert" data-marker="				.andExpect(jsonPath("$.content").value("Hello, Spring Community!"));">				.andExpect(jsonPath("$.content").isString());</pre>

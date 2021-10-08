@@ -13,7 +13,7 @@ To get started, we'll add a couple dependencies for Spring Data and Redis to the
   implementation 'io.lettuce:lettuce-core'
 </pre>
 
-Then we'll make some changes to `gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java`{{open}} to add the externalized cache. <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="prepend">package com.example.restservice;
+Then we'll make some changes to `gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java`{{open}} to add the externalized cache. <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="insert">package com.example.restservice;
 
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -51,7 +51,7 @@ public class GreetingController {
 }
 </pre>
 
-We'll need to add an application configuration class for the redis server.  `touch src/main/java/com/example/restservice/ApplicationConfig.java`{{execute}}, then add the following content <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/ApplicationConfig.java" data-target="prepend">package com.example.restservice;
+We'll need to add an application configuration class for the redis server.  `touch src/main/java/com/example/restservice/ApplicationConfig.java`{{execute}}, then add the following content <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/ApplicationConfig.java" data-target="insert">package com.example.restservice;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

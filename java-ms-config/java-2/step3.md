@@ -13,7 +13,7 @@ To deconflict the locally installed helm from the new Helm 3, make an alias call
 
 `h3 version`{{execute}} should confirm version 3.6.3 or later is installed.
 
-Bitnami helm charts were created to make deploying a Redis cluster simple, but first we have to add the Bitnami repo `h3 repo add bitnami https://charts.bitnami.com/bitnami`{{execute}}
+Bitnami helm charts were created to make deploying a Redis cluster simple, but first we have to add the Bitnami repo `h3 repo add bitnami https://charts.bitnami.com/bitnami --set auth.enabled=false`{{execute}}
 
 We want to keep our database separated from our service, so we'll create a namespace for it `kubectl create ns db`{{execute}}.
 
@@ -77,4 +77,6 @@ Then change the NodePort in values.yaml <pre class="file" data-filename="gs-rest
 
 Now, we can the helm install `helm install ws ws`{{execute}}  and you will notice that the container is getting the redis host from the template from the values.yaml.
 
-Follow the instructions from helm and export the NODE_PORT and NODE_IP, then `curl $NODE_PORT:$NODE_IP/greetings`{{execute}} repeatedly to see the counter increase
+Follow the instructions from helm and export the NODE_PORT and NODE_IP, then `curl $NODE_IP:$NODE_PORT/greeting`{{execute}} repeatedly.  If you are seeing duplicate counters and non-incremental updates, that means your docker image was built with the local in-memory counter.  If you were to change the counter.get() to count in `GreetingController.java`, rebuild the jar and the docker container and scale the deployment with `kubectl scale deployments/ws --replicas 0` and `kubectl scale deployments/ws --replicas 3` you will see the count monotonically increasing.  
+
+The bitnami redis cluster installs Persistent Volumes (PV) and Persistent Volume Claims (PVC) as well, so if you uninstall and reinstall helm without removing those PVCs, then you will not see the counter reset as the data is persisted to the PVC. 

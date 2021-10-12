@@ -1,33 +1,21 @@
 Welcome to the stateless Java Web Services with backing service project.  This is a continuation of the previous katacoda course [here](https://www.katacoda.com/ng-dloring/courses/java-ms-config/java-1).  If you haven't reviewed that one yet, you may want to go through it now and return to this scenario afterwards.
 
-Just like before, we clone the Spring Boot Web Service project at `git clone https://github.com/spring-guides/gs-rest-service.git`{{execute}}
+Instead of cloning the original repo `https://github.com/spring-guides/gs-rest-service.git`, I've created a solution with the final implementation and we'll highlight the changes from the baseline.  If you'd prefer, you can download the original project and make the changes to get some hands-on experience.
 
-CD to the `gs-rest-service/complete` directory `cd gs-rest-service/complete`{{execute}}
+First,  `curl -o java-ms-config-java-2.zip https://raw.githubusercontent.com/drloring/katacoda-resources/main/java-ms-config-java-2.zip`{{execute}}
+And unzip the file `unzip java-ms-config-java-2.zip`{{execute}}
+And CD to the complete directory `cd complete`{{execute}}
+
 
 We can view this project is an example of a stateful service.  If we open `gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java`{{open}}, we'll see `private final AtomicLong counter = new AtomicLong();` in the code.  This works fine as a counter for a single web application, but if we want to be able to scale this service out to multiple instances, we couldn't rely on the counter since each service would have it's own counter incrementing independent of the other services.
 
 To correct this, we're going to introduce a Redis NoSQL database to store the counter for all of the services and not rely on the in-memory state of the service.
 
-To get started, we'll add a couple dependencies for Spring Data and Redis to the Gradle Build file `gs-rest-service/complete/build.gradle`{{open}}.  <pre class="file" data-filename="gs-rest-service/complete/build.gradle" data-target="insert" data-marker="  implementation 'org.springframework.boot:spring-boot-starter-web'">  implementation 'org.springframework.boot:spring-boot-starter-web'
-  implementation 'org.springframework.data:spring-data-redis'
+To get started, we'll add a couple dependencies for Spring Data and Redis to the Gradle Build file `gs-rest-service/complete/build.gradle`{{open}}.  Notice we added <pre>    implementation 'org.springframework.data:spring-data-redis'
   implementation 'io.lettuce:lettuce-core'
-</pre>
+</pre> to the file
 
-Then we'll make some changes to `gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java`{{open}} to add the externalized cache. <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="insert">package com.example.restservice;
-
-import java.util.concurrent.atomic.AtomicLong;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-public class GreetingController {
-
-	private static final String template = "Hello, %s! Current Count is %d";
-	private final AtomicLong counter = new AtomicLong();
+Then we'll make some changes to `gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java`{{open}} to add the externalized cache. Notice we changed <pre>
 	private static String USER_KEY = "User";
 
 	@Autowired
@@ -42,22 +30,17 @@ public class GreetingController {
 		redisTemplate.opsForHash().put(USER_KEY, userId, Integer.toString(cc));
 		return cc;
 	}
+</pre> to use the redis database to store and retrieve the counter.
 
+Also, notice that we updated the message to include the counter <pre>
 	@GetMapping("/greeting")
 	public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
 		int count = updateCount(name);
 		return new Greeting(counter.incrementAndGet(), String.format(template, name, counter.get()));
 	}
-}
 </pre>
 
-We'll need to add an application configuration class for the redis server.  `touch src/main/java/com/example/restservice/ApplicationConfig.java`{{execute}}, then add the following content <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/ApplicationConfig.java" data-target="insert">package com.example.restservice;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
-import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
-
+We added an application configuration class for the redis server to connect to the redis server.  `src/main/java/com/example/restservice/ApplicationConfig.java`{{open}}, adding the following content <pre>
 @Configuration
 class ApplicationConfig {
 
@@ -69,8 +52,6 @@ class ApplicationConfig {
 	}
 }
 </pre>
-
-Since we changed the output of the Hello World string, we'll need to modify the tests to account for the change.  Open `gs-rest-service/complete/src/test/java/com/example/restservice/GreetingControllerTests.java`{{open}}.  We'll relax the test to allow any string to pass <pre class="file" data-filename="gs-rest-service/complete/src/test/java/com/example/restservice/GreetingControllerTests.java" data-target="insert" data-marker="				.andExpect(jsonPath("$.content").value("Hello, World!"));">				.andExpect(jsonPath("$.content").isString());</pre> and here <pre class="file" data-filename="gs-rest-service/complete/src/test/java/com/example/restservice/GreetingControllerTests.java" data-target="insert" data-marker="				.andExpect(jsonPath("$.content").value("Hello, Spring Community!"));">				.andExpect(jsonPath("$.content").isString());</pre>
 
 Since we're using a different VM than previously, we need to export our JAVA_HOME environment variable `export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64`{{execute}}.
 

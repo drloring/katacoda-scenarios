@@ -15,7 +15,8 @@ To get started, we'll add a couple dependencies for Spring Data and Redis to the
   implementation 'io.lettuce:lettuce-core'
 </pre> to the file
 
-Then we'll make some changes to `complete/src/main/java/com/example/restservice/GreetingController.java`{{open}} to add the externalized cache. Notice we changed <pre>
+Then we'll make some changes to `complete/src/main/java/com/example/restservice/GreetingController.java`{{open}} to add the externalized cache. Notice we changed 
+`
 	private static String USER_KEY = "User";
 
 	@Autowired
@@ -30,17 +31,19 @@ Then we'll make some changes to `complete/src/main/java/com/example/restservice/
 		redisTemplate.opsForHash().put(USER_KEY, userId, Integer.toString(cc));
 		return cc;
 	}
-</pre> to use the redis database to store and retrieve the counter.
+` to use the redis database to store and retrieve the counter.
 
-Also, notice that we updated the message to include the counter <pre>
+Also, notice that we updated the message to include the counter 
+`
 	@GetMapping("/greeting")
 	public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
 		int count = updateCount(name);
 		return new Greeting(counter.incrementAndGet(), String.format(template, name, counter.get()));
 	}
-</pre>
+`
 
-We added an application configuration class for the redis server to connect to the redis server.  `complete/src/main/java/com/example/restservice/ApplicationConfig.java`{{open}}, adding the following content <pre>
+We added an application configuration class for the redis server to connect to the redis server.  `complete/src/main/java/com/example/restservice/ApplicationConfig.java`{{open}}, adding the following content 
+`
 @Configuration
 class ApplicationConfig {
 
@@ -51,7 +54,7 @@ class ApplicationConfig {
 				new RedisStandaloneConfiguration(redisProperties.getRedisHost(), redisProperties.getRedisPort()));
 	}
 }
-</pre>
+`
 
 Since we're using a different VM than previously, we need to export our JAVA_HOME environment variable `export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64`{{execute}}.
 

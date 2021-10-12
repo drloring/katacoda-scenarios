@@ -54,6 +54,7 @@ class ApplicationConfig {
 </pre>
 
 Since we're using a different VM than previously, we need to export our JAVA_HOME environment variable `export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64`{{execute}}.
+Now run `touch +x ./gradlew`{{execute}} to make gradlew executable.
 Before we can compile, we need to update the gradle version `./gradlew wrapper --gradle-version 7.0`{{execute}}
 Once you see `Build Successful`, you can continue with the following commands
 Start a redis server in the background with the docker command `docker run --name myredis -d --rm -p 6379:6379 redis`{{execute}}

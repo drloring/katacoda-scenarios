@@ -16,8 +16,7 @@ To get started, we'll add a couple dependencies for Spring Data and Redis to the
 </pre> to the file
 
 Then we'll make some changes to `complete/src/main/java/com/example/restservice/GreetingController.java`{{open}} to add the externalized cache. Notice we changed 
-`
-	private static String USER_KEY = "User";
+<pre>	private static String USER_KEY = "User";
 
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
@@ -31,19 +30,17 @@ Then we'll make some changes to `complete/src/main/java/com/example/restservice/
 		redisTemplate.opsForHash().put(USER_KEY, userId, Integer.toString(cc));
 		return cc;
 	}
-` to use the redis database to store and retrieve the counter.
+</pre> to use the redis database to store and retrieve the counter.
 
 Also, notice that we updated the message to include the counter 
-`
-	@GetMapping("/greeting")
+<pre>	@GetMapping("/greeting")
 	public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
 		int count = updateCount(name);
 		return new Greeting(counter.incrementAndGet(), String.format(template, name, counter.get()));
 	}
-`
-
+</pre>
 We added an application configuration class for the redis server to connect to the redis server.  `complete/src/main/java/com/example/restservice/ApplicationConfig.java`{{open}}, adding the following content 
-`
+<pre>
 @Configuration
 class ApplicationConfig {
 
@@ -54,18 +51,13 @@ class ApplicationConfig {
 				new RedisStandaloneConfiguration(redisProperties.getRedisHost(), redisProperties.getRedisPort()));
 	}
 }
-`
+</pre>
 
 Since we're using a different VM than previously, we need to export our JAVA_HOME environment variable `export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64`{{execute}}.
-
 Before we can compile, we need to update the gradle version `./gradlew wrapper --gradle-version 7.0`{{execute}}
-
 Once you see `Build Successful`, you can continue with the following commands
-
 Start a redis server in the background with the docker command `docker run --name myredis -d --rm -p 6379:6379 redis`{{execute}}
-	
 Run`./gradlew bootRun &`{{execute}} in the background.
-
 Run the following command to verify that the spring boot application is running `curl http://localhost:8080/greeting`{{execute}} to display the Hello World message with an increasing counter.  You can stop and start the web application and the count will be saved in redis until redis is restarted.
 	
 So, we cheated by running gradle bootRun before running gradle build, if we run `./gradlew build`{{execute}} before we have the redis server running, we'll have test failures.  We don't want our unit tests to depend on externally running services, so in the next course, we'll learn how to use Spring application.properies to swap out redis backing services based on where we are running the web service.

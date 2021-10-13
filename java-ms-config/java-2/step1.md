@@ -3,19 +3,19 @@ Welcome to the stateless Java Web Services with backing service project.  This i
 Instead of cloning the original repo `https://github.com/spring-guides/gs-rest-service.git`, I've created a solution with the final implementation and we'll highlight the changes from the baseline.  If you'd prefer, you can download the original project and make the changes to get some hands-on experience.
 
 First,  `curl -o java-ms-config-java-2.zip https://raw.githubusercontent.com/drloring/katacoda-resources/main/java-ms-config-java-2.zip`{{execute}}
-And unzip the file `unzip java-ms-config-java-2.zip`{{execute}}
-And CD to the complete directory `cd complete`{{execute}}
+And unzip the file `unzip java-ms-config-java-2-step-1.zip`{{execute}}
+And CD to the complete directory `cd step-1`{{execute}}
 
 
-We can view this project is an example of a stateful service.  If we open `complete/src/main/java/com/example/restservice/GreetingController.java`{{open}}, we'll see `private final AtomicLong counter = new AtomicLong();` in the code.  This works fine as a counter for a single web application, but if we want to be able to scale this service out to multiple instances, we couldn't rely on the counter since each service would have it's own counter incrementing independent of the other services.
+We can view this project is an example of a stateful service.  If we open `step-1/src/main/java/com/example/restservice/GreetingController.java`{{open}}, we'll see `private final AtomicLong counter = new AtomicLong();` in the code.  This works fine as a counter for a single web application, but if we want to be able to scale this service out to multiple instances, we couldn't rely on the counter since each service would have it's own counter incrementing independent of the other services.
 
 To correct this, we're going to introduce a Redis NoSQL database to store the counter for all of the services and not rely on the in-memory state of the service.
 
-To get started, we'll add a couple dependencies for Spring Data and Redis to the Gradle Build file `complete/build.gradle`{{open}}.  Notice we added <pre>    implementation 'org.springframework.data:spring-data-redis'
+To get started, we'll add a couple dependencies for Spring Data and Redis to the Gradle Build file `step-1/build.gradle`{{open}}.  Notice we added <pre>    implementation 'org.springframework.data:spring-data-redis'
   implementation 'io.lettuce:lettuce-core'
 </pre> to the file
 
-Then we'll make some changes to `complete/src/main/java/com/example/restservice/GreetingController.java`{{open}} to add the externalized cache. Notice we changed 
+Then we'll make some changes to `step-1/src/main/java/com/example/restservice/GreetingController.java`{{open}} to add the externalized cache. Notice we changed 
 <pre>	private static String USER_KEY = "User";
 
 	@Autowired
@@ -39,7 +39,7 @@ Also, notice that we updated the message to include the counter
 		return new Greeting(counter.incrementAndGet(), String.format(template, name, counter.get()));
 	}
 </pre>
-We added an application configuration class for the redis server to connect to the redis server.  `complete/src/main/java/com/example/restservice/ApplicationConfig.java`{{open}}, adding the following content 
+We added an application configuration class for the redis server to connect to the redis server.  `step-1/src/main/java/com/example/restservice/ApplicationConfig.java`{{open}}, adding the following content 
 <pre>
 @Configuration
 class ApplicationConfig {

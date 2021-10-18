@@ -7,12 +7,12 @@ And unzip the file `unzip java-ms-config-java-2-step-1.zip`{{execute}}
 And CD to the complete directory `cd step-1`{{execute}}
 
 
-We can view this project is an example of a stateful service.  If we open `step-1/src/main/java/com/example/restservice/GreetingController.java`{{open}}, we'll see `private final AtomicLong counter = new AtomicLong();` in the code.  This works fine as a counter for a single web application, but if we want to be able to scale this service out to multiple instances, we couldn't rely on the counter since each service would have it's own counter incrementing independent of the other services.
+We can view this project is an example of a stateful service.  If we open `step-1/src/main/java/com/example/restservice/GreetingController.java`{{open}}, we'll see `private final AtomicLong counter = new AtomicLong();` in the code.  This works fine as a counter for a single web application, but if we want to be able to scale this service out to multiple instances, we couldn't rely on the counter since each service would have it's own counter incrementing independent of the other services.  We'll see that in-action in the next steps.
 
 To correct this, we're going to introduce a Redis NoSQL database to store the counter for all of the services and not rely on the in-memory state of the service.
 
-To get started, we'll add a couple dependencies for Spring Data and Redis to the Gradle Build file `step-1/build.gradle`{{open}}.  Notice we added <pre>    implementation 'org.springframework.data:spring-data-redis'
-    implementation 'io.lettuce:lettuce-core'
+To get started, we'll add a couple dependencies for Spring Data and Redis to the Gradle Build file `step-1/build.gradle`{{open}}.  Notice we added <pre>implementation 'org.springframework.data:spring-data-redis'
+implementation 'io.lettuce:lettuce-core'
 </pre> to the gradle build file, this will pull in the spring data redis and lettuce connectors into the project.
 
 Then we'll make some changes to `step-1/src/main/java/com/example/restservice/GreetingController.java`{{open}} to add the externalized cache. Notice we changed 
@@ -54,11 +54,15 @@ class ApplicationConfig {
 </pre>
 
 Since we're using a different VM than previously, we need to export our JAVA_HOME environment variable `export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64`{{execute}}.
-Now run `touch +x ./gradlew`{{execute}} to make gradlew executable.
+Now run `chmod +x ./gradlew`{{execute}} to make gradlew executable.
 Before we can compile, we need to update the gradle version `./gradlew wrapper --gradle-version 7.0`{{execute}}
+
 Once you see `Build Successful`, you can continue with the following commands
+
 Start a redis server in the background with the docker command `docker run --name myredis -d --rm -p 6379:6379 redis`{{execute}}
+
 Run`./gradlew bootRun &`{{execute}} in the background.
+
 Run the following command to verify that the spring boot application is running `curl http://localhost:8080/greeting`{{execute}} to display the Hello World message with an increasing counter.  You can stop and start the web application and the count will be saved in redis until redis is restarted.
 	
 So, in this example, we cheated by running gradle bootRun before running gradle build, if we run `./gradlew build`{{execute}} before we have the redis server running, we'll have test failures.  We don't want our unit tests to depend on externally running services, so in the next course, we'll learn how to use Spring application.properies to swap out redis backing services based on where we are running the web service.

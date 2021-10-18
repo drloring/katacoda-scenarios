@@ -18,7 +18,7 @@ To get started, we'll add a couple dependencies for Spring Data and Redis to the
 Then we'll make some changes to `step-1/src/main/java/com/example/restservice/GreetingController.java`{{open}} to add the externalized cache. Notice we changed 
 <pre>	private static String USER_KEY = &#x22;User&#x22;;
 
-	&#x26;Autowired
+	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
 
 	public int updateCount(String userId) {
@@ -33,18 +33,18 @@ Then we'll make some changes to `step-1/src/main/java/com/example/restservice/Gr
 </pre> to use the redis database to store and retrieve the counter.
 
 Also, notice that we updated the message to include the counter 
-<pre>	&#x26;GetMapping("/greeting")
-	public Greeting greeting(&#x26;RequestParam(value = &#x22;name&#x22;, defaultValue = &#x22;World&#x22;) String name) {
+<pre>	@GetMapping("/greeting")
+	public Greeting greeting(@RequestParam(value = &#x22;name&#x22;, defaultValue = &#x22;World&#x22;) String name) {
 		int count = updateCount(name);
 		return new Greeting(counter.incrementAndGet(), String.format(template, name, counter.get()));
 	}
 </pre>
 We added `step-1/src/main/java/com/example/restservice/ApplicationConfig.java`{{open}} to connect to the redis server, adding the following content 
 <pre>
-&#x26;Configuration
+@Configuration
 class ApplicationConfig {
 
-	&#x26;Bean
+	@Bean
 	public LettuceConnectionFactory redisConnectionFactory(RedisProperties redisProperties) {
 
 		return new LettuceConnectionFactory(
@@ -61,6 +61,6 @@ Start a redis server in the background with the docker command `docker run --nam
 Run`./gradlew bootRun &`{{execute}} in the background.
 Run the following command to verify that the spring boot application is running `curl http://localhost:8080/greeting`{{execute}} to display the Hello World message with an increasing counter.  You can stop and start the web application and the count will be saved in redis until redis is restarted.
 	
-So, we cheated by running gradle bootRun before running gradle build, if we run `./gradlew build`{{execute}} before we have the redis server running, we'll have test failures.  We don't want our unit tests to depend on externally running services, so in the next course, we'll learn how to use Spring application.properies to swap out redis backing services based on where we are running the web service.
+So, in this example, we cheated by running gradle bootRun before running gradle build, if we run `./gradlew build`{{execute}} before we have the redis server running, we'll have test failures.  We don't want our unit tests to depend on externally running services, so in the next course, we'll learn how to use Spring application.properies to swap out redis backing services based on where we are running the web service.
 
 

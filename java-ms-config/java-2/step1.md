@@ -16,9 +16,9 @@ To get started, we'll add a couple dependencies for Spring Data and Redis to the
 </pre> to the gradle build file, this will pull in the spring data redis and lettuce connectors into the project.
 
 Then we'll make some changes to `step-1/src/main/java/com/example/restservice/GreetingController.java`{{open}} to add the externalized cache. Notice we changed 
-<pre>	private static String USER_KEY = "User";
+<pre>	private static String USER_KEY = &#x22;User&#x22;;
 
-	Autowired
+	&#x26;Autowired
 	private RedisTemplate<String, String> redisTemplate;
 
 	public int updateCount(String userId) {
@@ -33,18 +33,18 @@ Then we'll make some changes to `step-1/src/main/java/com/example/restservice/Gr
 </pre> to use the redis database to store and retrieve the counter.
 
 Also, notice that we updated the message to include the counter 
-<pre>	GetMapping("/greeting")
-	public Greeting greeting(RequestParam(value = "name", defaultValue = "World") String name) {
+<pre>	&#x26;GetMapping("/greeting")
+	public Greeting greeting(&#x26;RequestParam(value = &#x22;name&#x22;, defaultValue = &#x22;World&#x22;) String name) {
 		int count = updateCount(name);
 		return new Greeting(counter.incrementAndGet(), String.format(template, name, counter.get()));
 	}
 </pre>
 We added `step-1/src/main/java/com/example/restservice/ApplicationConfig.java`{{open}} to connect to the redis server, adding the following content 
 <pre>
-Configuration
+&#x26;Configuration
 class ApplicationConfig {
 
-	Bean
+	&#x26;Bean
 	public LettuceConnectionFactory redisConnectionFactory(RedisProperties redisProperties) {
 
 		return new LettuceConnectionFactory(

@@ -31,7 +31,7 @@ where we start and stop the embedded redis server before and after each test.
 
 Now if we run `./gradlew build`{{execute}}, we'll see that the unit tests don't fail and aren't reliant on a redis container running.
 
-To see it running again, and pointing to the docker container, run `./gradlew bootRun &`{{execute}} to run it in the background.
+If you previously killed the redis container, then run `docker run --name myredis -d --rm -p 6379:6379 redis`{{execute}} again, then run `./gradlew bootRun &`{{execute}} to run it in the background.
 
 Run the following command to verify that the spring boot application is running `curl http://localhost:8080/greeting`{{execute}} to display the Hello World message with an increasing counter.  You can stop and start the web application and the count will be saved in redis until redis is restarted.
 	

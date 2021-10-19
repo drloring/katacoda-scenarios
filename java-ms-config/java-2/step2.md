@@ -33,6 +33,6 @@ Now if we run `./gradlew build`{{execute}}, we'll see that the unit tests don't 
 
 If you previously killed the redis container, then run `docker run --name myredis -d --rm -p 6379:6379 redis`{{execute}} again, then run `./gradlew bootRun &`{{execute}} to run it in the background.
 
-Run the following command to verify that the spring boot application is running `curl http://localhost:8080/greeting`{{execute}} to display the Hello World message with an increasing counter.  Notice that we added a Local Cound and a Cached count to differentiate between local state and shared state.
+Run the following command to verify that the spring boot application is running `curl http://localhost:8080/greeting`{{execute}} to display the Hello World message with an increasing counter.  Notice that we added a Local Cound and a Cached count to differentiate between local state and state stored in the redis database.  You won't see any difference unless you restart the application.
 	
 In the next step, we'll scale out the microservice in a kubernetes cluster and verify the operations in the cluster and observe the load-balancing aspect of clustered services.

@@ -65,6 +65,6 @@ Run`./gradlew bootRun &`{{execute}} in the background.
 
 Run the following command to verify that the spring boot application is running `curl http://localhost:8080/greeting`{{execute}} to display the Hello World message with an increasing counter.  You can stop and start the web application and the count will be saved in redis until redis is restarted.
 	
-So, in this example, we cheated by running gradle bootRun before running gradle build, if we run `./gradlew build`{{execute}} before we have the redis server running, we'll have test failures.  We don't want our unit tests to depend on externally running services, so in the next course, we'll learn how to use Spring application.properies to swap out redis backing services based on where we are running the web service.
+So, in this example, we cheated by running bootRun before running gradle build, circumventing the unit tests.  If we kill the redis server with `docker kill myredis`{{execute}}, then  run `./gradlew build`{{execute}}, we'll have test failures.  We don't want our unit tests to depend on externally running services, so in the next course, we'll learn how to use Spring application.properies to swap out redis backing services based on where we are running the web service.
 
 

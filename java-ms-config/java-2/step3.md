@@ -47,6 +47,6 @@ Now, we can dry-run the helm install `helm install --dry-run ws ws`{{execute}}  
 
 And, we can run helm install `helm install ws ws`{{execute}}  and you will notice that the container is getting the redis host from the template from the values.yaml.
 
-Follow the instructions from helm and export the NODE_PORT and NODE_IP, then `curl $NODE_IP:$NODE_PORT/greeting`{{execute}} repeatedly.  If you are seeing duplicate counters and non-incremental updates, that means your docker image was built with the local in-memory counter.  If you were to change the counter.get() to count in `GreetingController.java`, rebuild the jar and the docker container and scale the deployment with `kubectl scale deployments/ws --replicas 0`{{execute}} and `kubectl scale deployments/ws --replicas 3`{{execute}} you will see the count monotonically increasing.  
+Follow the instructions from helm and export the NODE_PORT and NODE_IP, then `curl $NODE_IP:$NODE_PORT/greeting`{{execute}} repeatedly.  Notice that the Local count is different than the Cached count.  
 
-The bitnami redis cluster installs Persistent Volumes (PV) and Persistent Volume Claims (PVC) as well, so if you uninstall and reinstall helm without removing those PVCs, then you will not see the counter reset as the data is persisted to the PVC. 
+The bitnami redis cluster installs Persistent Volumes (PV) and Persistent Volume Claims (PVC) as well, so if you uninstall and reinstall helm without removing those PVCs, then you will not see the counter reset as the data is persisted to the PVC. For more information about PV/PVCs, see [https://kubernetes.io/docs/concepts/storage/persistent-volumes/]

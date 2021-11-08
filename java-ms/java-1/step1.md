@@ -20,6 +20,6 @@ Run the following command to verify that the spring boot application is running 
 
 Now run `curl http://localhost:8080/greeting?name=User`{{execute}} to demonstrate how request parameters can be parsed and returned in the response json string.
 
-To see your site running in a browser, visit http://[[HOST_SUBDOMAIN]]-8080-[[KATACODA_HOST]].[[KATACODA_DOMAIN]]{{execute}}
+To see your site running in a browser, visit [this page](http://[[HOST_SUBDOMAIN]]-8080-[[KATACODA_HOST]].[[KATACODA_DOMAIN]]/greeting)
 
 

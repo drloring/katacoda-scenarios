@@ -1,36 +1,101 @@
-Welcome to the Java Web Services with external configurations and port binding example project.  This is a continuation of the previous katacoda course [here](https://www.katacoda.com/ng-dloring/courses/java-ms/java-1).  If you haven't reviewed that one yet, you may want to go through it now and return to this scenario afterwards.
+kubectl get nodes
 
-Just like before, we clone the Spring Boot Web Service project at `git clone https://github.com/spring-guides/gs-rest-service.git`{{execute}}
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
 
-CD to the `gs-rest-service/complete` directory `cd gs-rest-service/complete`{{execute}}
+ls
 
-Spring Boot configuration files are extremely flexible and allow you to provide values from application.properties or environment variables.  We're going to start with creating an `application.properties` file. Run `mkdir src/main/resources`{{execute}}, then `touch src/main/resources/application.properties`{{execute}}.
+chmod +x get_helm.sh 
 
-Now open the application.properties file in the editor `gs-rest-service/complete/src/main/resources/application.properties`{{open}}.
+get_helm.sh
 
-Edit the application.properties to add a couple properties.  Add the default port for the REST server (recall the default is 8080), add  <pre class="file" data-filename="gs-rest-service/complete/src/main/resources/application.properties" data-target="prepend"># Server port
-server.port=9080</pre> 
+./get_helm.sh 
 
-Then add the template string to application.properties <pre class="file" data-filename="gs-rest-service/complete/src/main/resources/application.properties" data-target="append">template=Hello, %s!</pre>
+#alias h3=/usr/local/bin/helm
 
-Now we need to change `gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java`{{open}} to look for these values.  First, we add the Value class to the imports <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="insert" data-marker="import java.util.concurrent.atomic.AtomicLong;">import java.util.concurrent.atomic.AtomicLong;
-import org.springframework.beans.factory.annotation.Value;
-</pre>
+helm version
 
-Now we can add the annotation for the template string <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="insert" data-marker="	private static final String template = &#x22;Hello, &#x25s&#x21&#x22;;">	@Value("${template}")
-	private String template;
-</pre>
+helm repo add anchore https://charts.anchore.io
 
-So, reviewing the changes, we've replaced the inline template string with a `@Value` annotation which is provided in the application.properties file.  What about the server.port value?  That is set behind the scenes by Spring.
+helm install anchore anchore/anchore-engine
 
-Since we're using a different VM than previously, we need to export our JAVA_HOME environment variable `export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64`{{execute}}.
+export ANCHORE_CLI_PASS=$(kubectl get secret --namespace default anchore-anchore-engine-admin-pass -o jsonpath="{.data.ANCHORE_ADMIN_PASSWORD}" | base64 --decode; echo)
 
-Before we can compile, we need to update the gradle version `./gradlew wrapper --gradle-version 7.0`{{execute}}
+kubectl run -i --tty anchore-cli --restart=Always --image anchore/engine-cli  --env ANCHORE_CLI_USER=admin --env ANCHORE_CLI_PASS=${ANCHORE_CLI_PASS} --env ANCHORE_CLI_URL=http://anchore-anchore-engine-api.default.svc.cluster.local:8228/v1/
 
-Once you see `Build Successful`, you can continue with the following commands
+kubectl get po
 
-Run`./gradlew bootRun &`{{execute}} in the background.
+kubectl exec -it <<podname>> -- bash
 
-Run the following command to verify that the spring boot application is running `curl http://localhost:9080/greeting`{{execute}} to display the Hello World message in a json formatted string.
 
+anchore-cli system status
+anchore-cli image add docker.io/library/debian:latest
+anchore-cli image list
+anchore-cli evaluate check docker.io/library/debian:latest
+anchore-cli image vuln docker.io/library/debian:latest os
+anchore-cli image vuln docker.io/library/debian:latest
+anchore-cli image content docker.io/library/debian:latest os
+anchore-cli image content docker.io/library/debian:latest files
+anchore-cli evaluate check docker.io/library/debian:latest --detail
+
+apt-get update
+
+apt-get install python-pip
+
+install anchorecli --ignore-installed
+
+export PATH="$HOME/.local/bin/:$PATH"
+
+anchore-cli
+
+export ANCHORE_CLI_USER=admin
+
+export ANCHORE_CLI_PASS=$(kubectl get secret --namespace default anchore-anchore-engine-admin-pass -o jsonpath="{.data.ANCHORE_ADMIN_PASSWORD}" | base64 --decode; echo)
+
+export ANCHORE_CLI_URL=http://anchore-anchore-engine-api.default.svc.cluster.local:8228/v1/
+
+
+
+A quick primer on using the Anchore Engine CLI follows. For more info see: https://github.com/anchore/anchore-engine/wiki/Getting-Started
+
+View system status:
+
+    anchore-cli system status
+
+Add an image to be analyzed:
+
+    anchore-cli image add <imageref>
+
+List images and see the analysis status (not_analyzed initially):
+
+    anchore-cli image list
+
+Once the image is analyzed you'll see status change to 'analyzed'. This may take some time on first execution with a new database because
+the system must first do a CVE data sync which can take several minutes. Once complete, the image will transition to 'analyzing' state.
+
+When the image reaches 'analyzed' state, you can view policy evaluation output with:
+
+    anchore-cli evaluate check <imageref>
+
+List CVEs found in the image with:
+
+    anchore-cli image vuln <imageref> os
+
+List OS packages found in the image with:
+    anchore-cli image content <imageref> os
+
+List files found in the image with:
+    anchore-cli image content <imageref> files
+	
+	
+	
+	    8  anchore-cli
+    9  anchore-cli system status
+   10  anchore-cli image add docker.io/library/debian:latest
+   11  anchore-cli image list
+   12  anchore-cli evaluate check docker.io/library/debian:latest
+   13  anchore-cli image vuln docker.io/library/debian:latest os
+   14  anchore-cli image vuln docker.io/library/debian:latest
+   15  anchore-cli image content docker.io/library/debian:latest os
+   16  anchore-cli image content docker.io/library/debian:latest files
+   17  anchore-cli evaluate check docker.io/library/debian:latest --detail
 

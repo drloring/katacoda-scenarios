@@ -12,25 +12,7 @@ Check the version with `helm version`{{execute}}
 Now, we're adding the Anchore repo and running the anchore-engine helm charts
 `helm repo add anchore https://charts.anchore.io && helm install anchore anchore/anchore-engine`{{execute}}
 
-For this configuration, we'll have to create a PV.  First, `vi pv.yaml`{{execute}}, then `i`{{execute}} and paste the following content
-<pre>
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: drl
-  labels:
-    type: local
-spec:
-  capacity:
-    storage: 100Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/dev/shm"
-</pre>
-Once that's pasted, hit Esc and `:wq`{{execute}} to save the file.
-
-Now that we have it, let's apply it with `kubectl apply -f pv.yaml`{{execute}}
+For this configuration, we'll have to create a PV.  Run `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/pv.yaml`{{execute}} and then apply it with `kubectl apply -f pv.yaml`{{execute}}
 
 When anchore-engine starts it takes some time for it's database to synchronize with the online database.  Run `kubectl get po`{{execute}} to ensure the pods are ready.
 

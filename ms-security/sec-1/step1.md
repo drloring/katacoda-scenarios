@@ -22,11 +22,9 @@ However, we can run an anchore-cli pod and exec into that to explore the Anchore
 
 First, we export the password kept in the secret. `export ANCHORE_CLI_PASS=$(kubectl get secret --namespace default anchore-anchore-engine-admin-pass -o jsonpath="{.data.ANCHORE_ADMIN_PASSWORD}" | base64 --decode; echo)`{{execute}}
 
-Now, we run the anchore-engine-cli pod `kubectl run -i --tty anchore-cli --restart=Always --image anchore/engine-cli  --env ANCHORE_CLI_USER=admin --env ANCHORE_CLI_PASS=${ANCHORE_CLI_PASS} --env ANCHORE_CLI_URL=http://anchore-anchore-engine-api.default.svc.cluster.local:8228/v1/`{{execute}}
+Now, we run the anchore-engine-cli pod `kubectl run anchore-cli --restart=Always --image anchore/engine-cli  --env ANCHORE_CLI_USER=admin --env ANCHORE_CLI_PASS=${ANCHORE_CLI_PASS} --env ANCHORE_CLI_URL=http://anchore-anchore-engine-api.default.svc.cluster.local:8228/v1/`{{execute}}
 
-If you don't exec into the pod with the prior command or it appears to hang, press `Ctrl+C` to break and run the following commands.
-
-Get the anchore-cli pod name with this command `kubectl get po`{{execute}}, then exec into the pod with the following command (replacing podname with the name of your pod `kubectl exec -it anchore-cli -- bash`{{execute}}
+Wait until the pod is running `kubectl get po`{{execute}}, then exec into the pod with the following command `kubectl exec -it anchore-cli -- bash`{{execute}}
 
 Once in the Anchore-cli pod, verify anchore is ready
 `anchore-cli system status`{{execute}}

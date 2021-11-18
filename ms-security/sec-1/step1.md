@@ -1,33 +1,35 @@
-kubectl get nodes
+`kubectl get nodes`{{execute}}
 
-curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+`curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3`{{execute}}
 
-ls
+`chmod +x get_helm.sh`{{execute}}
 
-chmod +x get_helm.sh 
 
-get_helm.sh
-
-./get_helm.sh 
+`./get_helm.sh`{{execute}} 
 
 #alias h3=/usr/local/bin/helm
 
-helm version
+`helm version`{{execute}}
 
-helm repo add anchore https://charts.anchore.io
+`helm repo add anchore https://charts.anchore.io`{{execute}}
 
-helm install anchore anchore/anchore-engine
+`helm install anchore anchore/anchore-engine`{{execute}}
 
-export ANCHORE_CLI_PASS=$(kubectl get secret --namespace default anchore-anchore-engine-admin-pass -o jsonpath="{.data.ANCHORE_ADMIN_PASSWORD}" | base64 --decode; echo)
+`export ANCHORE_CLI_PASS=$(kubectl get secret --namespace default anchore-anchore-engine-admin-pass -o jsonpath="{.data.ANCHORE_ADMIN_PASSWORD}" | base64 --decode; echo)`{{execute}}
 
-kubectl run -i --tty anchore-cli --restart=Always --image anchore/engine-cli  --env ANCHORE_CLI_USER=admin --env ANCHORE_CLI_PASS=${ANCHORE_CLI_PASS} --env ANCHORE_CLI_URL=http://anchore-anchore-engine-api.default.svc.cluster.local:8228/v1/
+`kubectl run -i --tty anchore-cli --restart=Always --image anchore/engine-cli  --env ANCHORE_CLI_USER=admin --env ANCHORE_CLI_PASS=${ANCHORE_CLI_PASS} --env ANCHORE_CLI_URL=http://anchore-anchore-engine-api.default.svc.cluster.local:8228/v1/`{{execute}}
 
-kubectl get po
+If you don't exec into the pod with the prior command, get the anchore-cli pod name with this command
+`kubectl get po`{{execute}}
 
-kubectl exec -it <<podname>> -- bash
+Then exec into the pod with the following command (replacing podname with the name of your pod
+`kubectl exec -it <<podname>> -- bash`{{execute}}
+
+Once in the Anchore-cli pod, verify anchore is ready
+`anchore-cli system status`{{execute}}
 
 
-anchore-cli system status
+
 anchore-cli image add docker.io/library/debian:latest
 anchore-cli image list
 anchore-cli evaluate check docker.io/library/debian:latest

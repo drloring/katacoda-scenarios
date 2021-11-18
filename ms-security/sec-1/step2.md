@@ -2,9 +2,6 @@ First we have to exit out of the anchore-cli pod `exit`{{execute}}, now let's ge
 
 Now, we'll build the docker image with `docker build -t java-ws .`{{execute}}
 
-Now we can exec back into the Anchore CLI pod `kubectl exec -it ancore-cli -- bash`{{execute}} and add the image `anchore-cli add image java-ms`{{execute}}
-
-Once we see that the status is `analyzed` with `anchore-cli image list`{{execute}}.
-
+`kubectl get svc`{{execute}} to see the list of services, take note of the NodePort address allocated, then  `curl -s https://ci-tools.anchore.io/inline_scan-latest | bash -s -- analyze -u admin -p $ANCHORE_CLI_PASS -r http://localhost:<NodePort> -g java-ws:latest`{{execute}}
 
 

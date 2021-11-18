@@ -1,29 +1,30 @@
+In this course, we're going to look at the open source tool Anchore to see how it inspects and finds vulnerabilities in docker containers.
+
+First, we have to make sure kubernetes is running.  
 `kubectl get nodes`{{execute}}
+Wait until the minikube node is in the `Ready` state.
 
-`curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3`{{execute}}
+Again, we need to get helm
+`curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 && chmod +x get_helm.sh && ./get_helm.sh`{{execute}}
 
-`chmod +x get_helm.sh`{{execute}}
+Check the version with `helm version`{{execute}}
 
+Now, we're adding the Anchore repo and running the anchore-engine helm charts
+`helm repo add anchore https://charts.anchore.io && helm install anchore anchore/anchore-engine`{{execute}}
 
-`./get_helm.sh`{{execute}} 
+When anchore-engine starts it takes some time for it's database to synchronize with the online database.  Run `kubectl get po`{{execute}} to ensure the pods are ready.
 
-#alias h3=/usr/local/bin/helm
+If you read the instructions provided by the helm charts, it may appear that the Anchore API is exposed to external clients, but runnning `kubectl get svc`{{execute}} shows that ClusterIP is being used on the anchore-api service and is not available to external clients.
 
-`helm version`{{execute}}
+However, we can run an anchore-cli pod and exec into that to explore the Anchore CLI a bit.
 
-`helm repo add anchore https://charts.anchore.io`{{execute}}
+First, we export the password kept in the secret. `export ANCHORE_CLI_PASS=$(kubectl get secret --namespace default anchore-anchore-engine-admin-pass -o jsonpath="{.data.ANCHORE_ADMIN_PASSWORD}" | base64 --decode; echo)`{{execute}}
 
-`helm install anchore anchore/anchore-engine`{{execute}}
+Now, we run the anchore-engine-cli pod `kubectl run -i --tty anchore-cli --restart=Always --image anchore/engine-cli  --env ANCHORE_CLI_USER=admin --env ANCHORE_CLI_PASS=${ANCHORE_CLI_PASS} --env ANCHORE_CLI_URL=http://anchore-anchore-engine-api.default.svc.cluster.local:8228/v1/`{{execute}}
 
-`export ANCHORE_CLI_PASS=$(kubectl get secret --namespace default anchore-anchore-engine-admin-pass -o jsonpath="{.data.ANCHORE_ADMIN_PASSWORD}" | base64 --decode; echo)`{{execute}}
+If you don't exec into the pod with the prior command or it appears to hang, press `Ctrl+C` to bread and run the following commands.
 
-`kubectl run -i --tty anchore-cli --restart=Always --image anchore/engine-cli  --env ANCHORE_CLI_USER=admin --env ANCHORE_CLI_PASS=${ANCHORE_CLI_PASS} --env ANCHORE_CLI_URL=http://anchore-anchore-engine-api.default.svc.cluster.local:8228/v1/`{{execute}}
-
-If you don't exec into the pod with the prior command, get the anchore-cli pod name with this command
-`kubectl get po`{{execute}}
-
-Then exec into the pod with the following command (replacing podname with the name of your pod
-`kubectl exec -it <<podname>> -- bash`{{execute}}
+Get the anchore-cli pod name with this command `kubectl get po`{{execute}}, then exec into the pod with the following command (replacing podname with the name of your pod `kubectl exec -it <<podname>> -- bash`{{execute}}
 
 Once in the Anchore-cli pod, verify anchore is ready
 `anchore-cli system status`{{execute}}

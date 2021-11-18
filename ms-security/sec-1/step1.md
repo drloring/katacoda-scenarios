@@ -29,7 +29,11 @@ Get the anchore-cli pod name with this command `kubectl get po`{{execute}}, then
 Once in the Anchore-cli pod, verify anchore is ready
 `anchore-cli system status`{{execute}}
 
+Now, we'll add a container image to the list to scan `anchore-cli image add redis`{{execute}}
 
+Run `anchore-cli image list`{{execute}} to view the status of the scan.  
+
+Once it's complete, we can run a vulnerability assessment of it with `anchore-cli image vuln redis`{{execute}}
 
 anchore-cli image add docker.io/library/debian:latest
 anchore-cli image list

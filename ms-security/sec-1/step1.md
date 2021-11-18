@@ -37,4 +37,12 @@ Run `anchore-cli image list`{{execute}} to view the status of the scan.  When th
 
 Once it's complete, we can run a vulnerability assessment of it with `anchore-cli image vuln redis`{{execute}} and we'll see that there are three types of vulnerability assessments available: os, non-os and all.  You can view the details of each by running `anchore-cli image vuln redis os `{{execute}} `anchore-cli image vuln redis non-os`{{execute}} or `anchore-cli image vuln redis all`{{execute}}
 
-To get more details run the following command `anchore-cli evaluate check redis --detail`{{execute}} and to peek at the contents of the image run `anchore-cli image content redis os`{{execute}} and `anchore-cli image content redis files`{{execute}}
+We can see if it passed assessment by running `anchore-cli evaluate check redis`{{execute}}.  You'll notice that `Status: fail`.  To get more details, run `anchore-cli evaluate check redis --detail`{{execute}} to get the exact reasons for failure.
+
+Also, notice the policy ID that was used.  To get a look at the policies that are being enforced, run `anchore-cli policy list`{{execute}} to see the matching policy id and `anchore-cli policy describe`{{execute}} to see the policies in effect.
+
+To query all images for specific vulnerabilities, run `anchore-cli query images-by-vulnerability --vulnerability-id CVE-2021-43396`{{execute}}
+
+To get more details on the files in the image run `anchore-cli image content redis os`{{execute}} and `anchore-cli image content redis files`{{execute}}
+
+Next, we're going to see whether the microservice that was used in the past lessons passes vulnerabilty assessment.

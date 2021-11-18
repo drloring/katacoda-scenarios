@@ -2,6 +2,10 @@ First we have to exit out of the anchore-cli pod `exit`{{execute}}, now let's ge
 
 Now, we'll build the docker image with `docker build -t java-ws .`{{execute}}
 
-`kubectl get svc`{{execute}} to see the list of services, take note of the NodePort address allocated, then  `curl -s https://ci-tools.anchore.io/inline_scan-latest | bash -s -- analyze -u admin -p $ANCHORE_CLI_PASS -r http://localhost:<NodePort> -g java-ws:latest`{{execute}}
+We need to expose the anchore-engine outside of the kubernetes cluster, but first we need the anchore-engine-api pod name `kubectl get po`{{execute}}.  Copy the pod name and run `kubectl expose pod <podname> --type=NodePort`.
+
+Once that's exposed, run the following command to get the list of services`kubectl get svc`{{execute}} and take note of the NodePort address allocated.
+
+Then  `curl -s https://ci-tools.anchore.io/inline_scan-latest | bash -s -- analyze -u admin -p $ANCHORE_CLI_PASS -r http://localhost:<NodePort> -g java-ws:latest`
 
 

@@ -20,7 +20,7 @@
     }
   },
   "environment": {
-    "uilayout": "terminal",
+    "uilayout": "terminal-terminal",
     "uieditorpath": "/root/example"
   },
   "backend": {

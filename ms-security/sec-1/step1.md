@@ -9,10 +9,10 @@ Again, we need to get helm
 
 Check the version with `helm version`{{execute}}
 
+For this configuration, we'll have to create a PV.  Run `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/pv.yaml`{{execute}} and then apply it with `kubectl apply -f pv.yaml`{{execute}}
+
 Now, we're adding the Anchore repo and running the anchore-engine helm charts
 `helm repo add anchore https://charts.anchore.io && helm install anchore anchore/anchore-engine`{{execute}}
-
-For this configuration, we'll have to create a PV.  Run `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/pv.yaml`{{execute}} and then apply it with `kubectl apply -f pv.yaml`{{execute}}
 
 When anchore-engine starts it takes some time for it's database to synchronize with the online database.  Run `kubectl get po`{{execute}} to ensure the pods are ready.
 
@@ -22,9 +22,9 @@ However, we can run an anchore-cli pod and exec into that to explore the Anchore
 
 First, we export the password kept in the secret. `export ANCHORE_CLI_PASS=$(kubectl get secret --namespace default anchore-anchore-engine-admin-pass -o jsonpath="{.data.ANCHORE_ADMIN_PASSWORD}" | base64 --decode; echo)`{{execute}}
 
-Now, we run the anchore-engine-cli pod `kubectl run anchore-cli --restart=Always --image anchore/engine-cli  --env ANCHORE_CLI_USER=admin --env ANCHORE_CLI_PASS=${ANCHORE_CLI_PASS} --env ANCHORE_CLI_URL=http://anchore-anchore-engine-api.default.svc.cluster.local:8228/v1/`{{execute}}
+Now, we run the anchore-engine-cli pod `kubectl run -it anchore-cli --restart=Always --image anchore/engine-cli  --env ANCHORE_CLI_USER=admin --env ANCHORE_CLI_PASS=${ANCHORE_CLI_PASS} --env ANCHORE_CLI_URL=http://anchore-anchore-engine-api.default.svc.cluster.local:8228/v1/`{{execute}}
 
-Wait until the pod is running `kubectl get po`{{execute}}, then exec into the pod with the following command `kubectl exec -it anchore-cli -- bash`{{execute}}
+If you don't enter the command line, then `Ctrl+C` and wait until the pod is running `kubectl get po`{{execute}}, then exec into the pod with the following command `kubectl exec -it anchore-cli -- bash`{{execute}}
 
 Once in the Anchore-cli pod, verify anchore is ready
 `anchore-cli system status`{{execute}}

@@ -8,4 +8,12 @@ Once that's exposed, run the following command to get the list of services`kubec
 
 Then  `curl -s https://ci-tools.anchore.io/inline_scan-latest | bash -s -- analyze -u admin -p $ANCHORE_CLI_PASS -r http://localhost:<NodePort> -g java-ws:latest`
 
+Once that process finishes, you'll see that the results are put back into the anchore-engine running Kubernetes, so we'll have to exec into the pod to access the Anchore CLI again `kubectl exec -it anchore-cli -- bash`{{execute}}
+
+Once in the pod, you can see the java-ws by running `anchore-cli image list`{{execute}}.
+
+From there, you can perform the analysis on the `java-ws` container just like we did with the redis container, e.g. `anchore-cli image vuln localbuild/java-ws`{{execute}}.
+
+Next we're going to look into custom security policies.
+
 

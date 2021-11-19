@@ -2,7 +2,7 @@ In this course, we're going to look at the open source tool Anchore to see how i
 
 First, we have to make sure kubernetes is running.  
 `kubectl get nodes`{{execute}}
-Wait until both nodes are in the `Ready` state.
+Wait until both nodes are in the `Ready` state. NOTE: this may take several minutes.
 
 Again, we need to get helm
 `curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 && chmod +x get_helm.sh && ./get_helm.sh`{{execute}}

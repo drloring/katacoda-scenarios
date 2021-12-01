@@ -2,7 +2,7 @@ To get started with policies, let's get familiar with their format.  If you're s
 
 You'll notice that the section regarding the HEALTCHECK was modified
 <pre>
-                    "action": "WARN",
+                    "action": "STOP",
                     "gate": "dockerfile",
                     "id": "312d9e41-1c05-4e2f-ad89-b7d34b0855bb",
                     "params": [

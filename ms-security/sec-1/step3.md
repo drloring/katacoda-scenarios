@@ -1,6 +1,25 @@
-To get started with policies, let's get familiar with their format.  Pull down a view a modified default policy with `wget https://github.com/drloring/katacoda-resources/blob/main/policy.json && cat policy.json`{{execute}}.
+To get started with policies, let's get familiar with their format.  If you're still execed into the pod, exit out of the anchore-cli pod exit{{execute}}, pull down and view a modified default policy with `wget https://github.com/drloring/katacoda-resources/blob/main/policy.json && cat policy.json`{{execute}}.
 
-Next, copy the file text to your clipboard in the browser and exec back into the anchore-cli `kubectl exec -it anchore-cli -- bash`{{execute}}.  From there, `cd && vi policy.json`{{execute}} and now put vi into insert mode `i`{{execute}} and paste the contents of the file, hit `Esc` and `:wq`{{execute}} to save the file.
+You'll notice that the section regarding the HEALTCHECK was modified
+<pre>
+                    "action": "WARN",
+                    "gate": "dockerfile",
+                    "id": "312d9e41-1c05-4e2f-ad89-b7d34b0855bb",
+                    "params": [
+                        {
+                            "name": "instruction",
+                            "value": "HEALTHCHECK"
+                        },
+                        {
+                            "name": "check",
+                            "value": "not_exists"
+                        }
+                    ],
+                    "trigger": "instruction"
+                },
+</pre>
+
+Next, copy the entire json file text to your clipboard in the browser and exec back into the anchore-cli `kubectl exec -it anchore-cli -- bash`{{execute}}.  From there, `cd && vi policy.json`{{execute}} and now put vi into insert mode `i`{{execute}} and paste the contents of the file, hit `Esc` and `:wq`{{execute}} to save the file.
 
 Now, that we have a policy file, we can add it with `anchore-cli policy add policy.json`{{execute}} and activate with `anchore-cli policy activate 2c53a13c-1765-11e9-82ef-23527761d060`{{execute}}.
 

@@ -14,6 +14,6 @@ Once in the pod, you can see the java-ws by running `anchore-cli image list`{{ex
 
 From there, you can perform the analysis on the `java-ws` container just like we did with the redis container, e.g. `anchore-cli image vuln localbuild/java-ws`{{execute}}.
 
-Next we're going to look into custom security policies.
+Next we're going to look into customizing security policies.
 
 

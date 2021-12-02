@@ -24,7 +24,7 @@ First, we export the password kept in the secret. `export ANCHORE_CLI_PASS=$(kub
 
 Now, we run the anchore-engine-cli pod `kubectl run -it anchore-cli --restart=Always --image anchore/engine-cli  --env ANCHORE_CLI_USER=admin --env ANCHORE_CLI_PASS=${ANCHORE_CLI_PASS} --env ANCHORE_CLI_URL=http://anchore-anchore-engine-api.default.svc.cluster.local:8228/v1/`{{execute}}
 
-If you don't enter the command line, then `Ctrl+C` and wait until the pod is running `kubectl get po`{{execute}}, then exec into the pod with the following command `kubectl exec -it anchore-cli -- bash`{{execute}}
+It takes a while, but if you don't enter the anchore-cli command line, then `Ctrl+C` and wait until the pod is running `kubectl get po`{{execute}}, then exec into the pod with the following command `kubectl exec -it anchore-cli -- bash`{{execute}}
 
 Once in the Anchore-cli pod, verify anchore is ready
 `anchore-cli system status`{{execute}}
@@ -33,14 +33,8 @@ Now, we'll add a container image to the list to scan `anchore-cli image add redi
 
 Run `anchore-cli image list`{{execute}} to view the status of the scan.  When the images says `analyzed`, then it's ready for inspection.  
 
-Once it's complete, we can run a vulnerability assessment of it with `anchore-cli image vuln redis`{{execute}} and we'll see that there are three types of vulnerability assessments available: os, non-os and all.  You can view the details of each by running `anchore-cli image vuln redis os `{{execute}} `anchore-cli image vuln redis non-os`{{execute}} or `anchore-cli image vuln redis all`{{execute}}
+Once it's complete, we can see if it passed assessment by running `anchore-cli evaluate check redis`{{execute}}.  You'll notice that `Status: pass`.  To get more details, run `anchore-cli evaluate check redis --detail`{{execute}} to see if there were any warnings detected.
 
-We can see if it passed assessment by running `anchore-cli evaluate check redis`{{execute}}.  You'll notice that `Status: pass`.  To get more details, run `anchore-cli evaluate check redis --detail`{{execute}} to see if there were any warnings detected.
-
-Also, notice the policy ID that was used.  To get a look at the policies that are being enforced, run `anchore-cli policy list`{{execute}} to see the matching policy id and `anchore-cli policy describe`{{execute}} to see the policies in effect.
-
-To query all images for specific vulnerabilities, run `anchore-cli query images-by-vulnerability --vulnerability-id CVE-2021-43396`{{execute}}
-
-To get more details on the files in the image run `anchore-cli image content redis os`{{execute}} and `anchore-cli image content redis files`{{execute}}
+We can also run a vulnerability assessment with `anchore-cli image vuln redis`{{execute}} and we'll see that there are three types of vulnerability assessments available: os, non-os and all.  You can view the details of each by running `anchore-cli image vuln redis os `{{execute}} `anchore-cli image vuln redis non-os`{{execute}} or `anchore-cli image vuln redis all`{{execute}}
 
 Next, we're going to see whether the microservice that was used in the past lessons passes vulnerabilty assessment.

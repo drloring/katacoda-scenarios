@@ -29,4 +29,11 @@ Next we'll get the details of the policy in json format `anchore-cli policy get 
 
 To verify, we run `anchore-cli evaluate check redis`{{execute}} and see that the previously passed image now fails based on the policy change we made.
 
+Also, notice the policy ID that was used.  To get a look at the policies that are being enforced, run `anchore-cli policy list`{{execute}} to see the matching policy id and `anchore-cli policy describe`{{execute}} to see the policies in effect.
+
+To query all images for specific vulnerabilities, run `anchore-cli query images-by-vulnerability --vulnerability-id CVE-2021-43396`{{execute}}
+
+To get more details on the files in the image run `anchore-cli image content redis os`{{execute}} and `anchore-cli image content redis files`{{execute}}
+
+
 This course introduced you to anchore image scanning software in kubernetes and showed you how to make changes to security policies.  In the next course, we'll start looking at how those policy enforcements could be applied to a DevSecOps pipeline.

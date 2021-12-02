@@ -16,6 +16,6 @@ From there, you can perform the analysis on the `java-ws` container just like we
 
 Notice that we have are failing the security scan, run `anchore-cli evaluate check localbuild/java-ws --detail`{{execute}} to view the specific errors.
 
-Next we're going to look into customizing security policies.
+Next we're going to look into customizing security policies and get the image scan to pass.
 
 

@@ -1,4 +1,4 @@
-First we have to exit out of the anchore-cli pod `exit`{{execute}}, now let's get the web service we created in past courses `curl -o rest-service.jar https://raw.githubusercontent.com/drloring/katacoda-resources/main/rest-service-0.0.1-SNAPSHOT.jar`{{execute}} and the Dockerfile `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/Dockerfile`{{execute}}
+First we have to exit out of the anchore-cli pod with `exit` or `Ctrl+D`, now let's get the web service we created in past courses `curl -o rest-service.jar https://raw.githubusercontent.com/drloring/katacoda-resources/main/rest-service-0.0.1-SNAPSHOT.jar`{{execute}} and the Dockerfile `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/Dockerfile`{{execute}}
 
 Now, we'll build the docker image with `docker build -t java-ws .`{{execute}}
 
@@ -12,7 +12,9 @@ Once that process finishes, you'll see that the results are put back into the an
 
 Once in the pod, you can see the java-ws by running `anchore-cli image list`{{execute}}.
 
-From there, you can perform the analysis on the `java-ws` container just like we did with the redis container, e.g. `anchore-cli image vuln localbuild/java-ws`{{execute}}.
+From there, you can perform the analysis on the `java-ws` container just like we did with the redis container, e.g. `anchore-cli evaluate check localbuild/java-ws`{{execute}}.
+
+Notice that we have are failing the security scan, run `anchore-cli evaluate check localbuild/java-ws --detail`{{execute}} to view the specific errors.
 
 Next we're going to look into customizing security policies.
 

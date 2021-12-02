@@ -1,4 +1,4 @@
-To get started with policies, let's get familiar with their format.  If you're still execed into the pod, exit out of the anchore-cli pod exit{{execute}}, pull down and view a modified default policy with `wget https://github.com/drloring/katacoda-resources/blob/main/policy.json && cat policy.json`{{execute}}.
+To get started with policies, let's get familiar with their format.  If you're still execed into the pod, exit out of the anchore-cli pod exit{{execute}}, pull down and view a modified default policy with `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/policy.json && cat policy.json`{{execute}}.
 
 You'll notice that the section regarding the HEALTHCHECK was modified
 <pre>

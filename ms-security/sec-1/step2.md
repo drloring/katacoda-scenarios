@@ -16,6 +16,18 @@ From there, you can perform the analysis on the `java-ws` container just like we
 
 Notice that we have are failing the security scan, run `anchore-cli evaluate check localbuild/java-ws --detail`{{execute}} to view the specific errors.
 
+UPDATE: inline_scan is deprecated in lieu of syft and grype
+To install syft, run `curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin`{{execute}}
+
+To install grype, run `curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin`{{execute}}
+
+These two tools are primarily stateless and don't require anchore-engine to be running.  Let's try it out now, first, run syft and output the SBOM to a json file with `syft packages java-ws:latest -o json > java-ws.json`{{execute}}
+
+Once the SBOM is created, we can run vulnerability checks on it with `grype sbom:./java-ws:latest`{{execute}}, to have grype fail (return a 1), just pass in the `--fail-on` flag like `grype sbom:./java-ws:latest`{{execute}} --fail-on high`{{execute}}.  These two commands allow a much lighter-weight integration into CI/CD pipelines.
+
+Now we'll see how they integrate with anchore-engine...
+
+
 Next we're going to look into customizing security policies and get the image scan to pass.
 
 

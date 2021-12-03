@@ -25,8 +25,11 @@ These two tools are primarily stateless and don't require anchore-engine to be r
 
 Once the SBOM is created, we can run vulnerability checks on it with `grype sbom:./java-ws.json`{{execute}}, to have grype fail (return a 1), just pass in the `--fail-on` flag like `grype sbom:./java-ws.json --fail-on high`{{execute}}.  These two commands allow a much lighter-weight integration into CI/CD pipelines.
 
-Now we'll see how they integrate with anchore-engine...
+Now we'll see how they integrate with anchore-engine.  First we have to export our existing password to syft with `export SYFT_ANCHORE_PASSWORD=$ANCHORE_CLI_PASS`{{execute}}.
 
+Then, run syft again connecting to the server `syft packages java-ws:latest --host http://localhost:<NODE_PORT> -u admin -p $SYFT_ANCHORE_PASSWORD`{{execute}}.
+
+Once that runs, you can exec into the anchore-cli pod again `kubectl exec -it anchore-cli -- bash`{{execute}}, and run `anchore-cli image list`{{execute}} to see the uploaded results.  Take some time to compare those results to the one's performed with the inline_scan tool.
 
 Next we're going to look into customizing security policies and get the image scan to pass.
 

@@ -23,7 +23,7 @@ To install grype, run `curl -sSfL https://raw.githubusercontent.com/anchore/gryp
 
 These two tools are primarily stateless and don't require anchore-engine to be running.  Let's try it out now, first, run syft and output the SBOM to a json file with `syft packages java-ws:latest -o json > java-ws.json`{{execute}}
 
-Once the SBOM is created, we can run vulnerability checks on it with `grype sbom:./java-ws:latest`{{execute}}, to have grype fail (return a 1), just pass in the `--fail-on` flag like `grype sbom:./java-ws:latest`{{execute}} --fail-on high`{{execute}}.  These two commands allow a much lighter-weight integration into CI/CD pipelines.
+Once the SBOM is created, we can run vulnerability checks on it with `grype sbom:./java-ws.json`{{execute}}, to have grype fail (return a 1), just pass in the `--fail-on` flag like `grype sbom:./java-ws:latest`{{execute}} --fail-on high`{{execute}}.  These two commands allow a much lighter-weight integration into CI/CD pipelines.
 
 Now we'll see how they integrate with anchore-engine...
 

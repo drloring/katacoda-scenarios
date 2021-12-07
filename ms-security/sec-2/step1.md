@@ -11,7 +11,7 @@ Next, we install just the argo-cd project `helm install cd argo/argo-cd`{{execut
 
 Port-forward the API server so we can access it from the CLI with `kubectl port-forward service/cd-argocd-server -n default 8080:443`{{execute}}
 
-Let's save the password in an environment variable `export ARGO_PASSWORD=(kubectl -n default get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)`{{execute}}
+Let's save the password in an environment variable `export ARGO_PASSWORD=$(kubectl -n default get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)`{{execute}}
 
 Now, let's get the Argo-CD CLI `curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 
 chmod +x /usr/local/bin/argocd`{{execute}} 

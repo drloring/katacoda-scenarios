@@ -9,7 +9,7 @@ For a minimal DevSecOps pipeline, we're going to use Argo-CD.
 First, we'll add the argo repo to helm `helm repo add argo https://argoproj.github.io/argo-helm`{{execute}}
 Next, we install just the argo-cd project `helm install cd argo/argo-cd`{{execute}}
 
-Port-forward the API server so we can access it from the CLI with `kubectl port-forward service/cd-argocd-server -n default 8080:443`{{execute}}
+Port-forward the API server so we can access it from the CLI with `kubectl port-forward service/cd-argocd-server -n default 8080:443 &`{{execute}}
 
 Let's save the password in an environment variable `export ARGO_PASSWORD=$(kubectl -n default get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)`{{execute}}
 

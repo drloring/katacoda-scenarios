@@ -6,6 +6,11 @@
       "course_id": "sec-1",
       "title": "Securing Microservices with Anchore",
       "description": "Learn how to secure microservices with Anchore"
+    },
+    {
+      "course_id": "sec-2",
+      "title": "Integrating Anchore into DevSecOps Pipeline",
+      "description": "Learn how to integrate Anchore into a DevSecOps pipeline"
     }
   ]
 }

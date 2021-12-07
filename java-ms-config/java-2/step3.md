@@ -2,11 +2,7 @@ Next, we're going to deploy a clustered redis database to kubernetes.  But first
 
 Follow these steps to install helm3:
 
-`curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3`{{execute}}
-
-`chmod +x get_helm.sh`{{execute}}
-
-`./get_helm.sh`{{execute}}
+`curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 && chmod +x get_helm.sh && ./get_helm.sh`{{execute}}
 
 To deconflict the locally installed helm from the new Helm 3, make an alias called h3 to replace the helm commands.
 `alias h3=/usr/local/bin/helm`{{execute}}

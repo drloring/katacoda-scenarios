@@ -17,7 +17,9 @@ Bitnami helm charts were created to make deploying a Redis cluster simple, but f
 
 We want to keep our database separated from our service, so we'll create a namespace for it `kubectl create ns db`{{execute}}.
 
-Now, we can run the redis helm chart `h3 install redis bitnami/redis -n db --set auth.enabled=false`{{execute}}.  Notice, we specified the `-n db` option to select the db namespace.
+Now, we can run the redis helm chart `h3 install redis bitnami/redis -n db`{{execute}}.  Notice, we specified the `-n db` option to select the db namespace.
+
+The database's password is stored in a secret in kubernetes, since out service will need that, we'll export it as an environment variable. `export REDIS_PASSWORD=$(kubectl get secret --namespace db redis -o jsonpath="{.data.redis-password}" | base64 --decode)`{{execute}}
 
 Just like the prior course, we'll collect the Dockerfile we created in the Learning Java Microservices scenario `curl -o Dockerfile https://raw.githubusercontent.com/drloring/katacoda-resources/main/Dockerfile`{{execute}}.
 
@@ -31,7 +33,7 @@ The download for step-2 includes the modified helm charts, but we'll review the 
 
 Open `step-2/ws/values.yaml`{{open}}, to see we set the `repository: java-ws` and the `tag: "latest"` and, since we want to see the effects of multiple instances, we set `replicaCount: 3`.
 
-We also added some application specific environment variables to pass into the application.  We appended `redishost=redis-master.db.svc.cluster.local` to the end of the file.
+We also added some application specific environment variables to pass into the application.  We appended `redishost=redis-master.db.svc.cluster.local` and `redispass=password` to the end of the file.
 
 We also changed `step-2/ws/templates/deployment.yaml`{{open}} correcting the `containerPort: 8080` and commenting out liveness and readiness probes.
 
@@ -39,13 +41,15 @@ We also added the `spring.redis.host` to the environment variables passed into t
 <pre>          env:
             - name: "spring.redis.host"
               value: "{{ .Values.redishost }}"
+            - name: "spring.redis.password"
+              value: "{{ .Values.redispass }}"
 </pre>
 
 We also set the service `type: NodePort and set `targetPort: 8080` in to `step-2/ws/templates/service.yaml`{{open}}
 
-Now, we can dry-run the helm install `helm install --dry-run ws ws`{{execute}}  to see the deployment.
+Now, we can dry-run the helm install `helm install --dry-run ws ws --set redispass=$REDIS_PASSWORD`{{execute}} to see the deployment with the redis password provided.
 
-And, we can run helm install `helm install ws ws`{{execute}}  and you will notice that the container is getting the redis host from the template from the values.yaml.
+And, we can run helm install `helm install ws ws --set redispass=$REDIS_PASSWORD`{{execute}}  and you will notice that the container is getting the redis host from the template from the values.yaml.
 
 Follow the instructions from helm and export the NODE_PORT and NODE_IP, then `curl $NODE_IP:$NODE_PORT/greeting`{{execute}} repeatedly.  Notice that the Local count is different than the Cached count.  
 

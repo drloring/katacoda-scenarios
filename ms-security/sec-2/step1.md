@@ -16,7 +16,24 @@ Let's save the password in an environment variable `export ARGO_PASSWORD=$(kubec
 Now, let's get the Argo-CD CLI `curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 
 chmod +x /usr/local/bin/argocd`{{execute}} 
 
+`argocd login localhost:8080 --insecure --password $ARGO_PASSWORD`{{execute}} and when prompted, enter `admin`{{execute}} for the username.
+
+helm repo add incubator https://charts.helm.sh/incubator
+helm install incubator/gogs
+
+helm repo add gitlab https://charts.gitlab.io/
+helm repo update
+helm upgrade --install gitlab . \
+  --timeout 600s \
+  -f https://gitlab.com/gitlab-org/charts/gitlab/raw/master/examples/values-minikube-minimum.yaml
+
+curl -LJO "https://gitlab-runner-downloads.s3.amazonaws.com/latest/deb/gitlab-runner_amd64.deb"
+
+dpkg -i gitlab-runner_amd64.deb
+
 `echo [[HOST_SUBDOMAIN]]-8080-[[KATACODA_HOST]].[[KATACODA_DOMAIN]]`{{execute}}
+
+
 
 
 

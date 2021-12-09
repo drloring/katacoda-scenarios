@@ -32,11 +32,11 @@ anchore-scan-job:
 
 As we saw in the prior course, Anchore is moving away from anchore-engine, towards the stand-alone tools syft and grype to support lightweight CI/CD pipeline tools like GitLab.
 
-First, we have to install the gitlab-runnerby adding their helm repo `helm repo add gitlab https://charts.gitlab.io`{{execute}}, then installing the chart `helm install gitlab-runner -f ./gitlab-values.yml gitlab/gitlab-runner`{{execute}}
+Once we've verified that both nodes are ready, we have to install the gitlab-runnerby adding their helm repo `helm repo add gitlab https://charts.gitlab.io`{{execute}}, then installing the chart `helm install gitlab-runner -f ./gitlab-values.yml gitlab/gitlab-runner`{{execute}}
 
-Now that we have it installed, we can see the executor with `kubectl get po`{{execute}}, you'll see `gitlab-runner-gitlab-runner` pod.  The executor pod actually creates pods to execute the scan.  If we had installed anchore-engine, we could have used that to verify our internal docker images, but with syft and grype, there's no need to have that installed in your cluster.
+Now that we have it installed, we can see the executor with `kubectl get po`{{execute}}, you'll see `gitlab-runner-gitlab-runner` pod.  The executor pod actually creates pods to execute the scan.  If we had installed anchore-engine, we could have used that to verify our internal docker images, but with syft and grype, there's no need to have that installed in your cluster.  
 
-run `curl -X POST -F token=91c93dac274b0539a99e19a944f776 -F ref=main https://gitlab.com/api/v4/projects/31966501/trigger/pipeline`{{execute}} to trigger the build, then run `kubectl get po`{{execute}} repeatedly until you see a `runner---` pod in the cluster
+Once that pod is ready, we can trigger the pipeline with run `curl -X POST -F token=91c93dac274b0539a99e19a944f776 -F ref=main https://gitlab.com/api/v4/projects/31966501/trigger/pipeline`{{execute}} to trigger the build, then run `kubectl get po`{{execute}} repeatedly until you see a `runner---` pod in the cluster
 
 <br>
 <br>

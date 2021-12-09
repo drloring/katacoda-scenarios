@@ -4,6 +4,49 @@ First, we have to make sure kubernetes is running.
 `kubectl get nodes`{{execute}}
 Wait until both nodes are in the `Ready` state. NOTE: this may take several minutes.
 
+For this course, we're using GitLab, the public CI/CD pipeline runner.  We're going to register our kubernetes cluster as a runner.  To do that, we have to pull down a yaml file to pass into helm `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/gitlab-values.yml`{{execute}}.  If we `cat gitlab-values.yml`{{execute}}, we see how we're registering our gitlab runner with gitlab
+<pre>
+gitlabUrl: https://gitlab.com
+runnerRegistrationToken: zF3q34LuyaV8yF44nyz8
+</pre>
+
+Next, we'll pull in the gitlab-ci.yml file with `wget https://gitlab.com/drloring/katacoda-resources/-/raw/main/.gitlab-ci.yml`{{execute}}.  If we look at that `cat .gitlab-ci.yml`{{execute}}, we'll see the part of the script that performs the image scanning
+<pre>
+anchore-scan-job:
+  stage: scan
+  image:
+    name: ubuntu
+
+  script:
+    - |
+      apt update
+      apt-get -y install curl
+      
+      curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
+      curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
+
+      syft packages redis:latest -o json > out.json
+      grype sbom:./out.json --fail-on critical
+    - |
+</pre>
+
+As we saw in the prior course, Anchore is moving away from anchore-engine, towards the stand-alone tools syft and grype to support lightweight CI/CD pipeline tools like GitLab.
+
+First, we have to install the gitlab-runnerby adding their helm repo `helm repo add gitlab https://charts.gitlab.io`{{execute}}, then installing the chart `helm install gitlab-runner -f ./gitlab-values.yml gitlab/gitlab-runner`{{execute}}
+
+Now that we have it installed, we can see the executor with `kubectl get po`{{execute}}, you'll see `gitlab-runner-gitlab-runner` pod.  The executor pod actually creates pods to execute the scan.  If we had installed anchore-engine, we could have used that to verify our internal docker images, but with syft and grype, there's no need to have that installed in your cluster.
+
+run `curl -X POST -F token=91c93dac274b0539a99e19a944f776 -F ref=main https://gitlab.com/api/v4/projects/31966501/trigger/pipeline`{{execute}} to trigger the build, then run `kubectl get po`{{execute}} repeatedly until you see a `runner---` pod in the cluster
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
 For a minimal DevSecOps pipeline, we're going to use Argo-CD.
 
 First, we'll add the argo repo to helm `helm repo add argo https://argoproj.github.io/argo-helm`{{execute}}

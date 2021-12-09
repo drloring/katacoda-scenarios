@@ -38,7 +38,12 @@ Now that we have it installed, we can see the executor with `kubectl get po`{{ex
 
 Once that pod is ready, we can trigger the pipeline with run `curl -X POST -F token=91c93dac274b0539a99e19a944f776 -F ref=main https://gitlab.com/api/v4/projects/31966501/trigger/pipeline`{{execute}} to trigger the build, then run `kubectl get po`{{execute}} repeatedly until you see a `runner---` pod in the cluster.  Once those pods are deleted, the job status is available at `https://gitlab.com/drloring/katacoda-resources/-/pipelines`{{execute}}
 
-<br>
+<h2>GitLab Setup</h2>
+`helm repo add gitlab https://charts.gitlab.io/`{{execute}}
+`helm install gitlab gitlab/gitlab --timeout 600s -f https://gitlab.com/gitlab-org/charts/gitlab/raw/master/examples/values-minikube-minimum.yaml`{{execute}}
+
+
+
 <br>
 <br>
 <br>
@@ -64,18 +69,12 @@ chmod +x /usr/local/bin/argocd`{{execute}}
 helm repo add incubator https://charts.helm.sh/incubator
 helm install incubator/gogs
 
-helm repo add gitlab https://charts.gitlab.io/
-helm repo update
-helm upgrade --install gitlab . \
-  --timeout 600s \
-  -f https://gitlab.com/gitlab-org/charts/gitlab/raw/master/examples/values-minikube-minimum.yaml
 
 curl -LJO "https://gitlab-runner-downloads.s3.amazonaws.com/latest/deb/gitlab-runner_amd64.deb"
 
 dpkg -i gitlab-runner_amd64.deb
 
 `echo [[HOST_SUBDOMAIN]]-8080-[[KATACODA_HOST]].[[KATACODA_DOMAIN]]`{{execute}}
-
 
 
 

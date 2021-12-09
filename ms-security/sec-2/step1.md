@@ -36,9 +36,9 @@ Once we've verified that both nodes are ready, we have to install the gitlab-run
 
 Now that we have it installed, we can see the executor with `kubectl get po`{{execute}}, you'll see `gitlab-runner-gitlab-runner` pod.  The executor pod actually creates pods to execute the scan.  If we had installed anchore-engine, we could have used that to verify our internal docker images, but with syft and grype, there's no need to have that installed in your cluster.  
 
-Once that pod is ready, we can trigger the pipeline with run `curl -X POST -F token=91c93dac274b0539a99e19a944f776 -F ref=main https://gitlab.com/api/v4/projects/31966501/trigger/pipeline`{{execute}} to trigger the build, then run `kubectl get po`{{execute}} repeatedly until you see a `runner---` pod in the cluster.  
+Once that pod is ready, we can trigger the pipeline with run `export JOB_ID=$(curl -X POST -F token=91c93dac274b0539a99e19a944f776 -F ref=main https://gitlab.com/api/v4/projects/31966501/trigger/pipeline | grep -o -P '(?<="id":).*(?=,"project_id")')`{{execute}} to trigger the build, then run `kubectl get po`{{execute}} repeatedly until you see a `runner---` pod in the cluster.  
 
-The response will include the id of the job, e.g. `"id":1234`.  Once those pods are deleted, the job status is available at `https://gitlab.com/drloring/katacoda-resources/-/pipelines/<<id>>`.  Curl that url to see the output of the job.
+The prior command created the `JOB_ID` env variable.  To see it, `echo $JOB_ID`{{execute}}, and to see the result of the job, run `https://gitlab.com/drloring/katacoda-resources/-/pipelines/@JOB_ID`{{execute}}.
 
 
 

@@ -36,19 +36,16 @@ Once we've verified that both nodes are ready, we have to install the gitlab-run
 
 Now that we have it installed, we can see the executor with `kubectl get po`{{execute}}, you'll see `gitlab-runner-gitlab-runner` pod.  The executor pod actually creates pods to execute the scan.  If we had installed anchore-engine, we could have used that to verify our internal docker images, but with syft and grype, there's no need to have that installed in your cluster.  
 
-Once that pod is ready, we can trigger the pipeline with run `curl -X POST -F token=91c93dac274b0539a99e19a944f776 -F ref=main https://gitlab.com/api/v4/projects/31966501/trigger/pipeline`{{execute}} to trigger the build, then run `kubectl get po`{{execute}} repeatedly until you see a `runner---` pod in the cluster.  Once those pods are deleted, the job status is available at `https://gitlab.com/drloring/katacoda-resources/-/pipelines`{{execute}}
+Once that pod is ready, we can trigger the pipeline with run `curl -X POST -F token=91c93dac274b0539a99e19a944f776 -F ref=main https://gitlab.com/api/v4/projects/31966501/trigger/pipeline`{{execute}} to trigger the build, then run `kubectl get po`{{execute}} repeatedly until you see a `runner---` pod in the cluster.  
 
-<h2>GitLab Setup</h2>
+The response will include the id of the job, e.g. `"id":1234`.  Once those pods are deleted, the job status is available at `https://gitlab.com/drloring/katacoda-resources/-/pipelines/<<id>>`.  Curl that url to see the output of the job.
+
+
+
+<h2>Stop Here (GitLab Setup)</h2>
 `helm repo add gitlab https://charts.gitlab.io/`{{execute}}
 `helm install gitlab gitlab/gitlab --timeout 600s -f https://gitlab.com/gitlab-org/charts/gitlab/raw/master/examples/values-minikube-minimum.yaml`{{execute}}
 
-
-
-<br>
-<br>
-<br>
-<br>
-<br>
 <br>
 <br>
 

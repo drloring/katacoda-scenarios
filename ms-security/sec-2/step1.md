@@ -38,7 +38,7 @@ Now that we have it installed, we can see the executor with `kubectl get po`{{ex
 
 Once that pod is ready, we can trigger the pipeline with run `export JOB_ID=$(curl -X POST -F token=91c93dac274b0539a99e19a944f776 -F ref=main https://gitlab.com/api/v4/projects/31966501/trigger/pipeline | grep -o -P '(?<="id":).*(?=,"project_id")')`{{execute}} to trigger the build, then run `kubectl get po`{{execute}} repeatedly until you see a `runner---` pod in the cluster.  
 
-The prior command created the `JOB_ID` env variable.  To see it, `echo $JOB_ID`{{execute}}, and to see the result of the job, run `https://gitlab.com/drloring/katacoda-resources/-/pipelines/@JOB_ID`{{execute}}.
+The prior command created the `JOB_ID` env variable.  To see it, `echo $JOB_ID`{{execute}}, and to see the result of the job, browse to `https://gitlab.com/drloring/katacoda-resources/-/pipelines/$JOB_ID`.
 
 
 

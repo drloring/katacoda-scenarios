@@ -32,7 +32,6 @@
     "uieditorpath": "/root/example"
   },
   "backend": {
-    "imageid": "minikube-running",
-    "oldimageid": "kubernetes-cluster-running:1.18"
+    "imageid": "kubernetes-cluster-running:1.18"
   }
 }

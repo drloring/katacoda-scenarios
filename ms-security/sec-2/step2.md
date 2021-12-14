@@ -10,7 +10,7 @@
 `kubectl create role jenkins --verb=list,update --resource=workflows.argoproj.io`{{execute}}
 `kubectl create sa jenkins`{{execute}}
 `kubectl create rolebinding jenkins --role=jenkins --serviceaccount=argo:jenkins`{{execute}}
-`SECRET=$(kubectl get sa jenkins -o=jsonpath='{.secrets[0].name}')`{{execute}}
+`export SECRET=$(kubectl get sa jenkins -o=jsonpath='{.secrets[0].name}')`{{execute}}
 `export ARGO_TOKEN="Bearer $(kubectl get secret $SECRET -o=jsonpath='{.data.token}' | base64 --decode)"`{{execute}}
 `argo submit https://raw.githubusercontent.com/argoproj/argo-workflows/master/examples/hello-world.yaml --watch`{{execute}}
 `argo list`{{execute}}

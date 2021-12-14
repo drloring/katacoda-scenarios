@@ -22,7 +22,7 @@ First, we install the helm charts for Argo Events with `helm install ev argo/arg
 
 Next, we'll install the webhook with `kubectl apply  -f https://raw.githubusercontent.com/argoproj/argo-events/stable/examples/sensors/webhook.yaml`{{execute}}
 
-Now, we'll add an Event Source and expose it so we can curl it from the command-line with `kubectl apply  -f https://raw.githubusercontent.com/argoproj/argo-events/stable/examples/event-sources/webhook.yaml`{{execute}} and `kubectl port-forward events-eventsource-controller-79664595bb-46x8s 12000:12000 &`{{execute}}
+Now, we'll add an Event Source and expose it so we can curl it from the command-line with `kubectl apply  -f https://raw.githubusercontent.com/argoproj/argo-events/stable/examples/event-sources/webhook.yaml`{{execute}}.  We'll need to get the pod name for the eventsource controller with `kubectl get po | grep eventsource`{{execute}}, then use the PODNAME in `kubectl port-forward <<PODNAME>> 12000:12000 &`{{execute}}
 
 Now, we can curl the Event Source to verify operations `curl -d '{"message":"ok"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:12000/example`{{execute}}
 

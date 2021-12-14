@@ -1,9 +1,21 @@
 <h2>Install Argo</h2>
 
 `helm repo add argo https://argoproj.github.io/argo-helm`{{execute}}
-`helm install wf argo/argo-workflows`{{execute}}  Need to expose the nodeport and export it
-`helm install ev argo/argo-events`{{execute}}
+`helm install wf argo/argo-workflows --set server.serviceType=NodePort --set server.serviceNodePort=30123`{{execute}}  Need to expose the nodeport and export it
 
+`export ARGO_SERVER=127.0.0.1:30123`{{execute}}
+`export ARGO_SECURE=false`{{execute}}
+`export  ARGO_INSECURE_SKIP_VERIFY=true`{{execute}}
+
+`kubectl create role jenkins --verb=list,update --resource=workflows.argoproj.io`{{execute}}
+`kubectl create sa jenkins`{{execute}}
+`kubectl create rolebinding jenkins --role=jenkins --serviceaccount=argo:jenkins`{{execute}}
+`SECRET=$(kubectl get sa jenkins -o=jsonpath='{.secrets[0].name}')`{{execute}}
+`export ARGO_TOKEN="Bearer $(kubectl get secret $SECRET -o=jsonpath='{.data.token}' | base64 --decode)"`{{execute}}
+`argo submit https://raw.githubusercontent.com/argoproj/argo-workflows/master/examples/hello-world.yaml --watch`{{execute}}
+`argo list`{{execute}}
+
+`helm install ev argo/argo-events`{{execute}}
 
 `kubectl apply -f https://raw.githubusercontent.com/argoproj/argo-events/master/examples/rbac/sensor-rbac.yaml`{{execute}}
 

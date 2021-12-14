@@ -1,36 +1,19 @@
-First we have to exit out of the anchore-cli pod with `exit` or `Ctrl+D`, now let's get the web service we created in past courses `curl -o rest-service.jar https://raw.githubusercontent.com/drloring/katacoda-resources/main/rest-service-0.0.1-SNAPSHOT.jar`{{execute}} and the Dockerfile `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/Dockerfile`{{execute}}
+<h2>Install Argo</h2>
 
-Now, we'll build the docker image with `docker build -t java-ws .`{{execute}}
+`helm repo add argo https://argoproj.github.io/argo-helm`{{execute}}
+`helm install wf argo/argo-workflows`{{execute}}  Need to expose the nodeport and export it
+`helm install ev argo/argo-events`{{execute}}
 
-We need to expose the anchore-engine outside of the kubernetes cluster, but first we need the anchore-engine-api pod name `kubectl get po`{{execute}}.  Copy the pod name and run `kubectl expose pod <podname> --type=NodePort`.
 
-Once that's exposed, run the following command to get the list of services`kubectl get svc`{{execute}} and take note of the NodePort address allocated.
+`kubectl apply -f https://raw.githubusercontent.com/argoproj/argo-events/master/examples/rbac/sensor-rbac.yaml`{{execute}}
 
-Then  `curl -s https://ci-tools.anchore.io/inline_scan-latest | bash -s -- analyze -u admin -p $ANCHORE_CLI_PASS -r http://localhost:<NodePort> -g java-ws:latest`
+`kubectl apply  -f https://raw.githubusercontent.com/argoproj/argo-events/stable/examples/sensors/webhook.yaml`{{execute}}
+`kubectl apply  -f https://raw.githubusercontent.com/argoproj/argo-events/stable/examples/event-sources/webhook.yaml`{{execute}}
 
-Once that process finishes, you'll see that the results are put back into the anchore-engine running Kubernetes, so we'll have to exec into the pod to access the Anchore CLI again `kubectl exec -it anchore-cli -- bash`{{execute}}
+`kubectl port-forward events-eventsource-controller-79664595bb-46x8s 12000:12000 &`{{execute}}
+`curl -d '{"message":"ok"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:12000/example`{{execute}}
 
-Once in the pod, you can see the java-ws by running `anchore-cli image list`{{execute}}.
+curl -sLO https://github.com/argoproj/argo-workflows/releases/download/v0.0.0-dev-kc-7/argo-linux-amd64.gz && gunzip argo-linux-amd64.gz && chmod +x argo-linux-amd64 && mv ./argo-linux-amd64 /usr/local/bin/argo && argo version
 
-From there, you can perform the analysis on the `java-ws` container just like we did with the redis container, e.g. `anchore-cli evaluate check localbuild/java-ws`{{execute}}.
-
-Notice that we have are failing the security scan, run `anchore-cli evaluate check localbuild/java-ws --detail`{{execute}} to view the specific errors.
-
-UPDATE: inline_scan is deprecated in lieu of syft and grype
-To install syft, run `curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin`{{execute}}
-
-To install grype, run `curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin`{{execute}}
-
-These two tools are primarily stateless and don't require anchore-engine to be running.  Let's try it out now, first, run syft and output the SBOM to a json file with `syft packages java-ws:latest -o json > java-ws.json`{{execute}}
-
-Once the SBOM is created, we can run vulnerability checks on it with `grype sbom:./java-ws.json`{{execute}}, to have grype fail (return a 1), just pass in the `--fail-on` flag like `grype sbom:./java-ws.json --fail-on high`{{execute}}.  These two commands allow a much lighter-weight integration into CI/CD pipelines.
-
-Now we'll see how they integrate with anchore-engine.  First we have to export our existing password to syft with `export SYFT_ANCHORE_PASSWORD=$ANCHORE_CLI_PASS`{{execute}}.
-
-Then, run syft again connecting to the server `syft packages java-ws:latest --host http://localhost:<NODE_PORT> -u admin -p $SYFT_ANCHORE_PASSWORD`{{execute}}.
-
-Once that runs, you can exec into the anchore-cli pod again `kubectl exec -it anchore-cli -- bash`{{execute}}, and run `anchore-cli image list`{{execute}} to see the uploaded results.  Take some time to compare those results to the one's performed with the inline_scan tool.
-
-Next we're going to look into customizing security policies and get the image scan to pass.
 
 

@@ -17,6 +17,15 @@ Now that we're setup, let's verify our Argo CLI can connect to our server.  Run 
 When that completes, you can see the job with `argo list`{{execute}} and you can view the output of the pods by getting the pod name with `kubectl get po | grep hello`{{execute}} and `kubectl logs <<PODNAME>> main`.
 
 Now that workflows is working we're going to integrate Argo Events to and configure a webhook to simulate a CI/CD event in production
+<pre>
+apiVersion: argoproj.io/v1alpha1
+kind: EventBus
+metadata:
+  name: default
+spec:
+  nats:
+    native: {}
+</pre>
 
 First, we install the helm charts for Argo Events with `helm install ev argo/argo-events`{{execute}}
 

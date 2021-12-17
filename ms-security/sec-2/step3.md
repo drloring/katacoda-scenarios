@@ -46,11 +46,14 @@ And now we can test it with another file `wget https://raw.githubusercontent.com
 
 Edit the file to get the deployment to pass by adding any label to it.
 
-In this next section, we're going to pull in the web service that we've been using for these courses with `curl -o rest-service.jar https://raw.githubusercontent.com/drloring/katacoda-resources/main/rest-service-0.0.1-SNAPSHOT.jar`{{execute}} and the Dockerfile `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/Dockerfile`{{execute}}
+In this next section, we're going to look at how we can protect the web services that we develop against unauthorized access, similar to RBAC.  For this example, we'll be using a standard nginx deployment for the web application.
 
-Now, we'll build the docker image with `docker build -t java-ws .`{{execute}}
+First, we need to install another OPA service called `kube-mgmt`.  Run the following:
+`helm repo add opa https://open-policy-agent.github.io/kube-mgmt/charts`{{execute}}
+`helm repo update`{{execute}}
+`helm upgrade -i -n opa --create-namespace opa opa/opa`{{execute}}
 
-To save time, we'll pull down the helm charts for the service we've previously created `curl -o step2.zip https://raw.githubusercontent.com/drloring/katacoda-resources/main/java-ms-config-java-2-step-2.zip && unzip step-2.zip && cd step-2`{{execute}}
-  
-Now, we'll install the application with `helm install ws ws`{{execute}}.  Now, we're going to create a policy and modify our curl command to show how we can limit who can access certain operations on our web service.
+Now that we have that installed, we can install a simple nginx web server using the Bitnami helm charts `helm repo add bitnami https://charts.bitnami.com/bitnami`{{execute}} and then `helm install ws bitnami/nginx`{{execute}}.  Once that's installed, verify you can access it by `curl HERE`.
+
+Next, we'll create a policy and see the effect...
  

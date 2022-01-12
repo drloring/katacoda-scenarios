@@ -36,7 +36,7 @@ spec:
       - owner
 </pre>
 
-Apply that yaml with `kubectl apply -f constraint.yml`{{execute}}
+Apply that yaml with `kubectl apply -f constraint.yml --validate=false`{{execute}}
 
 And now we can test it with another file `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/fail.yml`{{execute}}, which simple creates a busybox pod with no labels.  Apply with `kubectl apply -f fail.yml`{{execute}} and notice the message that we saw in the rego expression is displayed.
 

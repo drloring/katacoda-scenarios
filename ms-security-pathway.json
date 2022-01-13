@@ -9,8 +9,8 @@
     },
     {
       "course_id": "sec-2",
-      "title": "(Coming Soon) Integrating Anchore into DevSecOps Pipeline",
-      "description": "Learn how to integrate Anchore into a DevSecOps pipeline"
+      "title": "(Not Ready) Open Policy Agent SAndbox",
+      "description": "This is a sandbox environment for CI/CD and OPA"
     }
   ]
 }

@@ -49,10 +49,15 @@ Edit the file to get the deployment to pass by adding any label to it.  For exam
     owner: your-name-here
 </pre>
 
+In order to proceed, we'll have to delete the `RequiredLabels` CRD that we created previously.  To get the name of the label run `kubectl get requiredlabels`{{execute}} to see the required labels we created and `kubectl delete requiredlabels resources-must-have-owner`{{execute}}
+
 In this next section, we're going to look at how we can protect the web services that we develop against unauthorized access, similar to RBAC.  For this example, we'll be using a standard nginx deployment for the web application.
 
+`curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 && chmod +x get_helm.sh && ./get_helm.sh`{{execute}}
+
 First, we need to install another OPA service called `kube-mgmt`.  Run the following:
-`helm repo add opa https://open-policy-agent.github.io/kube-mgmt/charts`{{execute}}
+`helm repo add o`{{execute}}
+pa https://open-policy-agent.github.io/kube-mgmt/charts`{{execute}}
 `helm repo update`{{execute}}
 `helm upgrade -i -n opa --create-namespace opa opa/opa`{{execute}}
 

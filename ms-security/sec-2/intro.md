@@ -1,1 +1,1 @@
-In this course, we're going to learn how to integrate our microservice into a DevSecOps pipeline and configure Achore Engine for container scanning.
+In this course, we're going to explore Open Policy Agent and how it's integrated into Kubernetes.

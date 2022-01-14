@@ -2,7 +2,9 @@ In this demonstration, we're going to discover a few different uses for the [Ope
 
 There is a great tutorial [here](https://katacoda.com/austinheiman/scenarios/open-policy-agent-gatekeeper-editor) that shows you how to configure OPA Gatekeeper for kubernetes enforcement.  I"m going to borrow from that for a simple explanation of Gatekeeper, for more in-depth knowledge, you are highly encouraged to take that Katacoda course.
 
-`kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/release-3.7/deploy/gatekeeper.yaml`{{execute}}
+To get started, first we have to check if Minikube is Ready with `kubectl get nodes`{{execute}}.
+
+Once it's up and running, we'll install Gatekeeper with`kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/release-3.7/deploy/gatekeeper.yaml`{{execute}}
 
 Now, get the `template.yml` we'll use for this demonstration `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/template.yml`{{execute}}.  If you `cat template.yml`{{execute}}, you'll notice the section of rego language which essentially returns a fail (1) if the count of the missing labels is > 0.
 <pre>
@@ -18,7 +20,8 @@ Now, get the `template.yml` we'll use for this demonstration `wget https://raw.g
 
 Apply this file to your cluster `kubectl apply -f template.yml`{{execute}}
 
-Let's get the yaml file that will actually enforce this template `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/constraint.yml`{{execute}}.  If we look at `constraint.yml` with `cat constraint.yml`{{execute}} we'll see that the CRD that we previously created will be applied to Pods and Deployments.
+Let's get the yaml file that will actually enforce this template `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/constraint.yml`{{execute}}.  If we look at `constraint.yml` with `cat constraint.yml`{{execute}} we'll see that the CRD that we previously created will be applied to Pods and Deployments.  The parameters at the bottom of the file declare that the owner label must exist on all Pods and Deployments.
+
 <pre>
 kind: RequiredLabels
 metadata:
@@ -34,13 +37,17 @@ spec:
   parameters:
     labels:
       - owner
-</pre>
+</pre>   
 
 Apply that yaml with `kubectl apply -f constraint.yml --validate=false`{{execute}}
 
 And now we can test it with another file `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/fail.yml`{{execute}}, which simple creates a busybox pod with no labels.  Apply with `kubectl apply -f fail.yml`{{execute}} and notice the message that we saw in the rego expression is displayed.
 
-Edit the file to get the deployment to pass by adding any label to it.
+Edit the file to get the deployment to pass by adding any label to it.  For example:
+<pre>
+  labels:
+    owner: your-name-here
+</pre>
 
 In this next section, we're going to look at how we can protect the web services that we develop against unauthorized access, similar to RBAC.  For this example, we'll be using a standard nginx deployment for the web application.
 

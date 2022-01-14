@@ -53,7 +53,7 @@ In order to proceed, we'll have to delete the `RequiredLabels` CRD that we creat
 
 In this next section, we're going to look at how we can protect the web services that we develop against unauthorized access, similar to RBAC.  For this example, we'll be using a standard nginx deployment for the web application.
 
-`curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 && chmod +x get_helm.sh && ./get_helm.sh`{{execute}}
+`curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 && chmod +x get_helm.sh && ./get_helm.sh && alias helm=/usr/local/bin/helm`{{execute}}
 
 First, we need to install another OPA service called `kube-mgmt`.  Run the following:
 `helm repo add o`{{execute}}

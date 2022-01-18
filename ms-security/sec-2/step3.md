@@ -56,12 +56,15 @@ In this next section, we're going to look at how we can protect the web services
 `curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 && chmod +x get_helm.sh && ./get_helm.sh && alias helm=/usr/local/bin/helm`{{execute}}
 
 First, we need to install another OPA service called `kube-mgmt`.  Run the following:
-`helm repo add o`{{execute}}
-pa https://open-policy-agent.github.io/kube-mgmt/charts`{{execute}}
+`helm repo add opa https://open-policy-agent.github.io/kube-mgmt/charts`{{execute}}
 `helm repo update`{{execute}}
-`helm upgrade -i -n opa --create-namespace opa opa/opa`{{execute}}
+`helm upgrade -i -n opa --create-namespace opa opa/opa --set authz.enabled=false`{{execute}}
 
-Now that we have that installed, we can install a simple nginx web server using the Bitnami helm charts `helm repo add bitnami https://charts.bitnami.com/bitnami`{{execute}} and then `helm install ws bitnami/nginx`{{execute}}.  Once that's installed, verify you can access it by `curl HERE`.
+Follow the instructions to expose the port so we can query the OPA engine with `export OPA_POD_NAME=$(kubectl get pods --namespace opa -l "app=opa" -o jsonpath="{.items[0].metadata.name}") && kubectl port-forward $OPA_POD_NAME 8080:443 --namespace opa & && curl -k -s https://localhost:8080/v1/policies | jq -r '.result[].raw'`{{execute}}
+
+Now that we have that installed, we can install a simple nginx web server using the Bitnami helm charts `helm repo add bitnami https://charts.bitnami.com/bitnami`{{execute}} and then `helm install ws bitnami/nginx --set service.type=NodePort`{{execute}}.  Once that's installed, export the Service IP and port with `export NODE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" services ws-nginx) && export NODE_IP=$(kubectl get nodes --namespace default -o jsonpath="{.items[0].status.addresses[0].address}")`{{execute}}.
+
+Now verify you can access it by `curl http://${NODE_IP}:${NODE_PORT}`{{execute}}.
 
 Next, we'll create a policy and see the effect...
  

@@ -60,7 +60,12 @@ First, we need to install another OPA service called `kube-mgmt`.  Run the follo
 `helm repo update`{{execute}}
 `helm upgrade -i -n opa --create-namespace opa opa/opa --set authz.enabled=false`{{execute}}
 
-Follow the instructions to expose the port so we can query the OPA engine with `export OPA_POD_NAME=$(kubectl get pods --namespace opa -l "app=opa" -o jsonpath="{.items[0].metadata.name}") && kubectl port-forward $OPA_POD_NAME 8080:443 --namespace opa & && curl -k -s https://localhost:8080/v1/policies | jq -r '.result[].raw'`{{execute}}
+Follow the instructions to expose the port so we can query the OPA engine with `export OPA_POD_NAME=$(kubectl get pods --namespace opa -l "app=opa" -o jsonpath="{.items[0].metadata.name}")`{{execute}} then `kubectl port-forward $OPA_POD_NAME 8080:443 --namespace opa &`{{execute}} and verify with `curl -k -s https://localhost:8080/v1/policies | jq -r '.result[].raw'`{{execute}}
+
+
+Now that we have OPA up and running, let's pull down a sample project with OPA `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/sec-ms-opa.zip && unzip sec-ms-opa.zip && cd sec-ms`{{execute}}.
+
+We'll need to compile this, so first we`export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64`{{execute}}, then we run `mvn clean install`{{execute}} and `docker build -t java-ws .
 
 Now that we have that installed, we can install a simple nginx web server using the Bitnami helm charts `helm repo add bitnami https://charts.bitnami.com/bitnami`{{execute}} and then `helm install ws bitnami/nginx --set service.type=NodePort`{{execute}}.  Once that's installed, export the Service IP and port with `export NODE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" services ws-nginx) && export NODE_IP=$(kubectl get nodes --namespace default -o jsonpath="{.items[0].status.addresses[0].address}")`{{execute}}.
 

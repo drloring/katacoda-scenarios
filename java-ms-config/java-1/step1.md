@@ -2,14 +2,14 @@ Welcome to the Java Web Services with external configurations and port binding e
 
 First, let's download the solution `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/java-ms-config-java-1-step-1.zip && unzip java-ms-config-java-1-step-1.zip && cd java-1-step-1`{{execute}}
 
-Spring Boot configuration files are extremely flexible and allow you to provide values from application.properties or environment variables.  Inspecting the `src/main/resources/application.properties`{{open}} file, we see
+Spring Boot configuration files are extremely flexible and allow you to provide values from application.properties or environment variables.  Inspecting the `java-1-step-1/src/main/resources/application.properties`{{open}} file, we see
 <pre>
 server.port=9090
 template=Hello, %s!
 </pre>
 Which we will use to override the message and port that our web server is running on.
 
-If we look at `src/main/java/com/example/restservice/GreetingController.java`{{open}} We see that we've added a `@Value` annotation to inject the property.
+If we look at `java-1-step-1/src/main/java/com/example/restservice/GreetingController.java`{{open}} We see that we've added a `@Value` annotation to inject the property.
 <pre>
 @Value("${template}")
 private static final String template = "Hello, %s!";

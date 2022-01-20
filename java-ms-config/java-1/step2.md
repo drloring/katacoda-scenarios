@@ -4,9 +4,9 @@ But first, we have to kill the running application `pkill -9 java`{{execute}}.  
 
 The first (and most obvious way) we can change the values are via the application.properties file.  Switch to the application.properties file in the editor and change the template string to <pre class="file" data-filename="gs-rest-service/complete/src/main/resources/application.properties" data-target="insert" data-marker="template=Hello, %s!">template=Hola, %s!</pre>
 
-and change the port to <pre class="file" data-filename="gs-rest-service/complete/src/main/resources/application.properties" data-target="insert" data-marker="server.port=9080">server.port=9090</pre>
+and change the port to <pre class="file" data-filename="gs-rest-service/complete/src/main/resources/application.properties" data-target="insert" data-marker="server.port=9090">server.port=9190</pre>
 
-Now when we run `mvn clean install`{{execute}}  and `java -jar target/rest-service-0.0.1-SNAPSHOT.jar &`{{execute}}, we can verify the parameters took with the following command `curl localhost:9090/greeting`{{execute}}
+Now when we run `mvn clean install`{{execute}}  and `java -jar target/rest-service-0.0.1-SNAPSHOT.jar &`{{execute}}, we can verify the parameters took with the following command `curl localhost:9190/greeting`{{execute}}
 
 Note: It would take a bit more effort if we wanted to convert the `defaultValue`, `name` and context path in `GreetingController.java`, like we did in the original scenario.
 

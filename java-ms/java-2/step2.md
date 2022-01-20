@@ -4,7 +4,7 @@ If the Dockerfile is not already open, open the `Dockerfile`{{open}} in the edit
 
 Let's define the working directory <pre class="file" data-filename="Dockerfile" data-target="append">WORKDIR /root</pre> in the Dockerfile
 
-Now, let's add the executable jar to the Dockerfile <pre class="file" data-filename="Dockerfile" data-target="append">COPY rest-service.jar svc.jar</pre>.  Note that the first parameter is the FROM and the second is the TO, you don't have to change names, but it is optional.
+Now, let's add the executable jar to the Dockerfile <pre class="file" data-filename="Dockerfile" data-target="append">COPY rest-service.jar svc.jar</pre>.  That command will copy the local file called rest-service.jar to the docker image with a target filename of svc.jar.
 
 Now, let's build this version of the docker image with `docker build -t java-ws .`{{execute}}.  You'll see a couple more layers were added to the docker image this time, and when you view the image with `docker images | grep java-ws`{{execute}}, you'll see that the image has grown in size due to the added jar file.
 

@@ -23,5 +23,5 @@ And, again, run ` java -jar target/rest-service-0.0.1-SNAPSHOT.jar &`{{execute}}
 
 Now, to verify it picked up the `server.port=9080`, run `curl http://localhost:9080/greeting`{{execute}} to display the Hello World message in a json formatted string.
 
-Now that we have an couple of application properties exposed to our runtime, next we'll see how we can manipulate those via docker.
+Now that we have an couple of application properties exposed to our runtime, in the next step we'll see how we can manipulate those at runtime.
 

@@ -6,17 +6,19 @@ The first (and most obvious way) we can change the values are via the applicatio
 
 and change the port to <pre class="file" data-filename="gs-rest-service/complete/src/main/resources/application.properties" data-target="insert" data-marker="server.port=9080">server.port=9090</pre>
 
-Now when we run `./gradlew bootRun &`{{execute}} we can verify the parameters took with the following command `curl localhost:9090/greeting`{{execute}}
+Now when we run `mvn clean install`{{execute}}  and `java -jar target/rest-service-0.0.1-SNAPSHOT.jar &`{{execute}}, we can verify the parameters took with the following command `curl localhost:9090/greeting`{{execute}}
 
 Note: It would take a bit more effort if we wanted to convert the `defaultValue`, `name` and context path in `GreetingController.java`, like we did in the original scenario.
 
 Now, let's pass the properties in on the command line to see how that works.  First, kill the process `pkill -9 java`{{execute}}, then execute the following command 
 
-Then we'll add the override to the command line `./gradlew bootRun --args='--server.port=9999' &`{{execute}}
+Then we'll add the override to the command line `java -jar target/rest-service-0.0.1-SNAPSHOT.jar --server.port=9999 &`{{execute}}
 
 And test it out with `curl localhost:9999/greeting`{{execute}} 
 
-Finally, kill the process with `pkill -9 java`{{execute}}.
+Now, that we have demonstrated that we can override the application properties at runtime, next we'll see how we achieve this with docker.
+
+To clean up, let's kill the process with `pkill -9 java`{{execute}}.
 
 
 

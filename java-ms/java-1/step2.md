@@ -13,9 +13,9 @@ Change `Hello` to <pre class="file" data-filename="gs-rest-service/complete/src/
 
 Now, let's rebuild and re-run the web application to check our changes.
 
-`./gradlew bootRun &`{{execute}}
+`mvn clean install`{{execute}} then `java -jar target/rest-service-complete-0.0.1-SNAPSHOT.jar &`{{execute}}
 
-And test is with our new Spanish API with `curl http://localhost:8080/saludo`{{execute}} and `curl http://localhost:8080/saludo?nombre=David`{{execute}}
+And test is with our new Spanish API with `curl http://localhost:8080/saludo`{{execute}} and `curl http://localhost:8080/saludo?nombre=User`{{execute}}
 
 
 

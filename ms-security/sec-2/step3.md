@@ -65,5 +65,15 @@ Let's run it in the background with `java -jar target/rest-service-0.0.1-SNAPSHO
 
 Now if we call our web service with `curl localhost:8080/greeting`{{execute}}, we'll see an authorization failure.
 
-Next, we'll create a policy and see the effect...
+In the zip file, there's a file that allows all access called `allow-all.rego`. It looks like this:
+<pre>
+package http.authz
+
+allow = true
+</pre>
+
+We'll add that file to our OPA server via `curl --location --request PUT $NODE_IP:30123/v1/policies/http/authz --header 'Content-Type: text/plain' --data-binary @allow-all.rego`{{execute}}
  
+Now if we call our web service again with `curl localhost:8080/greeting`{{execute}}, we'll see we get the greeting response.
+
+So, that's an example of how you can externalize your security policies in Kubernetes with Open Policy Agent.

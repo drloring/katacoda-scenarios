@@ -9,8 +9,8 @@
     },
     {
       "course_id": "sec-2",
-      "title": "(In Progress) Open Policy Agent Sandbox",
-      "description": "This is a sandbox environment for OPA and Kubetnetes"
+      "title": "Securing Kubernetes and Microservices with Open Policy Agent",
+      "description": "Learn how to integrate OPA into Kubernetes to secure your microservices"
     }
   ]
 }

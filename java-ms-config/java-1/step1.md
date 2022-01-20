@@ -1,6 +1,6 @@
 Welcome to the Java Web Services with external configurations and port binding example project.  This is a continuation of the previous katacoda course [here](https://www.katacoda.com/ng-dloring/courses/java-ms/java-1).  If you haven't reviewed that one yet, you may want to go through it now and return to this scenario afterwards.
 
-First, let's download the solution `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/java-ms-config-java-1-step-1.zip && cd java-1-step-1`{{execute}}
+First, let's download the solution `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/java-ms-config-java-1-step-1.zip && unzip java-ms-config-java-1-step-1.zip && cd java-1-step-1`{{execute}}
 
 Spring Boot configuration files are extremely flexible and allow you to provide values from application.properties or environment variables.  Inspecting the `src/main/resources/application.properties`{{open}} file, we see
 <pre>

@@ -21,11 +21,11 @@ Let's see what policies are loaded initially with `curl $NODE_IP:30123/v1/polici
 
 In order to test our web service with it, we'll need to compile it, but first we `export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64`{{execute}}, then we run `mvn clean install`{{execute}}.
 
-Let's run it in the background with `java -jar target/rest-service-0.0.1-SNAPSHOT.jar --opa.url=http://$NODE_IP:30123/v1/data/http/authz/allow &`{{execute}}.
+Let's run it in the background with `java -jar target/rest-service-0.0.1-SNAPSHOT.jar --opa.url=http://$NODE_IP:30123/v1/data/http/authz/allow &`{{execute}} and notice the url we're using to access OPA includes `data/http/authz/allow` in the path.  We'll see how this aligns with the policies we'll load later.
 
 Now if we call our web service with `curl localhost:8080/greeting`{{execute}}, we'll see an authorization failure `"status":403,"error":"Forbidden"`.  The default behavior is to fail authorization if no policies are loaded.
 
-Next, we're going to add a policy.  In the zip file, there's a file that allows all access called `sec-ms/allow-all.rego`{{open}}. The policy is pretty simple and simply allows all access.  Recall, the `WebSecurityConfig` class is calling `http://$NODE_IP:30123/v1/data/http/authz/allow` to see whether this call is authorized.  By loading the rego file that allows all access, this should result in the resumption of our web service's business logic, which is to display Hello World. 
+Next, we're going to add a policy.  In the zip file, there's a file that allows all access called `sec-ms/allow-all.rego`{{open}}. The policy is pretty simple and simply allows all access.  Recall, the `WebSecurityConfig` class is calling `http://$NODE_IP:30123/v1/data/http/authz/allow` to see whether this call is authorized.  Policies are categorized by package name/policy name, so this policy can be found at `http/authz/allow`.  
 
 We'll add that file to our OPA server via `curl --location --request PUT $NODE_IP:30123/v1/policies/http/authz --header 'Content-Type: text/plain' --data-binary @allow-all.rego`{{execute}}
 

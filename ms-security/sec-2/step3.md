@@ -6,26 +6,30 @@ To get started, first we have to check if Minikube is Ready with `kubectl get no
 
 Once it's up and running, we'll install Gatekeeper with`kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/release-3.7/deploy/gatekeeper.yaml`{{execute}}
 
-Now, get the `template.yml` we'll use for this demonstration `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/template.yml`{{execute}}.  If you `cat template.yml`{{execute}}, you'll notice the section of rego language which essentially returns a fail (1) if the count of the missing labels is > 0.
+Now, get the `template.yml` we'll use for this demonstration `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/template.yml`{{execute}}.  If we open `template.yml`{{open}}, we'll notice the section of rego language which essentially returns a fail (1) if the count of the missing labels is > 0.
 <pre>
-      rego: |
-        package requiredlabels
-        violation[{"msg": msg, "details": {"missing_labels": missing}}] {
-          provided := {label | input.review.object.metadata.labels[label]}
-          required := {label | label := input.parameters.labels[_]}
-          missing := required - provided
-          count(missing) > 0
-          msg := sprintf("you must provide labels for object %v : %v", [input.review.object.kind ,missing])
+provided := {label | input.review.object.metadata.labels[label]}
+required := {label | label := input.parameters.labels[_]}
+missing := required - provided
+count(missing) > 0
+msg := sprintf("you must provide labels for object %v : %v", [input.review.object.kind ,missing])
 </pre>
+Also, notice that this is applied to the kubernetes admission controller, which is responsible to allowing admission to the cluster.  
+<pre>
+- target: admission.k8s.gatekeeper.sh
+</pre>
+So, when the rule is violated, the resource is not allowed to be added to the cluster
 
 Apply this file to your cluster `kubectl apply -f template.yml`{{execute}}
 
-Let's get the yaml file that will actually enforce this template `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/constraint.yml`{{execute}}.  If we look at `constraint.yml` with `cat constraint.yml`{{execute}} we'll see that the CRD that we previously created will be applied to Pods and Deployments.  The parameters at the bottom of the file declare that the owner label must exist on all Pods and Deployments.
-
+Let's get the yaml file that will actually enforce this template `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/constraint.yml`{{execute}}.  If we open `constraint.yml`{{open}} we'll see that the CRD that we previously created will be applied to Pods and Deployments.  The parameters at the bottom of the file declare that the owner label must exist. 
 <pre>
-kind: RequiredLabels
-metadata:
-  name: resources-must-have-owner
+  parameters:
+    labels:
+      - owner
+</pre>   
+And we'll also see that this is applied to all Pods and Deployments
+<pre>
 spec:
   match:
     namespace: ["default"]
@@ -34,16 +38,14 @@ spec:
       kinds: ["Pod"]
     - apiGroups: ["apps"]
       kinds: ["Deployment"]
-  parameters:
-    labels:
-      - owner
-</pre>   
+
+</pre>
 
 Apply that yaml with `kubectl apply -f constraint.yml --validate=false`{{execute}}
 
 And now we can test it with another file `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/fail.yml`{{execute}}, which simple creates a busybox pod with no labels.  Apply with `kubectl apply -f fail.yml`{{execute}} and notice the message that we saw in the rego expression is displayed.
 
-Edit the file to get the deployment to pass by adding any label to it.  For example:
+Edit `fail.yml`{{open}} to get the deployment to pass by adding any label to it.  For example:
 <pre>
   labels:
     owner: your-name-here

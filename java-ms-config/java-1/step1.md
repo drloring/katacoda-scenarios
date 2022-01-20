@@ -1,36 +1,27 @@
 Welcome to the Java Web Services with external configurations and port binding example project.  This is a continuation of the previous katacoda course [here](https://www.katacoda.com/ng-dloring/courses/java-ms/java-1).  If you haven't reviewed that one yet, you may want to go through it now and return to this scenario afterwards.
 
-Just like before, we clone the Spring Boot Web Service project at `git clone https://github.com/spring-guides/gs-rest-service.git`{{execute}}
+First, let's download the solution `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/java-ms-config-java-1-step-1.zip && cd java-1-step-1`{{execute}}
 
-CD to the `gs-rest-service/complete` directory `cd gs-rest-service/complete`{{execute}}
+Spring Boot configuration files are extremely flexible and allow you to provide values from application.properties or environment variables.  Inspecting the `src/main/resources/application.properties`{{open}} file, we see
+<pre>
+server.port=9080
+template=Hello, %s!
+</pre>
+Which we will use to override the message and port that our web server is running on.
 
-Spring Boot configuration files are extremely flexible and allow you to provide values from application.properties or environment variables.  We're going to start with creating an `application.properties` file. Run `mkdir src/main/resources`{{execute}}, then `touch src/main/resources/application.properties`{{execute}}.
-
-Now open the application.properties file in the editor `gs-rest-service/complete/src/main/resources/application.properties`{{open}}.
-
-Edit the application.properties to add a couple properties.  Add the default port for the REST server (recall the default is 8080), add  <pre class="file" data-filename="gs-rest-service/complete/src/main/resources/application.properties" data-target="prepend"># Server port
-server.port=9080</pre> 
-
-Then add the template string to application.properties <pre class="file" data-filename="gs-rest-service/complete/src/main/resources/application.properties" data-target="append">template=Hello, %s!</pre>
-
-Now we need to change `gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java`{{open}} to look for these values.  First, we add the Value class to the imports <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="insert" data-marker="import java.util.concurrent.atomic.AtomicLong;">import java.util.concurrent.atomic.AtomicLong;
-import org.springframework.beans.factory.annotation.Value;
+If we look at `src/main/java/com/example/restservice/GreetingController.java`{{open}} We see that we've added a `@Value` annotation to inject the property.
+<pre>
+@Value("${template}")
+private static final String template = "Hello, %s!";
 </pre>
 
-Now we can add the annotation for the template string <pre class="file" data-filename="gs-rest-service/complete/src/main/java/com/example/restservice/GreetingController.java" data-target="insert" data-marker="	private static final String template = &#x22;Hello, &#x25s&#x21&#x22;;">	@Value("${template}")
-	private String template;
-</pre>
+What about the server.port value?  That is set behind the scenes by Spring and does not need to be manually injected into our application
 
-So, reviewing the changes, we've replaced the inline template string with a `@Value` annotation which is provided in the application.properties file.  What about the server.port value?  That is set behind the scenes by Spring.
+Since we're using a minikube environment for this course, we need to export our JAVA_HOME environment variable `export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64`{{execute}}, then we can `mvn clean install`{{execute}}.
 
-Since we're using a different VM than previously, we need to export our JAVA_HOME environment variable `export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64`{{execute}}.
+And, again, run ` java -jar target/rest-service-0.0.1-SNAPSHOT.jar &`{{execute}} to run our web service in the background.
 
-Before we can compile, we need to update the gradle version `./gradlew wrapper --gradle-version 7.0`{{execute}}
+Now, to verify it picked up the `server.port=9080`, run `curl http://localhost:9080/greeting`{{execute}} to display the Hello World message in a json formatted string.
 
-Once you see `Build Successful`, you can continue with the following commands
-
-Run`./gradlew bootRun &`{{execute}} in the background.
-
-Run the following command to verify that the spring boot application is running `curl http://localhost:9080/greeting`{{execute}} to display the Hello World message in a json formatted string.
-
+Now that we have an couple of application properties exposed to our runtime, next we'll see how we can manipulate those via docker.
 

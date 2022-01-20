@@ -27,4 +27,6 @@ Then we'll verify it took by looking at the policies in OPA again `curl $NODE_IP
  
 Now if we call our web service again with `curl localhost:8080/greeting`{{execute}}, we'll see we get the greeting response which means it passed the lenient `allow = true` policy in OPA.
 
+If you're interested, modify the allow-all.rego file to `allow = false` and reapply with `curl --location --request PUT $NODE_IP:30123/v1/policies/http/authz --header 'Content-Type: text/plain' --data-binary @allow-all.rego`{{execute}} and verify that the we get a 403 error accessing the web service.
+
 So, that's an example of how you can externalize your security policies in Kubernetes with Open Policy Agent.

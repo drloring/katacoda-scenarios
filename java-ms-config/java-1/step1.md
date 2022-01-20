@@ -4,7 +4,7 @@ First, let's download the solution `wget https://raw.githubusercontent.com/drlor
 
 Spring Boot configuration files are extremely flexible and allow you to provide values from application.properties or environment variables.  Inspecting the `src/main/resources/application.properties`{{open}} file, we see
 <pre>
-server.port=9080
+server.port=9090
 template=Hello, %s!
 </pre>
 Which we will use to override the message and port that our web server is running on.
@@ -21,7 +21,7 @@ Since we're using a minikube environment for this course, we need to export our 
 
 And, again, run ` java -jar target/rest-service-0.0.1-SNAPSHOT.jar &`{{execute}} to run our web service in the background.
 
-Now, to verify it picked up the `server.port=9080`, run `curl http://localhost:9080/greeting`{{execute}} to display the Hello World message in a json formatted string.
+Now, to verify it picked up the `server.port=9090`, run `curl http://localhost:9090/greeting`{{execute}} to display the Hello World message in a json formatted string.
 
 Now that we have an couple of application properties exposed to our runtime, in the next step we'll see how we can manipulate those at runtime.
 

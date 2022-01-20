@@ -1,6 +1,6 @@
 In this scenario, we're going to see how we can pass configurations in from the docker file and docker runtime environment.
 
-One way we could change the configuration of the service is to modify the Dockerfile to supply the changes like we did from the command line in the previous scenario.  If we look at `Dockerfile.1`{{open}}, we see a similar command on the line
+One way we could change the configuration of the service is to modify the Dockerfile to supply the changes like we did from the command line in the previous scenario.  If we look at `java-1-step-1/Dockerfile.1`{{open}}, we see a similar command on the line
 <pre>
 CMD java -jar svc.jar --server.port=9999
 </pre>
@@ -13,7 +13,7 @@ Another way we can change configuration options at runtime is to set environment
 
 First we have to stop our currently running container `docker container stop $(docker container ls -q --filter name=jws)`{{execute}}
 
-If we look at the original `Dockerfile`{{open}}, we see the `--server.port=9999` has been removed.  Also notice that we're exposing port 9090 in the Dockerfile.  Even though you can override it, it's best practice to keep the EXPOSE parameter current with the default parameter.  This is how you communicate the intention through the Dockerfile.
+If we look at the original `java-1-step-1/Dockerfile`{{open}}, we see the `--server.port=9999` has been removed.  Also notice that we're exposing port 9090 in the Dockerfile.  Even though you can override it, it's best practice to keep the EXPOSE parameter current with the default parameter.  This is how you communicate the intention through the Dockerfile.
 
 Let's rebuild our image with the original Dockerfile now `docker build -t java-ws .`{{execute}}.
 

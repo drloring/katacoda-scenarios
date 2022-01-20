@@ -10,7 +10,7 @@ We'll need to compile the web service, but first we`export JAVA_HOME=/usr/lib/jv
 
 Let's run it in the background with `java -jar target/rest-service-0.0.1-SNAPSHOT.jar --opa.url=http://$NODE_IP:30123/v1/data/http/authz/allow &`{{execute}}.
 
-Now if we call our web service with `curl localhost:8080/greeting`{{execute}}, we'll see an authorization failure.
+Now if we call our web service with `curl localhost:8080/greeting`{{execute}}, we'll see an authorization failure `"status":403,"error":"Forbidden"`
 
 In the zip file, there's a file that allows all access called `allow-all.rego`. It looks like this:
 <pre>

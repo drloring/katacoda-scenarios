@@ -13,11 +13,11 @@ Another way we can change configuration options at runtime is to set environment
 
 First we have to stop our currently running container `docker container stop $(docker container ls -q --filter name=jws)`{{execute}}
 
-If we look at the original `java-1-step-1/Dockerfile`{{open}}, we see the `--server.port=9999` has been removed.  Also notice that we're exposing port 9090 in the Dockerfile.  Even though you can override it, it's best practice to keep the EXPOSE parameter current with the default parameter.  This is how you communicate the intention through the Dockerfile.
+If we look at another docker file `java-1-step-1/Dockerfile.2`{{open}}, we see the `--server.port=9999` has been replaced with `--server.port=${PORT}`.  Also notice that we've added an `ENV=9090` environment variable in the file.  Even though you can override it, it's best practice to keep the EXPOSE parameter current with the default parameter.  This is how you communicate the intention through the Dockerfile.
 
-Let's rebuild our image with the original Dockerfile now `docker build -t java-ws .`{{execute}}.
+Let's rebuild our image with the original Dockerfile now `docker build -t java-ws -f Dockerfile.2 .`{{execute}}.
 
-Now, we'll add the --env or -e parameters to the docker command line to override the default behavior in the service `docker run --name jws --rm -d -p9999:9999 -e server.port=9999 java-ws`{{execute}} and  `curl http://localhost:9999/greeting?name=User`{{execute}} to see the effects.  Notice the difference between exposing ports and port mapping.  Even though our Dockerfile exposes port 9090, we can override that with the -p option from the command line.
+Now, we'll add the --env or -e parameters to the docker command line to override the default behavior in the service `docker run --name jws --rm -d -p9999:9999 -e PORT=9999 java-ws`{{execute}} and  `curl http://localhost:9999/greeting?name=User`{{execute}} to see the effects.  Notice the difference between exposing ports and port mapping.  Even though our Dockerfile exposes port 9090, we can override that with the -p option from the command line.
 
 Remember to stop our currently running container `docker container stop $(docker container ls -q --filter name=jws)`{{execute}}
 

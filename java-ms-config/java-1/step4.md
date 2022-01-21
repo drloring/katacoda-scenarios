@@ -6,7 +6,7 @@ Follow these steps to install helm3:
 
 Now we have all the charts to install an application.  The default installation simply installs redis, so we're going to change that for our service.
 
-If we look at the values in `ws/values.yaml`{{open}}, we see that the tag and repository are all set.
+If we look at the values in `java-1-step-1/ws/values.yaml`{{open}}, we see that the tag and repository are all set.
 <pre>
 repository: java-ws
 ...
@@ -19,7 +19,7 @@ message: "HELLO, %s!!!"
 serverport: 9090
 </pre>
 
-And, looking in `ws/templates/deployment.yaml`{{open}} we see the continer port has been set to 9090
+And, looking in `java-1-step-1/ws/templates/deployment.yaml`{{open}} we see the continer port has been set to 9090
 <pre>
 containerPort: 9090
 </pre>

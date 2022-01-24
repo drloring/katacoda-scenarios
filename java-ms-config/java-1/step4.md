@@ -16,7 +16,7 @@ tag: "latest"
 If you scroll to the bottom, you'll also notice that we've added some additional values to `values.yaml`
 <pre>
 message: "HELLO, %s!!!"
-serverport: 9090
+serviceport: 9090
 </pre>
 
 And, looking in `java-1-step-1/ws/templates/deployment.yaml`{{open}} we see the continer port has been set to 9090

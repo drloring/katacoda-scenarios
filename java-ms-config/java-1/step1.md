@@ -5,7 +5,7 @@ First, let's download the solution `wget https://raw.githubusercontent.com/drlor
 Spring Boot configuration files are extremely flexible and allow you to provide values from application.properties or environment variables.  Inspecting the `java-1-step-1/src/main/resources/application.properties`{{open}} file, we see
 <pre>
 server.port=9090
-template=Hello, %s!
+template="Hello, %s!"
 </pre>
 Which we will use to override the message and port that our web server is running on.
 
@@ -19,7 +19,7 @@ What about the server.port value?  That is set behind the scenes by Spring and d
 
 Since we're using a minikube environment for this course, we need to export our JAVA_HOME environment variable `export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64`{{execute}}, then we can `mvn clean install`{{execute}}.
 
-And, again, run ` java -jar target/rest-service-0.0.1-SNAPSHOT.jar &`{{execute}} to run our web service in the background.
+Once that completes, run ` java -jar target/rest-service-0.0.1-SNAPSHOT.jar &`{{execute}} to run our web service in the background.
 
 Now, to verify it picked up the `server.port=9090`, run `curl http://localhost:9090/greeting`{{execute}} to display the Hello World message in a json formatted string.
 

@@ -11,11 +11,19 @@ We can view this project is an example of a stateful service.  If we open `step-
 
 To correct this, we're going to introduce a Redis NoSQL database to store the counter for all of the services and not rely on the in-memory state of the service.
 
-To get started, we'll add a couple dependencies for Spring Data and Redis to the Gradle Build file `step-1/build.gradle`{{open}}.  Notice we added <pre>implementation 'org.springframework.data:spring-data-redis'
-implementation 'io.lettuce:lettuce-core'
-</pre> to the gradle build file, this will pull in the spring data redis and lettuce connectors into the project.
+To get started, we'll add a couple dependencies for Spring Data and Redis to the Maven POM file `step-1/pom.xml`{{open}}.  Notice we added 
+<pre>
+<dependency>
+	<groupId>org.springframework.data</groupId>
+	<artifactId>spring-data-redis</artifactId>
+</dependency>
+<dependency>
+	<groupId>io.lettuce</groupId>
+	<artifactId>lettuce-core</artifactId>
+</dependency>
+</pre> to the maven pom file, this will pull in the spring data redis and lettuce connectors into the project.
 
-Then we'll make some changes to `step-1/src/main/java/com/example/restservice/GreetingController.java`{{open}} to add the externalized cache. Notice we changed 
+Then we made some changes to `step-1/src/main/java/com/example/restservice/GreetingController.java`{{open}} to add the externalized cache. Notice we changed 
 <pre>	private static String USER_KEY = &#x22;User&#x22;;
 
 	@Autowired
@@ -54,17 +62,16 @@ class ApplicationConfig {
 </pre>
 
 Since we're using a different VM than previously, we need to export our JAVA_HOME environment variable `export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64`{{execute}}.
-Now run `chmod +x ./gradlew`{{execute}} to make gradlew executable.
-Before we can compile, we need to update the gradle version `./gradlew wrapper --gradle-version 7.0`{{execute}}
+Now run `mvn clean install -DskipTests`{{execute}} to make the executable.  Notice that we are skipping tests for now, we'll address that later.
 
 Once you see `Build Successful`, you can continue with the following commands
 
 Start a redis server in the background with the docker command `docker run --name myredis -d --rm -p 6379:6379 redis`{{execute}}
 
-Run`./gradlew bootRun &`{{execute}} in the background.
+Run`java -jar target/target/rest-service-0.0.1-SNAPSHOT.jar &`{{execute}} in the background.
 
 Run the following command to verify that the spring boot application is running `curl http://localhost:8080/greeting`{{execute}} to display the Hello World message with an increasing counter.  You can stop and start the web application and the count will be saved in redis until redis is restarted.
 	
-So, in this example, we cheated by running bootRun before running gradle build, circumventing the unit tests.  If we kill the redis server with `docker kill myredis`{{execute}}, then  run `./gradlew build`{{execute}}, we'll have test failures.  We don't want our unit tests to depend on externally running services, so in the next step, we'll learn how to use Spring application.properies to swap out redis backing services based on where we are running the web service.
+So, in this example, we skipped the tests on compilation.  If we kill the redis server with `docker kill myredis`{{execute}}, then  run `mvn clean install`{{execute}}, we'll have test failures.  We don't want our unit tests to depend on externally running services, so in the next step, we'll learn how to use Spring application.properies to swap out redis backing services based on where we are running the web service.
 
 

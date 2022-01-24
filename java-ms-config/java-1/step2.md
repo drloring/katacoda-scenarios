@@ -2,7 +2,7 @@ Now that we have a (somewhat) externally configured Spring Boot based microservi
 
 But first, we have to kill the running application `pkill -9 java`{{execute}}.  NOTE: if you had any other java processes running, that command will kill those as well.
 
-The first (and most obvious way) we can change the values are via the application.properties file.  Switch to the application.properties file in the editor and change the template string to <pre class="file" data-filename="java-1-step-1/src/main/resources/application.properties" data-target="insert" data-marker="template=Hello, %s!">template=Hola, %s!</pre>
+The first (and most obvious way) we can change the values are via the application.properties file.  Switch to the `java-1-step-1/src/main/resources/application.properties`{{open}} file in the editor and change the template string to <pre class="file" data-filename="java-1-step-1/src/main/resources/application.properties" data-target="insert" data-marker="template=Hello, %s!">template=Hola, %s!</pre>
 
 and change the port to <pre class="file" data-filename="java-1-step-1/src/main/resources/application.properties" data-target="insert" data-marker="server.port=9090">server.port=9190</pre>
 

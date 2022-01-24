@@ -35,8 +35,8 @@ env:
 
 First, we have to replace our docker image that we've been using with the real Dockerfile with `docker build -t java-ws .`{{execute}}
 
-Now, we can dry-run the helm install `helm install --set serverport=9999 --dry-run ws ws`{{execute}}  and you will notice that the container is getting the server.port from the command line environment variable and the template from the values.yaml.
+Now, we can dry-run the helm install `helm install --set serviceport=9999 --dry-run ws ws`{{execute}}  and you will notice that the container is getting the server.port from the command line environment variable and the template from the values.yaml.
 
-Now, we can the helm install `helm install --set serverport=9999 ws ws`{{execute}}  and you will notice that the container is getting the server.port from the command line and the template from the values.yaml.
+Now, we can the helm install `helm install --set serviceport=9999 ws ws`{{execute}}  and you will notice that the container is getting the server.port from the command line and the template from the values.yaml.
 
 Follow the instructions from helm output `export NODE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" services ws) && export NODE_IP=$(kubectl get nodes --namespace default -o jsonpath="{.items[0].status.addresses[0].address}")`{{execute}}, then `curl $NODE_IP:$NODE_PORT/greeting`{{execute}}

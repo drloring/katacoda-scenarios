@@ -33,7 +33,7 @@ env:
   value: "{{ .Values.serviceport }}"
 </pre>
 
-First, we have to replace our docker image that we've been using with the real Dockerfile with `build -t java-ws .`{{execute}}
+First, we have to replace our docker image that we've been using with the real Dockerfile with `docker build -t java-ws .`{{execute}}
 
 Now, we can dry-run the helm install `helm install --set serverport=9999 --dry-run ws ws`{{execute}}  and you will notice that the container is getting the server.port from the command line environment variable and the template from the values.yaml.
 

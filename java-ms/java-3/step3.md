@@ -10,7 +10,7 @@ Start, by opening the `ws/templates/service.yaml`{{open}} file.  Then change the
 
 Next, we have to change the type of port the service is creating from ClusterIP to NodePort, so that it's available external to the cluster.  ClusterIP is used for service-to-service communications, when you need to access the service externally, NodePort is an option for that.  Open `ws/values.yaml`{{open}} again, and change <pre class="file" data-filename="ws/values.yaml" data-target="insert" data-marker="  type: ClusterIP">  type: NodePort</pre>
 
-Apply the change to the cluster with `h3 upgrade ws ws`{{execute}}.
+Apply the change to the cluster with `helm upgrade ws ws`{{execute}}.
 
 Following the instructions afterwards, `export NODE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" services ws)`{{execute}}
 

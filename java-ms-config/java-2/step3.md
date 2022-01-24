@@ -2,18 +2,13 @@ Next, we're going to deploy a clustered redis database to kubernetes.  But first
 
 Follow these steps to install helm3:
 
-`curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 && chmod +x get_helm.sh && ./get_helm.sh`{{execute}}
+`curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 && chmod +x get_helm.sh && ./get_helm.sh && aleas helm=/usr/local/bin/helm`{{execute}}
 
-To deconflict the locally installed helm from the new Helm 3, make an alias called h3 to replace the helm commands.
-`alias h3=/usr/local/bin/helm`{{execute}}
-
-`h3 version`{{execute}} should confirm version 3.6.3 or later is installed.
-
-Bitnami helm charts were created to make deploying a Redis cluster simple, but first we have to add the Bitnami repo `h3 repo add bitnami https://charts.bitnami.com/bitnami`{{execute}}
+Bitnami helm charts were created to make deploying a Redis cluster simple, but first we have to add the Bitnami repo `helm repo add bitnami https://charts.bitnami.com/bitnami`{{execute}}
 
 We want to keep our database separated from our service, so we'll create a namespace for it `kubectl create ns db`{{execute}}.
 
-Now, we can run the redis helm chart `h3 install redis bitnami/redis -n db`{{execute}}.  Notice, we specified the `-n db` option to select the db namespace.
+Now, we can run the redis helm chart `helm install redis bitnami/redis -n db`{{execute}}.  Notice, we specified the `-n db` option to select the db namespace.
 
 The database's password is stored in a secret in kubernetes, since out service will need that, we'll export it as an environment variable. `export REDIS_PASSWORD=$(kubectl get secret --namespace db redis -o jsonpath="{.data.redis-password}" | base64 --decode)`{{execute}}
 

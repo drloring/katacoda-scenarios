@@ -13,7 +13,7 @@ repository: java-ws
 tag: "latest"
 </pre>
 
-Also notice that we've added some additional values to `values.yaml`
+If you scroll to the bottom, you'll also notice that we've added some additional values to `values.yaml`
 <pre>
 message: "HELLO, %s!!!"
 serverport: 9090
@@ -21,7 +21,7 @@ serverport: 9090
 
 And, looking in `java-1-step-1/ws/templates/deployment.yaml`{{open}} we see the continer port has been set to 9090
 <pre>
-containerPort: 9090
+containerPort: "{{ .Values.serviceport }}"
 </pre>
 
 And that the values are being passed into the container's environment variables
@@ -30,7 +30,7 @@ env:
 - name: "template"
   value: "{{ .Values.message }}"
 - name: "server.port"
-  value: "{{ .Values.serverport }}"
+  value: "{{ .Values.serviceport }}"
 </pre>
 
 Now, we can dry-run the helm install `helm install --set serverport=9999 --dry-run ws ws`{{execute}}  and you will notice that the container is getting the server.port from the command line environment variable and the template from the values.yaml.

@@ -37,4 +37,4 @@ Now, we can dry-run the helm install `helm install --set serverport=9999 --dry-r
 
 Now, we can the helm install `helm install --set serverport=9999 ws ws`{{execute}}  and you will notice that the container is getting the server.port from the command line and the template from the values.yaml.
 
-Follow the instructions from helm and export the NODE_PORT and NODE_IP, then `curl $NODE_IP:$NODE_PORT/greeting`{{execute}}
+Follow the instructions from helm output `export NODE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" services ws) && export NODE_IP=$(kubectl get nodes --namespace default -o jsonpath="{.items[0].status.addresses[0].address}")`{{execute}}, then `curl $NODE_IP:$NODE_PORT/greeting`{{execute}}

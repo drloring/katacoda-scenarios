@@ -5,7 +5,7 @@ First, let's download the solution `wget https://raw.githubusercontent.com/drlor
 Spring Boot configuration files are extremely flexible and allow you to provide values from application.properties or environment variables.  Inspecting the `java-1-step-1/src/main/resources/application.properties`{{open}} file, we see
 <pre>
 server.port=9090
-template="Hello, %s!"
+template=Hello, %s!
 </pre>
 Which we will use to override the message and port that our web server is running on.
 

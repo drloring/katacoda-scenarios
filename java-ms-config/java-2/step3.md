@@ -27,12 +27,11 @@ We also added some application specific environment variables to pass into the a
 We also changed `step-2/ws/templates/deployment.yaml`{{open}} correcting the `containerPort: 8080` and commenting out liveness and readiness probes.
 
 We also added the `spring.redis.host` to the environment variables passed into the container.
-<pre>          env:
+            env:
             - name: "spring.redis.host"
               value: "{{ .Values.redishost }}"
             - name: "spring.redis.password"
               value: "{{ .Values.redispass }}"
-</pre>
 
 We also set the service `type: NodePort and set `targetPort: 8080` in to `step-2/ws/templates/service.yaml`{{open}}
 

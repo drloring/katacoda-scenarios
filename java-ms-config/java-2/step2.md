@@ -3,11 +3,11 @@ In this step, we're going to implement an in-memory Redis database to use for un
 There's another version of the project for this step `cd .. && wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/java-ms-config-java-2-step-2.zip && unzip java-ms-config-java-2-step-2.zip && cd step-2`{{execute}}.
 
 The first thing we did was modify our maven pom file to pull in the embedded redis server in `step-2/pom.xml`{{open}} by adding 
-`		<dependency>
-			<groupId>it.ozimov</groupId>
-			<artifactId>embedded-redis</artifactId>
-			<version>0.7.2</version>
-		</dependency>`
+`<dependency>
+	<groupId>it.ozimov</groupId>
+	<artifactId>embedded-redis</artifactId>
+	<version>0.7.2</version>
+</dependency>`
 
 Next, we created a couple new files to externalize our application properties for test and production `step-2/src/test/resources/application.properties`{{open}} and `step-2/src/main/resources/application.properties`{{open}}.  
 

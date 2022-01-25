@@ -66,7 +66,7 @@ Once you see `Build Successful`, you can continue with the following commands
 
 Start a redis server in the background with the docker command `docker run --name myredis -d --rm -p 6379:6379 redis`{{execute}}
 
-Run`java -jar target/target/rest-service-0.0.1-SNAPSHOT.jar &`{{execute}} in the background.
+Run`java -jar target/rest-service-0.0.1-SNAPSHOT.jar &`{{execute}} in the background.
 
 Run the following command to verify that the spring boot application is running `curl http://localhost:8080/greeting`{{execute}} to display the Hello World message with an increasing counter.  You can stop and start the web application and the count will be saved in redis until redis is restarted.
 	

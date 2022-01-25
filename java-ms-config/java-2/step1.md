@@ -68,6 +68,6 @@ Run`java -jar target/rest-service-0.0.1-SNAPSHOT.jar &`{{execute}} in the backgr
 
 Run the following command to verify that the spring boot application is running `curl http://localhost:8080/greeting`{{execute}} to display the Hello World message with an increasing counter.  You can stop and start the web application and the count will be saved in redis until redis is restarted.
 	
-So, in this example, we skipped the tests on compilation.  If we kill the redis server with `docker kill myredis`{{execute}}, then  run `mvn clean install`{{execute}}, we'll have test failures.  We don't want our unit tests to depend on externally running services, so in the next step, we'll learn how to use Spring application.properies to swap out redis backing services based on where we are running the web service.
+So, in this example, we skipped the tests on compilation.  If we kill the redis server with `docker stop myredis && docker rm myredis`{{execute}}, then  run `mvn clean install`{{execute}}, we'll have test failures.  We don't want our unit tests to depend on externally running services, so in the next step, we'll learn how to use Spring application.properies to swap out redis backing services based on where we are running the web service.
 
 

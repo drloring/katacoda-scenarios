@@ -64,7 +64,7 @@ Now run `mvn clean install -DskipTests`{{execute}} to make the executable.  Noti
 
 Once you see `Build Successful`, you can continue with the following commands
 
-Start a redis server in the background with the docker command `docker run --name myredis -d --rm -p 6379:6379 redis`{{execute}}
+Start a redis server in the background with the docker command `docker run --name redis -p 6379:6379 -e ALLOW_EMPTY_PASSWORD=yes bitnami/redis:latest`{{execute}}
 
 Run`java -jar target/rest-service-0.0.1-SNAPSHOT.jar &`{{execute}} in the background.
 

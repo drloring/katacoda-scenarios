@@ -36,7 +36,7 @@ where we start and stop the embedded redis server before and after each test.
 
 Now if we run `mvn clean install`{{execute}}, we'll see that the unit tests don't fail and aren't reliant on a redis container running.
 
-If you previously killed the redis container, then run `docker run --name redis -p 6379:6379 -e ALLOW_EMPTY_PASSWORD=yes bitnami/redis:latest`{{execute}} again, then run `pkill -9 java`{{execute}} then `java -jar target/rest-service-0.0.1-SNAPSHOT.jar &`{{execute}} to run it in the background.
+If you previously killed the redis container, then run `docker run --name redis -p 6379:6379 -e ALLOW_EMPTY_PASSWORD=yes bitnami/redis:latest &`{{execute}} again, then run `pkill -9 java`{{execute}} then `java -jar target/rest-service-0.0.1-SNAPSHOT.jar &`{{execute}} to run it in the background.
 
 Run the following command to verify that the spring boot application is running `curl http://localhost:8080/greeting`{{execute}} to display the Hello World message with an increasing counter.  Notice that we added a Local Cound and a Cached count to differentiate between local state and state stored in the redis database.  You won't see any difference unless you restart the application.
 	

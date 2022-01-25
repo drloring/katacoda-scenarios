@@ -10,16 +10,14 @@ We can view this project is an example of a stateful service.  If we open `step-
 To correct this, we're going to introduce a Redis NoSQL database to store the counter for all of the services and not rely on the in-memory state of the service.
 
 To get started, we'll add a couple dependencies for Spring Data and Redis to the Maven POM file `step-1/pom.xml`{{open}}.  Notice we added 
-<pre>
-<dependency>
+`<dependency>
 	<groupId>org.springframework.data</groupId>
 	<artifactId>spring-data-redis</artifactId>
 </dependency>
 <dependency>
 	<groupId>io.lettuce</groupId>
 	<artifactId>lettuce-core</artifactId>
-</dependency>
-</pre> to the maven pom file, this will pull in the spring data redis and lettuce connectors into the project.
+</dependency>` to the maven pom file, this will pull in the spring data redis and lettuce connectors into the project.
 
 Then we made some changes to `step-1/src/main/java/com/example/restservice/GreetingController.java`{{open}} to add the externalized cache. Notice we changed 
 <pre>	private static String USER_KEY = &#x22;User&#x22;;

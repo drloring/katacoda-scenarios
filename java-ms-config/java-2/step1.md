@@ -4,23 +4,23 @@ Instead of cloning the original repo `https://github.com/spring-guides/gs-rest-s
 
 First,  `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/java-ms-config-java-2-step-1.zip &&unzip java-ms-config-java-2-step-1.zip && cd step-1`{{execute}}
 
-
 We can view this project is an example of a stateful service.  If we open `step-1/src/main/java/com/example/restservice/GreetingController.java`{{open}}, we'll see `private final AtomicLong counter = new AtomicLong();` in the code.  This works fine as a counter for a single web application, but if we want to be able to scale this service out to multiple instances, we couldn't rely on the counter since each service would have it's own counter incrementing independent of the other services.  We'll see that in-action in the next steps.
 
 To correct this, we're going to introduce a Redis NoSQL database to store the counter for all of the services and not rely on the in-memory state of the service.
 
 To get started, we'll add a couple dependencies for Spring Data and Redis to the Maven POM file `step-1/pom.xml`{{open}}.  Notice we added 
-`<dependency>
-	<groupId>org.springframework.data</groupId>
-	<artifactId>spring-data-redis</artifactId>
-</dependency>
-<dependency>
-	<groupId>io.lettuce</groupId>
-	<artifactId>lettuce-core</artifactId>
-</dependency>` to the maven pom file, this will pull in the spring data redis and lettuce connectors into the project.
+	<dependency>
+		<groupId>org.springframework.data</groupId>
+		<artifactId>spring-data-redis</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>io.lettuce</groupId>
+		<artifactId>lettuce-core</artifactId>
+	</dependency>
+to the maven pom file, this will pull in the spring data redis and lettuce connectors into the project.
 
 Then we made some changes to `step-1/src/main/java/com/example/restservice/GreetingController.java`{{open}} to add the externalized cache. Notice we changed 
-<pre>	private static String USER_KEY = &#x22;User&#x22;;
+	private static String USER_KEY = &#x22;User&#x22;;
 
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
@@ -34,28 +34,26 @@ Then we made some changes to `step-1/src/main/java/com/example/restservice/Greet
 		redisTemplate.opsForHash().put(USER_KEY, userId, Integer.toString(cc));
 		return cc;
 	}
-</pre> to use the redis database to store and retrieve the counter.
+to use the redis database to store and retrieve the counter.
 
 Also, notice that we updated the message to include the counter 
-<pre>	@GetMapping("/greeting")
+	@GetMapping("/greeting")
 	public Greeting greeting(@RequestParam(value = &#x22;name&#x22;, defaultValue = &#x22;World&#x22;) String name) {
 		int count = updateCount(name);
 		return new Greeting(counter.incrementAndGet(), String.format(template, name, counter.get()));
 	}
-</pre>
+
 We added `step-1/src/main/java/com/example/restservice/ApplicationConfig.java`{{open}} to connect to the redis server, adding the following content 
-<pre>
-@Configuration
-class ApplicationConfig {
+	@Configuration
+	class ApplicationConfig {
 
-	@Bean
-	public LettuceConnectionFactory redisConnectionFactory(RedisProperties redisProperties) {
+		@Bean
+		public LettuceConnectionFactory redisConnectionFactory(RedisProperties redisProperties) {
 
-		return new LettuceConnectionFactory(
-				new RedisStandaloneConfiguration(redisProperties.getRedisHost(), redisProperties.getRedisPort()));
+			return new LettuceConnectionFactory(
+					new RedisStandaloneConfiguration(redisProperties.getRedisHost(), redisProperties.getRedisPort()));
+		}
 	}
-}
-</pre>
 
 Since we're using a different VM than previously, we need to export our JAVA_HOME environment variable `export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64`{{execute}}.
 Now run `mvn clean install -DskipTests`{{execute}} to make the executable.  Notice that we are skipping tests for now, we'll address that later.

@@ -2,7 +2,7 @@ Next, we're going to deploy a clustered redis database to kubernetes.  But first
 
 Follow these steps to install helm3:
 
-`curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 && chmod +x get_helm.sh && ./get_helm.sh && aleas helm=/usr/local/bin/helm`{{execute}}
+`curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 && chmod +x get_helm.sh && ./get_helm.sh && alias helm=/usr/local/bin/helm`{{execute}}
 
 Bitnami helm charts were created to make deploying a Redis cluster simple, but first we have to add the Bitnami repo `helm repo add bitnami https://charts.bitnami.com/bitnami`{{execute}}
 

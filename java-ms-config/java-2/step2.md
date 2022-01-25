@@ -3,18 +3,18 @@ In this step, we're going to implement an in-memory Redis database to use for un
 There's another version of the project for this step `cd .. && wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/java-ms-config-java-2-step-2.zip && unzip java-ms-config-java-2-step-2.zip && cd step-2`{{execute}}.
 
 The first thing we did was modify our maven pom file to pull in the embedded redis server in `step-2/pom.xml`{{open}} by adding 
-`<dependency>
-	<groupId>it.ozimov</groupId>
-	<artifactId>embedded-redis</artifactId>
-	<version>0.7.2</version>
-</dependency>`
+	<dependency>
+		<groupId>it.ozimov</groupId>
+		<artifactId>embedded-redis</artifactId>
+		<version>0.7.2</version>
+	</dependency>
 
 Next, we created a couple new files to externalize our application properties for test and production `step-2/src/test/resources/application.properties`{{open}} and `step-2/src/main/resources/application.properties`{{open}}.  
 
 We also created a RedisProperties class `step-2/src/main/java/com/example/restservice/RedisProperties.java`{{open}}, which loads the properties defined in `application.properties` into a class using the `@Value` annotation.
 
 Then we added the embedded redis server to our unit tests `step-2/src/main/test/com/example/restservice/GreetingControllerTests.java`{{open}}.
-Notice this section <pre>
+Notice this section
 	@PostConstruct
 	public  void postConstruct() {
 		redisServer = new RedisServer(redisProperties.getRedisPort());
@@ -31,7 +31,6 @@ Notice this section <pre>
 	}
 
 	private RedisServer redisServer;
-</pre>
 where we start and stop the embedded redis server before and after each test.
 
 Now if we run `mvn clean install`{{execute}}, we'll see that the unit tests don't fail and aren't reliant on a redis container running.

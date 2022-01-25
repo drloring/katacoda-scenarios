@@ -2,9 +2,7 @@ Welcome to the stateless Java Web Services with backing service project.  This i
 
 Instead of cloning the original repo `https://github.com/spring-guides/gs-rest-service.git`, I've created a solution with the final implementation and we'll highlight the changes from the baseline.  If you'd prefer, you can download the original project and make the changes to get some hands-on experience.
 
-First,  `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/java-ms-config-java-2-step-1.zip`{{execute}}
-And unzip the file `unzip java-ms-config-java-2-step-1.zip`{{execute}}
-And CD to the complete directory `cd step-1`{{execute}}
+First,  `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/java-ms-config-java-2-step-1.zip &&unzip java-ms-config-java-2-step-1.zip && cd step-1`{{execute}}
 
 
 We can view this project is an example of a stateful service.  If we open `step-1/src/main/java/com/example/restservice/GreetingController.java`{{open}}, we'll see `private final AtomicLong counter = new AtomicLong();` in the code.  This works fine as a counter for a single web application, but if we want to be able to scale this service out to multiple instances, we couldn't rely on the counter since each service would have it's own counter incrementing independent of the other services.  We'll see that in-action in the next steps.

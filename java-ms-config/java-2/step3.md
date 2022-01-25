@@ -14,9 +14,9 @@ The database's password is stored in a secret in kubernetes, since out service w
 
 Just like the prior course, we'll collect the Dockerfile we created in the Learning Java Microservices scenario `curl -o Dockerfile https://raw.githubusercontent.com/drloring/katacoda-resources/main/Dockerfile`{{execute}}.
 
-Open the `step-2/Dockerfile`{{open}}, and we'll modify the COPY command <pre class="file" data-filename="step-2/Dockerfile" data-target="insert" data-marker="COPY rest-service.jar svc.jar">COPY build/libs/rest-service-0.0.1-SNAPSHOT.jar svc.jar</pre>
+Open the `step-2/Dockerfile`{{open}}, and we'll modify the COPY command <pre class="file" data-filename="step-2/Dockerfile" data-target="insert" data-marker="COPY rest-service.jar svc.jar">COPY target/rest-service-0.0.1-SNAPSHOT.jar svc.jar</pre>
 
-And now we'll build the boot jar again with `./gradlew bootJar`{{execute}}.
+And now we'll build the boot jar again with `mvn clean install`{{execute}}.
 
 Now, run `docker build -t java-ws .`{{execute}} to create the docker image.
 

@@ -6,7 +6,7 @@ To get started, first we have to check if Minikube is Ready with `kubectl get no
 
 Once it's up and running, we'll install Gatekeeper with`kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/release-3.7/deploy/gatekeeper.yaml`{{execute}}
 
-Now, get the `template.yml` we'll use for this demonstration `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/template.yml`{{execute}}.  If we open `template.yml`{{open}}, we'll notice the section of rego language which essentially returns a fail (1) if the count of the missing labels is > 0.
+Now, get the `template.yml` and `constraint.yml` we'll use for this demonstration `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/template.yml && wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/constraint.yml`{{execute}}.  If we open `template.yml`{{open}}, we'll notice the section of rego language which essentially returns a fail (1) if the count of the missing labels is > 0.
 <pre>
 provided := {label | input.review.object.metadata.labels[label]}
 required := {label | label := input.parameters.labels[_]}
@@ -22,7 +22,7 @@ So, when the rule is violated, the resource is not allowed to be added to the cl
 
 Apply this file to your cluster `kubectl apply -f template.yml`{{execute}}
 
-Let's get the yaml file that will actually enforce this template `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/constraint.yml`{{execute}}.  If we open `constraint.yml`{{open}} we'll see that the CRD that we previously created will be applied to Pods and Deployments.  The parameters at the bottom of the file declare that the owner label must exist. 
+If we open `constraint.yml`{{open}} we'll see that the CRD that we previously created will be applied to Pods and Deployments.  The parameters at the bottom of the file declare that the owner label must exist. 
 <pre>
   parameters:
     labels:

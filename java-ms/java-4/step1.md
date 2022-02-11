@@ -8,7 +8,7 @@ Next we have to install helm again:
 And now we can install skaffold `curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && \
 sudo install skaffold /usr/local/bin/`{{execute}}
 
-`skaffold`{{execute}} should now be available on your command line.
+Run `skaffold version`{{execute}} to ensureit's been installed.
 
 Recall that we need to export our JAVA_HOME environment variable to build`export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64`{{execute}}, then we can `mvn clean install`{{execute}}.
   

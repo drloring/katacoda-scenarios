@@ -16,6 +16,11 @@
       "course_id": "java-3",
       "title": "Java Web Service in Kubernetes",
       "description": "Get Your Docker Image Running in Kubernetes"
+    },
+    {
+      "course_id": "java-4",
+      "title": "(In Progress) Automating Deployments with Skaffold",
+      "description": "Ease Your Kubernetes Deployments with Skaffold"
     }
   ]
 }

@@ -1,4 +1,4 @@
-In this scenario, we're going to automate the deployment of the web service that we previously installed in Kubernetes manually.  We'll be using the Open Source Software [skaffold|https://skaffold.dev] for this.  There is a quick start guide that demonstrates how you automate the deployment of a Go app on their site, but we're going to automate our Spring Boot application with Maven for this demonstration.
+In this scenario, we're going to automate the deployment of the web service that we previously installed in Kubernetes manually.  We'll be using the Open Source Software [skaffold](https://skaffold.dev) for this.  There is a quick start guide that demonstrates how you automate the deployment of a Go app on their site, but we're going to automate our Spring Boot application with Maven for this demonstration.
 
 To save time, I've saved the solution that was completed previously in a zip file.  We'll gather the solution with `wget https://raw.githubusercontent.com/drloring/katacoda-resources/main/java-ms-config-java-1-step-1.zip && unzip java-ms-config-java-1-step-1.zip && cd java-1-step-1`{{execute}}.
 

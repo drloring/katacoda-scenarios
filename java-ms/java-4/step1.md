@@ -31,7 +31,7 @@ To deploy, it will use this section:
 
 Recall that we need to export our JAVA_HOME environment variable to build`export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64`{{execute}}, then we can `mvn clean install`{{execute}}.
 
-Normally, we would run `docker build` and `helm install`, but instead we're going to see how we hook in skaffold for that job.  First, let's check to ensure the cluster is running with `kubectl get nodes`{{execute}} and when you see `Ready` then run `skaffold build`{{execute}}, then `skaffold run`{{execute}}.
+Normally, we would run `docker build` and `helm install`, but instead we're going to see how we hook in skaffold for that job.  First, let's check to ensure the cluster is running with `kubectl get nodes`{{execute}} and when you see `Ready` then run `skaffold build`{{execute}} to build the docker image, then `skaffold run`{{execute}} to deploy the release.
 
 Notice that skaffold takes care of building your docker image as well as deploying you application with Helm commands.  Once that's complete, verify your app is deployed by running `kubectl get pods`{{execute}}.
 
@@ -39,6 +39,6 @@ Next we're going to run `skaffold dev`{{execute}}.  `skaffold dev` monitors your
 
 Let's try this out by opening `java-1-step-1/ws/values.yaml`{{open}}.  Modify the `replicaCount` and watch skaffold scale your deployment to match the current replica count.  In a new terminal, run `kubectl get pods`{{execute}} to verify the deployment was scaled successfully.
 
-Now open the `java-1-step-1/Dockerfile`{{open}} and change the base layer to `openjdk:11`.  After that change, notice the docker image builder starts re-building the docker image and immediately re-deploys the helm charts for you with the new base image.
+Now open the `java-1-step-1/Dockerfile`{{open}} and change the base layer to `openjdk:11`.  Switch back to the first Terminal and after that change, notice the docker image builder starts re-building the docker image and immediately re-deploys the helm charts for you with the new base image.
 
 Next, we're going to see how we can hook in our Java code and Maven `pom.xml`...

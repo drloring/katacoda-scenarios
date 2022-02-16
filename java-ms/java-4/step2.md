@@ -2,16 +2,16 @@ Now that we can build the docker image and deploy with helm automatically, we're
 
 Open the maven POM in `java-1-step-1/pom.xml`{{open}} and add the following plugin to the build plugins list:
 
-  <plugin>
-    <groupId>com.google.cloud.tools</groupId>
-    <artifactId>jib-maven-plugin</artifactId>
-    <version>3.2.0</version>
-    <configuration>
-      <to>
-        <image>java-ws</image>
-      </to>
-    </configuration>
-</plugin>
+      <plugin>
+        <groupId>com.google.cloud.tools</groupId>
+        <artifactId>jib-maven-plugin</artifactId>
+        <version>3.2.0</version>
+        <configuration>
+          <to>
+            <image>java-ws</image>
+          </to>
+        </configuration>
+      </plugin>
 
 Once that's complete, you can verify that is working by running `mvn compile jib:dockerBuild`{{execute}}.  With this configuration, and the command line, we're using Jib to build the OCI-compliant image and installing in the local docker engine.  If you didn't have docker available, you could just run `mvn compile jib:build`{{execute}} and bypass the docker engine altogether.  For this example, however, we want it installed in our docker engine.
 

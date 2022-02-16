@@ -37,7 +37,7 @@ Notice that skaffold takes care of building your docker image as well as deployi
 
 Next we're going to run `skaffold dev`{{execute}}.  `skaffold dev` monitors your files for changes, and when detected, it will either rebuild or redeploy those changes automatically.  Note that skaffold dev is blocking, so if you want to use the command line, you'll need to open another terminal windows with the `+` sign.
 
-Let's try this out by opening `java-1-step-1/ws/values.yaml`{{open}}.  Modify the `replicaCount` and watch skaffold scale your deployment to match the current replica count.  In a new terminal, run `kubectl get pods`{{execute}} to verify the deployment was scaled successfully.
+Let's try this out by opening `java-1-step-1/ws/values.yaml`{{open}}.  Modify the `replicaCount` and watch skaffold scale your deployment to match the current replica count.  <b>In a new terminal</b>, run `kubectl get pods`{{execute}} to verify the deployment was scaled successfully.
 
 Now open the `java-1-step-1/Dockerfile`{{open}} and change the base layer to `openjdk:11`.  Switch back to the first Terminal and after that change, notice the docker image builder starts re-building the docker image and immediately re-deploys the helm charts for you with the new base image.
 

@@ -35,7 +35,7 @@ Normally, we would run `docker build` and `helm install`, but instead we're goin
 
 Notice that skaffold takes care of building your docker image as well as deploying you application with Helm commands.  Once that's complete, verify your app is deployed by running `kubectl get pods`{{execute}}.
 
-Next we're going to run `skaffold dev`{{execute}}.  `skaffold dev` monitors your files for changes, and when detected, it will either rebuild or redeploy those changes automatically.
+Next we're going to run `skaffold dev`{{execute}}.  `skaffold dev` monitors your files for changes, and when detected, it will either rebuild or redeploy those changes automatically.  Note that skaffold dev is blocking, so if you want to use the command line, you'll need to open another terminal windows with the `+` sign.
 
 Let's try this out by opening `java-1-step-1/ws/values.yaml`{{open}}.  Modify the `replicaCount` and watch skaffold scale your deployment to match the current replica count.  In a new terminal, run `kubectl get pods`{{execute}} to verify the deployment was scaled successfully.
 

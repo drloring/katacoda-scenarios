@@ -1,6 +1,6 @@
 Now that we can build the docker image and deploy with helm automatically, we're going to automate the maven build so that we can have skaffold automatically deploy when we make changes to out application code and configurations.  First, kill the `skaffold dev` command with `Ctrl + C`
 
-Open the maven POM in `step-1-java-1/pom.xml`{{open}} and add the following plugin to the build plugins list:
+Open the maven POM in `java-1-step-1/pom.xml`{{open}} and add the following plugin to the build plugins list:
 
   <plugin>
     <groupId>com.google.cloud.tools</groupId>

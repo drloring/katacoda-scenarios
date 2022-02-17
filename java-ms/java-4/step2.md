@@ -21,4 +21,6 @@ If it's not already open, then open `java-1-step-1/skaffold.yaml`{{open}} and re
 
 Once that works, run `skaffold dev`{{execute}} to monitor for changes.  To verify it's working, open `java-1-step-1/src/main/java/com/example/restservice/GreetingController.java`{{open}}, change `Hello` to `Hola` and watch the service get rebuilt and redeployed automatically.  In a separate window you can export your `NODE_IP` and `NODE_PORT`, then `curl $NODE_IP:$NODE_PORT/greeting`{{execute}} to verify.
 
-Next we'll look at how we can add tests to skaffold to verify our installation.
+Skaffold eases debugging your application inside the cluster as well.  Running `skaffold debug` works much like `skaffold dev` with the addition that it detects what type of app is built, and adds remote debugging to the startup of the container.  It also port-forwards the debugging port so that you can connect to it with your IDE.
+
+I hope you found this course interesting and can find a use to include skaffold in the next cloud-native project you embark on!

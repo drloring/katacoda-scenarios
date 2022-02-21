@@ -19,7 +19,7 @@
     },
     {
       "course_id": "java-4",
-      "title": "(In Progress) Automating Deployments with Skaffold",
+      "title": "Automating Deployments with Skaffold",
       "description": "Ease Your Kubernetes Deployments with Skaffold"
     }
   ]

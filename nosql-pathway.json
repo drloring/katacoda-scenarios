@@ -1,5 +1,5 @@
 {
-  "title": "Exploring NoSQL Databases in Kubernetes",
+  "title": "(In Progress) Exploring NoSQL Databases in Kubernetes",
   "description": "Exploring various NoSQL database options and best practices in Kubernetes",
   "courses": [
     {
@@ -9,8 +9,13 @@
     },
     {
       "course_id": "mongo-1",
-      "title": "(In Progress) MongoDB NoSQL Database",
+      "title": "(Upcoming) MongoDB NoSQL Database",
       "description": "Deploy a Mondo database in Kubernetes"
+    },
+    {
+      "course_id": "elastic-1",
+      "title": "(Upcoming) ElasticSearch NoSQL Database",
+      "description": "Deploy an ElasticSearch database in Kubernetes"
     }
   ]
 }

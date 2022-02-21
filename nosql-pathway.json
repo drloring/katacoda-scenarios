@@ -1,0 +1,16 @@
+{
+  "title": "Exploring NoSQL Databases in Kubernetes",
+  "description": "Exploring various NoSQL database options and best practices in Kubernetes",
+  "courses": [
+    {
+      "course_id": "redis-1",
+      "title": "(In Progress) Redis NoSQL Database",
+      "description": "Deploy a Redis database in Kubernetes"
+    },
+    {
+      "course_id": "mongo-1",
+      "title": "(In Progress) MongoDB NoSQL Database",
+      "description": "Deploy a Mondo database in Kubernetes"
+    }
+  ]
+}

@@ -7,7 +7,11 @@ First, though, we have to install `curl -fsSL -o get_helm.sh https://raw.githubu
 
 Not that we have helm installed, let's create a basic chart with `helm create redis`{{execute}}.  You'll recall that the redis charts reside in the redis directory.  If we open `redis/values.yaml`{{open}}, and change the `repository` from `nginx` to `redis` and tag from `""` to `"latest"`, we'll have a chart that deploys a simple redis database.
 
-Run `helm install redis redis`{{execute}} and `kubectl get all`{{execute}}, we'll see our service and pods running in kubernetes.  If we `kubectl -it exec redis -- /bin/bash`{{execute}}, we can use the CLI to access the running redis service `redis-cli connect localhost`{{execute}}.
+Run `helm install redis redis`{{execute}} and `kubectl get all`{{execute}}, we'll see our service and pods running in kubernetes.  If we `kubectl -it exec $(kubectl get po -o jsonpath="{.items[0].metadata.name}") -- /bin/bash`{{execute}}, we can use the CLI to access the running redis service `redis-cli`{{execute}} to connect to the local server.
+
+Run `set this that`{{execute}} and `get this`{{execute}} to verify that we can save to the database.
+
+This is not really a secure way to deploy your database, however.  Next, we're going to see how we can generate and pass in a secret with the redis username and password.
 
 
 

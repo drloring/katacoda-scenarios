@@ -7,7 +7,7 @@ First, though, we have to install `curl -fsSL -o get_helm.sh https://raw.githubu
 
 Not that we have helm installed, let's create a basic chart with `helm create redis`{{execute}}.  You'll recall that the redis charts reside in the redis directory.  If we open `redis/values.yaml`{{open}}, and change the `repository` from `nginx` to `redis` and tag from `""` to `"latest"`, we'll have a chart that deploys a simple redis database.
 
-We also have to remove the liveness and readiness probes in `redis/templates/deployment.yaml`{{open}}.
+We also have to remove the liveness and readiness probes (lines 40 - 47) in `redis/templates/deployment.yaml`{{open}}.
 
 Ensure that minikube is `Ready` by running `kubectl get nodes`{{execute}, then run `helm install redis redis`{{execute}} and `kubectl get all`{{execute}}, we'll see our service and pods running in kubernetes.  If we `kubectl -it exec $(kubectl get po -o jsonpath="{.items[0].metadata.name}") -- /bin/bash`{{execute}}, we can use the CLI to access the running redis service `redis-cli`{{execute}} to connect to the local server.
 

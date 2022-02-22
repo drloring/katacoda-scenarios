@@ -14,14 +14,17 @@ Run `set this that`{{execute}} and `get this`{{execute}} to verify that we can s
 This is not really a secure way to deploy your database, however.  Next, we're going to see how we can generate and pass in a secret with the redis username and password.
 
 First, we need to automatically generate a secret in kubernetes.  We'll start by creating `secret.yaml` with `touch redis/templates/secret.yaml`{{execute}}, then open the file `example/redis/templates/secret.yaml`{{open}} and paste the following text:
-  apiVersion: v1
-  kind: Secret
-  metadata:
-    name: "redis-secret"
-  type: Opaque
-  data:
-    # generate 32 chars long random string, base64 encode it and then double-quote the result string.
-    redis-secret: {{ randAlphaNum 8 | b64enc | quote }}
+
+<pre>
+apiVersion: v1
+kind: Secret
+metadata:
+  name: "redis-secret"
+type: Opaque
+data:
+  # generate 32 chars long random string, base64 encode it and then double-quote the result string.
+  redis-secret: {{ randAlphaNum 8 | b64enc | quote }}
+</pre>
 
 Run `helm upgrade redis redis`{{execute}} to create the secret, then `kubectl get secret redis-secret -o jsonpath="{..redis-secret}" | base64 --decode`{{execute}} to see the randomly generated secret.
 

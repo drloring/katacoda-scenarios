@@ -7,7 +7,7 @@ First, though, we have to install `curl -fsSL -o get_helm.sh https://raw.githubu
 
 Not that we have helm installed, let's create a basic chart with `helm create redis`{{execute}}.  You'll recall that the redis charts reside in the redis directory.  If we open `redis/values.yaml`{{open}}, and change the `repository` from `nginx` to `redis` and tag from `""` to `"latest"`, we'll have a chart that deploys a simple redis database.
 
-We also have to remove the liveness and readiness probes in `example/redis/templates/deployment.yaml`{{open}}.
+We also have to remove the liveness and readiness probes in `redis/templates/deployment.yaml`{{open}}.
 
 Ensure that minikube is `Ready` by running `kubectl get nodes`{{execute}, then run `helm install redis redis`{{execute}} and `kubectl get all`{{execute}}, we'll see our service and pods running in kubernetes.  If we `kubectl -it exec $(kubectl get po -o jsonpath="{.items[0].metadata.name}") -- /bin/bash`{{execute}}, we can use the CLI to access the running redis service `redis-cli`{{execute}} to connect to the local server.
 
@@ -17,7 +17,7 @@ Now that we've verified that our database is operational, exit out of the pod wi
 
 This is not really a secure way to deploy your database, however.  Next, we're going to see how we can generate and pass in a secret with the redis username and password.
 
-First, we need to automatically generate a secret in kubernetes.  We'll start by creating `secret.yaml` with `touch redis/templates/secret.yaml`{{execute}}, then open the file `example/redis/templates/secret.yaml`{{open}} and paste the following text:
+First, we need to automatically generate a secret in kubernetes.  We'll start by creating `secret.yaml` with `touch redis/templates/secret.yaml`{{execute}}, then open the file `redis/templates/secret.yaml`{{open}} and paste the following text:
 
 <pre>
 apiVersion: v1

@@ -13,7 +13,7 @@ Open the maven POM in `java-1-step-1/pom.xml`{{open}} and add the following plug
         </configuration>
       </plugin>
 
-Once that's done, you can verify the plugin is working by running `mvn compile jib:dockerBuild`{{execute}}.  With this configuration, and the command line, we're using Jib to build the OCI-compliant image and installing in the local docker engine.  If you didn't have docker available, you could just run `mvn compile jib:build`{{execute}} and bypass the docker engine altogether.  For this example, however, we want it installed in our docker engine.
+Once that's done, you can verify the plugin is working by running `mvn compile jib:dockerBuild`{{execute}}.  With this configuration, and the command line, we're using Jib to build the OCI-compliant image and installing in the local docker engine.  If you didn't have docker available, you could just run `mvn compile jib:build` and bypass the docker engine altogether, however that requires login credentials to the public docker registry.  For this example, we want it installed in our local docker engine.
 
 Run `docker images | grep java`{{execute}} and notice the difference in image sizes.  Jib uses jdk 8 by default, but is overridable in the `skaffold.yaml` file.  Running `docker history java-ws`{{execute}} shows the pedigree of the image with the jib builder.
 

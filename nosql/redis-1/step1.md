@@ -13,7 +13,7 @@ Ensure that minikube is Ready by running `kubectl get nodes`{{execute}, then run
 
 Run `set this that`{{execute}} and `get this`{{execute}} to verify that we can save to the database.
 
-Now that we've verified that our database is operational, exit out of the pod with `Ctrl+D`{{execute}}, then `Ctrl + D`{{execute}}.
+Now that we've verified that our database is operational, exit out of the pod with `Ctrl+D`{{execute}}, then `Ctrl+D`{{execute}}.
 
 This is not really a secure way to deploy your database, however.  Next, we're going to see how we can generate and pass in a secret with the redis username and password.
 
@@ -30,7 +30,9 @@ data:
   redis-secret: {{ randAlphaNum 8 | b64enc | quote }}
 </pre>
 
-Run `helm upgrade redis redis`{{execute}} to create the secret, then `kubectl get secret redis-secret -o jsonpath="{..redis-secret}" | base64 --decode`{{execute}} to see the randomly generated secret.  Copy the password to your clipboard with `Ctrl + C`{{execute}}
+You can see we're using the helm macro to generate an 8 byte secret `randAlphaNum 8` here.
+
+Run `helm upgrade redis redis`{{execute}} to create the secret, then `kubectl get secret redis-secret -o jsonpath="{..redis-secret}" | base64 --decode`{{execute}} to see the randomly generated secret.  
 
 Now we have to get that secret into the running pod, so we'll edit `redis/templates/deployment.yaml`{{open}} and add the `--requirepass` parameter to the startup of the container as below.  Replace lines 30 - 41 with the text below.
 <pre>
@@ -94,6 +96,8 @@ spec:
       storage: 1Gi
 <pre>
 
+Running `helm upgrade redis redis`{{execute}} applies those changes.
+
 Now, if we 'kubectl get all`{{execute}}, we'll see the PV and PVC we just created.  Notice that the PVC references the PV, so the pod just needs a reference to the PVC.  We'll do that by modifying `redis/templates/deployment.yaml{{open}} and under the `spec:` tag add the following:
 <pre>
       volumes:
@@ -108,5 +112,7 @@ and under the `containers:` section add:
             - name: redis-data
               mountPath: /data
 </pre>
+
+Running `helm upgrade redis redis`{{execute}} again, applies those changes.
 
 Now, if we run `redis-cli` and `set this that`{{execute}}, if we delete the pod, the data should persist.

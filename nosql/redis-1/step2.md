@@ -1,4 +1,4 @@
-In this step, we're going to persist our data so that it survives restarts in the pods.
+In this step, we're going to persist our data so that it survives restarts in the pods.  But first, we have to exit out of the pod's shell with `Ctrl+D`.
 
 First, we have to create a persistent volume.  We'll start by creating `touch redis/templates/redis-pv.yaml`{{execute}}, then open `redis/templates/redis-pv.yaml`{{open}} and paste the following:
 <pre>

@@ -33,7 +33,7 @@ spec:
 
 Now run `helm upgrade redis redis`{{execute}} applies those changes.
 
-Now, if we `kubectl get pv`{{execute}} and `kubectl get pvc`{{execute}}, we'll see the PV and PVC we just created.  Notice that the PVC references the PV, so the pod just needs a reference to the PVC.  We'll do that by modifying `redis/templates/deployment.yaml`{{open}} and under the `spec:` tag add the following:
+Now, if we `kubectl get pv`{{execute}} and `kubectl get pvc`{{execute}}, we'll see the PV and PVC we just created.  Notice that the PVC references the PV, so the pod just needs a reference to the PVC.  We'll do that by modifying `redis/templates/deployment.yaml`{{open}} and before the `containers:` tag add the following:
 <pre>
       volumes:
         - name: redis-data
@@ -41,7 +41,7 @@ Now, if we `kubectl get pv`{{execute}} and `kubectl get pvc`{{execute}}, we'll s
             claimName: redisdb-pvc
 </pre>
 
-and under the `containers:` section add:
+and before the `ports:` section add:
 <pre>
           volumeMounts:
             - name: redis-data

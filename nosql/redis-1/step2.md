@@ -56,5 +56,5 @@ We have to export our new password again with `export REDIS_PASS=$(kubectl get s
 
 Now, if scale the deployment down with `kubectl scale --replicas=0 deployment/redis`{{execute}} and back up `kubectl scale --replicas=1 deployment/redis`{{execute}}.  When the pod starts we can run `kubectl -it exec $(kubectl get po -o jsonpath="{.items[0].metadata.name}") -- redis-cli -a $REDIS_PASS`{{execute}} and `get this`{{execute}} to see that the data was persisted.
 
-Up to this point, we've been working with a single redis pod.  Redis was built to support clustering in various configurations.  Next we're going to look into how we can leverage redis clustering for our deployments.
+Up to this point, we've been working with a single redis pod.  Redis was built to support clustering in various configurations.  Next we're going to look into how we can leverage redis clustering for our deployments, ensure to exit out of the pod with `Ctrl+D` before proceeding.
 

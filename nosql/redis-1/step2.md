@@ -31,7 +31,7 @@ spec:
       storage: 1Gi
 </pre>
 
-If you're still execed into the pod, type `Ctrl+D` to exit, then run `helm upgrade redis redis`{{execute}} applies those changes.
+Now run `helm upgrade redis redis`{{execute}} applies those changes.
 
 Now, if we `kubectl get all`{{execute}}, we'll see the PV and PVC we just created.  Notice that the PVC references the PV, so the pod just needs a reference to the PVC.  We'll do that by modifying `redis/templates/deployment.yaml`{{open}} and under the `spec:` tag add the following:
 <pre>

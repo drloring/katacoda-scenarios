@@ -18,3 +18,4 @@ Once those resources have been removed from kubernetes, we'll run the Redis Clus
 
 We re-export our `REDIS_PASSWORD` with `export REDIS_PASSWORD=$(kubectl get secret --namespace "default" my-release-redis-cluster -o jsonpath="{.data.redis-password}" | base64 --decode)`{{execute}}, then `kubectl exec -it my-release-redis-cluster-0 -- redis-cli -a $REDIS_PASSWORD`{{execute}}.  In this configuration, all other pods are prohibited from executing queries.
 
+In this course, we've learned how to install and configure a redis server to support authentication, durability and scalability with clustering in a kubernetes cluster.  I hope you find this information useful and get the chance to apply it to a project in the near future.

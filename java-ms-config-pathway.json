@@ -14,8 +14,8 @@
     },
     {
       "course_id": "java-3",
-      "title": "(Upcoming) Logs as Streams ",
-      "description": "Learn how to configure your microservice manage logs as streams and discover the benefits"
+      "title": "Stateless service Challenge ",
+      "description": "Challenge your newly learned skills in stateless services"
     }
   ]
 }

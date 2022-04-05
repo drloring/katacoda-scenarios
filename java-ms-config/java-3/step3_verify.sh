@@ -1,3 +1,3 @@
 #!/bin/bash
 
-test -f /root/bananas.txt
+test -f /root/apples.txt

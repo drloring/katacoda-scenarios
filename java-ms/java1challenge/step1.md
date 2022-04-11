@@ -1,9 +1,6 @@
-Welcome to the stateless Java Web Services with backing service challenge!.  This is a challenge course of the previous katacoda course [here](https://www.katacoda.com/ng-dloring/courses/java-ms-config/java-2).  If you haven't reviewed that one yet, you may want to go through it now and return to this scenario afterwards.
+Welcome to the Java Web Services example project challenge.  This project is explained [here](https://spring.io/guides/gs/rest-service/).
 
-First, we need to fetch the solution from github (https://raw.githubusercontent.com/drloring/katacoda-resources/main/java-ms-config-java-2-step-2.zip).
+To get started, clone the Spring Boot Web Service project at `git clone https://github.com/spring-guides/gs-rest-service.git`{{execute}}
 
-Build the application with maven or gradle and run the `bitnami/redis:latest` docker container.  Recall that redis runs on port 6379 by default and make sure to pass in ALLOW_EMPTY_PASSWORD=yes into the environment. 
-
-Once, that's running,  verify that your service can connect to the redis container running in docker with a curl command.
-
+For the first challenge, from the `gs-rest-service/complete` directory, build and run the application.  Make sure the application is running on port 8080 to proceed.
 

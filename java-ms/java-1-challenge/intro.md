@@ -1,0 +1,1 @@
+Welcome to the Java Microservice course.  For those new to Katacoda, you can follow the instructions on the page and either manually enter the commands at the command prompt or click the link to have the commands issued for you.  You are free to use any commands to explore the environment, when you are done the session goes away.

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-test -f /root/bananas.txt
+curl http://localhost:8080/greeting | grep "Hola"

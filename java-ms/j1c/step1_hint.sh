@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo Try harder!!!
+echo Recall we used mvn in the original course to create an executable java jar file.

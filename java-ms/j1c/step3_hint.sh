@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo Try harder!!!
+echo You got this!

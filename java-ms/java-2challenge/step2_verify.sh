@@ -1,3 +1,3 @@
 #!/bin/bash
 
-grep -i "svc.jar" Dockerfile
+grep -i "svc.jar" ~/example/Dockerfile

@@ -1,0 +1,1 @@
+Great, now add the  CMD to run the java jar file (recall it's named svc.jar in the container) to the Dockerfile and save.

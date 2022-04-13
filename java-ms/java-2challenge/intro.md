@@ -1,1 +1,1 @@
-Welcome to the Spring Boot Web Service Challenge.  In this challenge, we will run through the steps in the original course [here](https://katacoda.com/ng-dloring/courses/java-ms/java-1) with just enough hints to test your skills.
+Welcome to the Spring Boot Web Service Challenge.  In this challenge, we will run through the steps in the original course [here](https://katacoda.com/ng-dloring/courses/java-ms/java-2) with just enough hints to test your skills.

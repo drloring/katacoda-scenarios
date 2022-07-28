@@ -42,13 +42,12 @@ Now we have to get that secret into the running pod, so we'll edit `redis/templa
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          args: ["--requirepass", "$(REDIS_PASS)"]
           ports:
             - name: http
               containerPort: 80
               protocol: TCP
           env:
-          - name: REDIS_PASS
+          - name: REDIS_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: redis-secret

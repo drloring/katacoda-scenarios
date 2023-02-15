@@ -1,7 +1,10 @@
 {
   "items": [
-    { "path": "scenario2" },
-    { "path": "course1", "title": "Override title of course ONE" },
-    { "path": "course2" }
+    { "path": "java-1" },
+    { "path": "java-1challenge"},
+    { "path": "java-2" },
+    { "path": "java-2challenge"},
+    { "path": "java-3" },
+    { "path": "java-4" }
   ]
 }

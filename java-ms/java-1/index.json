@@ -28,6 +28,6 @@
     "uieditorpath": "/root/example"
   },
   "backend": {
-    "imageid": "openjdk:15"
+    "imageid": "ubuntu:2004"
   }
 }
